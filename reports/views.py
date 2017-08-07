@@ -10,7 +10,6 @@ def index(request):
     latest_question_list = [{'id':1,'question_text':'question of maths'},
     {'id':2,'question_text':'question of Physics'},{'id':3,'question_text':'question Chemistry'},]
     template = loader.get_template('reports/index.html')
-    print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",template
     context = {
         'latest_question_list': latest_question_list,
     }
