@@ -73,6 +73,12 @@ TEMPLATES = [
     },
 ]
 
+# Add static folder to STATIC_DIRS
+STATICFILES_DIRS = [
+    'static',
+]
+
+
 WSGI_APPLICATION = 'empire.wsgi.application'
 
 
