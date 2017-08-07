@@ -27,7 +27,7 @@ class Categories(models.Model):
 
 
 class Services(models.Model):
-    category = models.ManyToManyField(Categories)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     service_name = models.CharField(max_length=200, null=True)
     response_time = models.PositiveIntegerField()
     threshold_time = models.PositiveIntegerField()
@@ -64,7 +64,7 @@ class Notifications(models.Model):
 
 
 class NotificationReadLog(models.Model):
-    notification = models.OneToOneField(Notifications, on_delete=models.CASCADE)
+    notification = models.ForeignKey(Notifications, on_delete=models.CASCADE)
     user_id = models.PositiveIntegerField()
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
