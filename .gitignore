@@ -1,0 +1,6 @@
+*.pyc
+*.log
+# Ignore swap files
+*~
+*.swp
+*.swo

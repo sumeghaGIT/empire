@@ -1,0 +1,17 @@
+# Set default behaviour, in case users don't have core.autocrlf set.
+* text=auto
+
+# Explicitly declare text files we want to always be normalized and converted
+# to native line endings on checkout.
+*.md            text
+*.gitattributes text
+
+# Declare powershell files as text files.
+*.ps1	-text diff merge
+*.psm1	-text diff merge
+*.psd1	-text diff merge
+*.mof	-text diff merge
+
+# Denote all files that are truly binary and should not be mergeable.
+*.dll binary
+*.exe binary
