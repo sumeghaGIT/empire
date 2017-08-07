@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<html>
+	<head>
+		<title>Empire Business Center</title>
+	</head>
+	<body>
+		<div>Empire Business Center</div>
+		{{latest_question_list}}
+		{% if latest_question_list %}
+			<ul>
+				{% for question in latest_question_list %}
+					<li><a href="/user/{{ question.id }}/">{{ question.username }}</a></li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>No polls are available.</p>
+		{% endif %}
+	</body>
+</html>
