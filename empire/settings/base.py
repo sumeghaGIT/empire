@@ -37,10 +37,14 @@ CORE_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
 ]
 
 PROJECT_APPS= [
     'reports',
+    'masters',
 ]
 
 INSTALLED_APPS = CORE_APPS + PROJECT_APPS
@@ -60,7 +64,7 @@ ROOT_URLCONF = 'empire.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +76,12 @@ TEMPLATES = [
         },
     },
 ]
+
+# Add static folder to STATIC_DIRS
+STATICFILES_DIRS = [
+    'static',
+]
+
 
 WSGI_APPLICATION = 'empire.wsgi.application'
 
@@ -89,6 +99,15 @@ DATABASES = {
         'PASSWORD' : ''
     }
 }
+
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 
 # Password validation
