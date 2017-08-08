@@ -1,21 +1,80 @@
 {% extends 'base.html' %}
 {% block content %}
-	<h1>Manage Locations</h1>
-	{% if lists %}
-		<ul>
-			{% for list in lists %}
-				<li><a href="/user/{{ list.id }}/">{{ list.id}} {{list.username }}</a></li>
-			{% endfor %}
-		</ul>
-	{% else %}
-		<p>No polls are available.</p>
-	{% endif %}
+	<section id="container" >
+		<section id="main-content">
+			<section class="wrapper">
+				<h1>Manage Locations</h1>
+				<div class="row">
+					<!-- 					<form action="/masters/locations/add/" method="post">
+						{% csrf_token %}
+						<label for="location">Location: </label>
+						<input id="location" type="text" name="location" value="{{ location }}">
+						<input type="submit" value="Add">
+					</form> -->
+					<div class="col-sm-12">
+						<section class="panel">
+							<div class="panel-body">
+								<div class="form">
+									<form action="/masters/locations/" method="post" class="cmxform form-horizontal">
+										{% csrf_token %}
+										<div class="form-group ">
+											{{form}}
+											<label for="firstname" class="control-label col-lg-2">Category Name :</label>
+											<div class="col-lg-6">
+												<input class=" form-control" id="firstname" name="firstname" type="text" />
+											</div>
+											<div class="col-lg-3">
+												<button class="btn btn-primary" type="submit">Save</button>
+												<button class="btn btn-default" type="button">Cancel</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="panel-body">
+								{% if locations %}
+									<table class="table table-striped table-hover table-bordered" id="editable-sample">
+										<thead>
+											<tr>
+												<th>Sr No.</th>
+												<th>Location</th>
+												<th>Created Date</th>
+												<th>Status</th>
+												<th>Edit</th>
+												<th>Delete</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for location in locations %}
+												<tr>
+													<td>{{location.id}}</td>
+													<td>{{location.location_name}}</td>
+													<td>{{location.created_date}}</td>
+													<td class="center">
+														{% if location.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
+													</td>
+													<td><a class="edit" href="javascript:;">Edit</a></td>
+													<td><a class="delete" href="javascript:;">Delete</a></td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								{% else %}
+									<p>No locations are available.</p>
+								{% endif %}
+							</div>
+						</section>
+					</div>
+				</div>
+			</section>
+		</section>
+	</section>
 {% endblock content %}
-
 {% block js %}
-<script type="text/javascript">
-    $(document).ready(function() {
-        console.log('View empire reports');
-    });
-</script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		console.log(' create Locations');
+		EditableTable.init();
+	});
+	</script>
 {% endblock js %}

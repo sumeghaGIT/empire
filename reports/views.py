@@ -20,8 +20,8 @@ def index(request):
 
 
 class IndexView(generic.ListView):
-    # template_name = 'reports/index.html'
-    template_name = 'reports/static.html'
+    template_name = 'reports/index.html'
+    # template_name = 'reports/static.html'
     context_object_name = 'lists'
 
     def get_queryset(self):
