@@ -110,6 +110,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
