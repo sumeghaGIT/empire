@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+	<h1>Create Locations</h1>
+	<div>
+		<form action="/masters/locations/create/" method="post">
+			{% csrf_token %}
+			<label for="location">Location: </label>
+			<input id="location" type="text" name="location" value="{{ location }}">
+			<input type="submit" value="Add">
+		</form>
+	</div>
+{% endblock content %}
+{% block js %}
+	<script type="text/javascript">
+	$(document).ready(function() {
+	console.log(' create Locations');
+	});
+	</script>
+{% endblock js %}
