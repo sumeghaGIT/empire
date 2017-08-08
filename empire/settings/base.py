@@ -40,12 +40,15 @@ CORE_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
 ]
 
 PROJECT_APPS= [
     'reports',
     'masters',
 ]
+
+SITE_ID = 1
 
 INSTALLED_APPS = CORE_APPS + PROJECT_APPS
 
@@ -64,7 +67,7 @@ ROOT_URLCONF = 'empire.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': ['templates', 'templates/allauth/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,32 +107,13 @@ DATABASES = {
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
+    #`allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
-
-# Password validation
-# https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 
 # Internationalization
