@@ -23,4 +23,3 @@ def indexView(request):
     user = User.objects.all()
     return render(request, 'reports/static.html', {'user':user})
 
-

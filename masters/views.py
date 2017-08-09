@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
 from django.views import generic
 from django.views.generic.edit import CreateView
 from django.views import View
-from masters.forms import LocationsForm, CategoriesForm, ServicesForm
+from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm
 from django.http import HttpResponseRedirect
 import datetime
 from django.contrib.auth.models import User
 from masters.models import *
-
-# Create your views here.
+from django.shortcuts import render, redirect
 
 class Locations(View):
     form_class = LocationsForm
@@ -114,3 +112,33 @@ class CreateServices(View):
             return HttpResponseRedirect('/masters/services/')
 
         return render(request, self.template_name, {'form': form})
+
+class CreateUser(View):
+
+    def get(self, request, *args, **kwargs):
+        form = CreateUserForm()
+        return render(request, 'allauth/templates/account/create.html', {'form':form})
+
+    def post(self, request, *args, **kwargs):
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create(
+                username=form.cleaned_data['username'],
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                email=form.cleaned_data['email'],
+                is_active=True,
+            )
+            if user:
+                user.set_password(form.cleaned_data['password1'])
+                user.save()
+            return HttpResponseRedirect('/manageuser')
+        else:
+            return render(request, 'allauth/templates/account/create.html', {'form':form})
+
+
+class ManageUser(View):
+
+    def get(self, request, *args, **kwargs):
+        user = User.objects.all()
+        return render(request, 'allauth/templates/account/manageuser.html', {'users':user})

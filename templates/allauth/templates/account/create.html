@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="main-content">
+                <section class="wrapper">
+                    <!-- page start-->
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <section class="panel">
+                                <div class="panel-body">
+                                    <h3>Create User</h3>
+                                    <div class="form">
+    <form class="cmxform form-horizontal " id="signupForm" method="POST" action=".">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
+    </form></div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+</section>
+{% endblock content %}
