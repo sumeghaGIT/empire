@@ -6,7 +6,7 @@ from django.db import models
 
 class Location(models.Model):
     location_name = models.CharField(max_length=200, null=True)
-    is_active = models.CharField(max_length=1, blank=True, null=True)
+    is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     create_by = models.PositiveIntegerField()
     updated_date = models.DateTimeField()

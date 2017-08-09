@@ -2765,7 +2765,7 @@ ul.amounts li {
     border-bottom:none;
 }
 .dataTables_length,.dataTables_filter {
-    padding:15px;
+    padding:15px; display:none;
 }
 .dataTables_info {
     padding:0 15px;
