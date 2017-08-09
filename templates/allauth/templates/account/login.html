@@ -10,29 +10,13 @@
         <h2 class="form-signin-heading bg-gradient-9">sign in now</h2>
         <div class="login-wrap">
             <div class="user-login-info">
-                <input type="text" name="username" class="form-control" placeholder="Username" autofocus>
-                <input type="password" name="password" class="form-control" placeholder="Password">
+                {{form.as_p}}
             </div>
-            <label class="checkbox">
-                <input type="checkbox" value="remember-me"> Remember me
-                <span class="pull-right">
-                    <!--a data-toggle="modal" href="#myModal"> Forgot Password?</a-->
-
-                </span>
-            </label>
             <button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
-
-            <!--div class="registration">
-                Don't have an account yet?
-                <a class="" href="registration.html">
-                    Create an account
-                </a>
-            </div-->
-
         </div>
 
           <!-- Modal -->
-          <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+          <!--div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
               <div class="modal-dialog">
                   <div class="modal-content">
                       <div class="modal-header">
@@ -50,7 +34,7 @@
                       </div>
                   </div>
               </div>
-          </div>
+          </div-->
           <!-- modal -->
 
       </form>
