@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+	<h1>Manage Locations</h1>
+	{% if lists %}
+		<ul>
+			{% for list in lists %}
+				<li><a href="/user/{{ list.id }}/">{{ list.id}} {{list.username }}</a></li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>No polls are available.</p>
+	{% endif %}
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        console.log('View empire reports');
+    });
+</script>
+{% endblock js %}

@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
 	<div>Empire Business Center</div>
-	{{latest_question_list}}
-	{% if latest_question_list %}
+	{% if lists %}
 		<ul>
-			{% for question in latest_question_list %}
-				<li><a href="/user/{{ question.id }}/">{{ question.username }}</a></li>
+			{% for list in lists %}
+				<li><a href="/user/{{ list.id }}/">{{ list.id}} {{list.username }}</a></li>
 			{% endfor %}
 		</ul>
 	{% else %}
 		<p>No polls are available.</p>
 	{% endif %}
 {% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        console.log('View empire reports');
+    });
+</script>
+{% endblock js %}
