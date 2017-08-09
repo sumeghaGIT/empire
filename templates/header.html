@@ -2,7 +2,7 @@
     <!--logo start-->
     <div class="brand">
         <a href="index.html" class="logo">
-            <img src="images/logo.png" alt="">
+            <!-- <img src="images/logo.png" alt=""> -->
         </a>
         <div class="sidebar-toggle-box">
             <div class="fa fa-bars"></div>
@@ -57,7 +57,6 @@
         <ul class="nav pull-right top-menu">
             <li>
                 <input type="text" class="form-control search" placeholder=" Search">
-                <a href="/accounts/logout/">Logout</a>
             </li>
             <!-- user login dropdown start-->
             <li class="dropdown">
@@ -70,7 +69,9 @@
                 <ul class="dropdown-menu extended logout">
                     <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
                     <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                    <li><a href="login.html"><i class="fa fa-key"></i> Log Out</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li><a href="/accounts/logout/"><i class="fa fa-key"></i> Log Out</a></li>
+                    {% endif %}
                 </ul>
             </li>
             <!-- user login dropdown end -->

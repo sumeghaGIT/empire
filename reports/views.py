@@ -25,3 +25,4 @@ def indexView(request):
     return render(request, 'reports/static.html', {'user':user})
 
 
+
