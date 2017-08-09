@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+	<section id="container" >
+		<section id="main-content">
+			<section class="wrapper">
+				<h1>Manage Locations</h1>
+				<div class="row">
+					<form action="/masters/locations/create/" method="post">
+						{% csrf_token %}
+						<label for="location">Location: </label>
+						<input id="location" type="text" name="location" value="{{ location }}">
+						<input type="submit" value="Add">
+					</form>
+				</div>
+			</section>
+		</section>
+	</section>
+{% endblock content %}
+{% block js %}
+	<script type="text/javascript">
+	$(document).ready(function() {
+	console.log(' create Locations');
+	});
+	</script>
+{% endblock js %}

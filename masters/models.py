@@ -5,11 +5,11 @@ from django.db import models
 
 
 class Location(models.Model):
-    location_name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
     is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
-    create_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    created_by = models.PositiveIntegerField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField
 
     class Meta:
@@ -17,11 +17,11 @@ class Location(models.Model):
 
 
 class Categories(models.Model):
-    category_name = models.CharField(max_length=200, null=True)
-    is_active = models.CharField(max_length=1, blank=True, null=True)
+    name = models.CharField(max_length=200, null=True)
+    is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -30,13 +30,13 @@ class Categories(models.Model):
 
 class Services(models.Model):
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
-    is_active = models.CharField(max_length=1, blank=True, null=True)
-    service_name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
     response_time = models.PositiveIntegerField()
     threshold_time = models.PositiveIntegerField()
+    is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -48,7 +48,7 @@ class TaskStatus(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -61,7 +61,7 @@ class Notifications(models.Model):
     imagePath = models.URLField(max_length=500, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -84,7 +84,7 @@ class InquiryStatus(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -96,7 +96,7 @@ class InquirySources(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -108,7 +108,7 @@ class EmployeeStatus(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -120,7 +120,7 @@ class EmployeeType(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -128,11 +128,11 @@ class EmployeeType(models.Model):
 
 
 class Department(models.Model):
-    department_name = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -144,7 +144,7 @@ class InquiryActivity(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField()
+    updated_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
@@ -161,7 +161,6 @@ class UserType(models.Model):
     update_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'ebc_user_type'
 
         def __str__(self):
@@ -171,12 +170,11 @@ class UserType(models.Model):
 class User(models.Model):
     username = models.CharField(unique=True, max_length=64, blank=True, null=True)
     is_active = models.CharField(max_length=1, blank=True, null=True)
-    user_type = models.ForeignKey(UserType, models.DO_NOTHING)
-    created_by = models.PositiveIntegerField()
+    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE, blank=True, null=True)
+    created_by = models.PositiveIntegerField(blank=True, null=True)
     create_date = models.DateTimeField(blank=True, null=True)
-    updated_by = models.PositiveIntegerField()
+    updated_by = models.PositiveIntegerField(blank=True, null=True)
     update_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'ebc_user'

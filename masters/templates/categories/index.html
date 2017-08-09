@@ -3,22 +3,18 @@
 	<section id="container" >
 		<section id="main-content">
 			<section class="wrapper">
-				<h1>Manage Locations</h1>
+				<h1>Manage Categories</h1>
 				<div class="row">
 					<div class="col-sm-12">
 						<section class="panel">
 							<div class="panel-body">
 								<div class="form">
-									<form action="/masters/locations/" method="post" class="cmxform form-horizontal">
+									<form action="/masters/categories/" method="post" class="cmxform form-horizontal">
 										{% csrf_token %}
 										<div class="form-group">
 											<div class="col-lg-3">
 												{{form}}
 											</div>
-											<!-- <label for="firstname" class="control-label col-lg-2">Category Name :</label>
-											<div class="col-lg-6">
-															<input class=" form-control" id="firstname" name="firstname" type="text" />
-											</div> -->
 											<div class="col-lg-3">
 												<button class="btn btn-primary" type="submit">Save</button>
 												<button class="btn btn-default" type="button">Cancel</button>
@@ -28,25 +24,25 @@
 								</div>
 							</div>
 							<div class="panel-body">
-								{% if locations %}
+								{% if categories %}
 									<table class="table table-striped table-hover table-bordered" id="editable-sample">
 										<thead>
 											<tr>
 												<th>Sr No.</th>
-												<th>Location</th>
+												<th>Category</th>
 												<th>Created Date</th>
 												<th>Status</th>
 												<th>Actions</th>
 											</tr>
 										</thead>
 										<tbody>
-											{% for location in locations %}
+											{% for category in categories %}
 												<tr>
-													<td>{{location.id}}</td>
-													<td>{{location.name}}</td>
-													<td>{{location.created_date}}</td>
+													<td>{{category.id}}</td>
+													<td>{{category.name}}</td>
+													<td>{{category.created_date}}</td>
 													<td class="center">
-														{% if location.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
+														{% if category.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 													</td>
 													<td><a class="edit" href="javascript:;" title="Edit"><i class="fa fa-fw fa-pencil" title="Edit Machine"></i></a>
 													<a class="delete" href="javascript:;" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
@@ -55,7 +51,7 @@
 										</tbody>
 									</table>
 								{% else %}
-									<p>No locations are available.</p>
+									<p>No categories are available.</p>
 								{% endif %}
 							</div>
 						</section>
@@ -68,7 +64,7 @@
 {% block js %}
 	<script type="text/javascript">
 	$(document).ready(function() {
-		console.log(' create Locations');
+		console.log(' create categorys');
 		EditableTable.init();
 	});
 	</script>

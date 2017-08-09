@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+	<section id="container" >
+		<section id="main-content">
+			<section class="wrapper">
+				<h1>Manage Locations</h1>
+				<div class="row">
+					<form action="/masters/services/add/" method="post">
+						{% csrf_token %}
+						<div class="col-lg-3">
+							{{form.as_p}}
+						</div>
+						<div class="col-lg-3">
+							<button class="btn btn-primary" type="submit">Save</button>
+							<button class="btn btn-default" type="button">Cancel</button>
+						</div>
+					</form>
+				</div>
+			</section>
+		</section>
+	</section>
+{% endblock content %}
+{% block js %}
+	<script type="text/javascript">
+	$(document).ready(function() {
+	console.log(' create Locations');
+	});
+	</script>
+{% endblock js %}

@@ -1,9 +1,30 @@
 from django import forms
+from masters.models import Categories
+from django.forms import ModelChoiceField
 
-class MyForm(forms.Form):
-    location_name = forms.CharField()
-    # message = forms.CharField(widget=forms.Textarea)
+class MyModelChoiceField(ModelChoiceField):
+    def label_from_instance(self, obj):
+        return obj.name
 
-    def send_email(self):
-        # send email using the self.cleaned_data dictionary
-        pass
+class LocationsForm(forms.Form):
+    location_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'location','class': 'special'}),label='Location', max_length=100)
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(LocationsForm, self).__init__(*args, **kwargs)
+
+class CategoriesForm(forms.Form):
+    category_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'category','class': 'special'}),label='Categories', max_length=100)
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(CategoriesForm, self).__init__(*args, **kwargs)
+
+class ServicesForm(forms.Form):
+    service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'special'}),label='Services', max_length=100)
+    response_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'response_time','class': 'special'}),label='Response Time', max_length=4)
+    threshold_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'threshold_time','class': 'special'}),label='Threshold Time', max_length=4)
+    # category_name = forms.ModelChoiceField(queryset = Categories.objects.filter(is_active=1), to_field_name="id", label="Category",empty_label="(Choose your options)")
+    category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), to_field_name="id", label="Category",empty_label="(Choose your options)")
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(ServicesForm, self).__init__(*args, **kwargs)

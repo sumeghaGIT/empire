@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+	<section id="container" >
+		<section id="main-content">
+			<section class="wrapper">
+				<h1>Manage Services</h1>
+				<div class="row">
+					<div class="col-sm-12">
+						<section class="panel">
+							<div class="panel-body">
+								<a class="btn btn-primary" href="add">Add</a>
+							</div>
+							<div class="panel-body">
+								<table class="table table-striped table-hover table-bordered" id="editable-sample">
+									<thead>
+										<tr>
+											<th>Sr No.</th>
+											<th>Service Name</th>
+											<th>Category Name</th>
+											<th>Created Date</th>
+											<th>Status</th>
+											<th>Actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for service in services %}
+											<tr>
+												<td>{{service.id}}</td>
+												<td>{{service.name}}</td>
+												<td>{{service.category_name}}</td>
+												<td>{{service.created_date}}</td>
+												<td class="center">
+													{% if service.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
+												</td>
+												<td><a class="edit" href="javascript:;" title="Edit"><i class="fa fa-fw fa-pencil" title="Edit Machine"></i></a>
+												<a class="delete" href="javascript:;" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</section>
+					</div>
+				</div>
+			</section>
+		</section>
+	</section>
+{% endblock content %}
+{% block js %}
+	<script type="text/javascript">
+	$(document).ready(function() {
+		console.log(' create categorys');
+		EditableTable.init();
+	});
+	</script>
+{% endblock js %}
