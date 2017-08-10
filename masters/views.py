@@ -13,7 +13,7 @@ from django.views import View
 
 
 from masters import models
-from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm
+from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, UpdateUserForm
 
 
 class Locations(LoginRequiredMixin, View):
@@ -96,7 +96,7 @@ class CreateServices(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         data = {}
-        if 'id' in kwargs and kwargs['id'] is not None:
+        if 'id' in kwargs and self.kwargs['id'] is not None:
             services = models.Services.objects.get(id=kwargs['id'])
             data = {'service_name': services.name,
                     'response_time': services.response_time,
@@ -122,18 +122,20 @@ class CreateServices(LoginRequiredMixin, View):
             return HttpResponseRedirect('/masters/services/')
         return render(request, self.template_name, {'form': form})
 
+
 class UpdateServices(LoginRequiredMixin, UpdateView):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
     model = models.Services
-    fields = ['name','response_time','threshold_time','category']
+    form_class = ServicesForm
+    #fields = ['name','response_time', 'threshold_time', 'category']
     template_name = 'services/edit.html'
     
     def form_valid(self, form):
-        form_class = ServicesForm
-        form.instance.created_by = self.request.user
-        return super(form_class, self).form_valid(form)
+        self.object = form.save(commit=False)
+        self.object.save()
+        return HttpResponseRedirect('/masters/services/')
 
 
 class CreateUser(LoginRequiredMixin, View):
@@ -147,7 +149,7 @@ class CreateUser(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            user = User.objects.create(
+            user = models.User.objects.create(
                 username=form.cleaned_data['username'],
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
@@ -169,3 +171,32 @@ class ManageUser(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = User.objects.all()
         return render(request, 'allauth/templates/account/manageuser.html', {'users': user})
+
+
+class UpdateUser(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    model = models.User
+    template_name = 'allauth/templates/account/update_user.html'
+
+    def get_success_url(self):
+        return HttpResponseRedirect('/manageuser')
+
+    def get(self, request, *args, **kwargs):
+        user = User.objects.get(id=self.kwargs['id'])
+        form = UpdateUserForm(instance=user)
+        return render(request, 'allauth/templates/account/update_user.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        try:
+            user = User.objects.get(id=self.kwargs['id'])
+        except:
+            user = None
+        if user is not None:
+            user.user_name = request.POST.get('username')
+            user.first_name = request.POST.get('first_name')
+            user.last_name = request.POST.get('last_name')
+            print user.user_name
+            user.save()
+            return HttpResponseRedirect('/manageuser')

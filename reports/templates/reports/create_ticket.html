@@ -22,20 +22,31 @@
                                       <label for="comment">Enter Your Query</label>
                                       <textarea class="form-control" rows="5" id="comment"></textarea>
                                     </div>
+                                    <button class="btn btn-lg btn-login btn-block" type="submit">Submit</button>
                                 </form>
                             </div>
                         </div>
                     </section>
                 </div>
             </div>
-
-            <script>
-    $(document).ready(function(){
-        $('#query').hide();
-        console.log("hello");
-    });
-</script>
         </section>
     </section>
 </section>
 {% endblock content %}
+{% block js %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#query').hide();
+        $('select').on('change', function() {
+           ticket_type = this.value;
+           if(ticket_type==='query'){
+                $('#query').show();
+            }
+           else{
+                $('#query').hide();
+           }
+        })
+
+    });
+</script>
+{% endblock js %}

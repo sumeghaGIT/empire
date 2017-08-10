@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^masters/services/edit/(?P<pk>[0-9]+)/$', views.UpdateServices.as_view(), name='update_services'),
     url(r'^createuser/$', views.CreateUser.as_view(), name="createuser"),
     url(r'^manageuser/$', views.ManageUser.as_view(), name="manageuser"),
+    url(r'^updateuser/edit/(?P<id>[0-9]+)/$', views.UpdateUser.as_view(), name="updateuser")
 ]

@@ -20,12 +20,16 @@ class CategoriesForm(forms.Form):
         self.request = kwargs.pop('request', None)
         super(CategoriesForm, self).__init__(*args, **kwargs)
 
-class ServicesForm(forms.Form):
+class ServicesForm(forms.ModelForm):
     service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'special'}),label='Services', max_length=100)
     response_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'response_time','class': 'special'}),label='Response Time', max_length=4)
     threshold_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'threshold_time','class': 'special'}),label='Threshold Time', max_length=4)
     # category_name = forms.ModelChoiceField(queryset = Categories.objects.filter(is_active=1), to_field_name="id", label="Category",empty_label="(Choose your options)")
     category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), to_field_name="id", label="Category",empty_label="(Choose your options)")
+
+    class Meta:
+        model = User
+        fields = ['service_name', 'response_time', 'threshold_time', 'category_name']
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -39,6 +43,7 @@ class CreateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email']
+        exclude = ('password1', 'password2',)
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -56,3 +61,10 @@ class CreateUserForm(forms.ModelForm):
         if password1 != password2:
             raise forms.ValidationError("Your passwords do not match")
         return password2
+
+
+class UpdateUserForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name']
