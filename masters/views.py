@@ -106,7 +106,7 @@ class CreateServices(View):
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 class UpdateServices(UpdateView):
     model = Services
-    form_class = ServicesForm
+    # form_class = ServicesForm
     fields = ['name','response_time','threshold_time','category']
     template_name = 'services/edit.html'
     def form_valid(self, form):
