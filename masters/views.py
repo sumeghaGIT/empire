@@ -125,16 +125,9 @@ class CreateServices(LoginRequiredMixin, View):
 class UpdateServices(LoginRequiredMixin, UpdateView):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
-
     model = models.Services
     fields = ['name','response_time','threshold_time','category']
     template_name = 'services/edit.html'
-    
-    def form_valid(self, form):
-        form_class = ServicesForm
-        form.instance.created_by = self.request.user
-        return super(form_class, self).form_valid(form)
-
 
 class CreateUser(LoginRequiredMixin, View):
     login_url = '/accounts/login/'

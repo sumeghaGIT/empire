@@ -43,6 +43,8 @@ class Services(models.Model):
     class Meta:
         db_table = "ebc_services"
 
+    def get_absolute_url(self):
+        return u'/masters/services/edit/%d' % self.id 
 
 class TaskStatus(models.Model):
     status = models.CharField(max_length=200, null=True)
