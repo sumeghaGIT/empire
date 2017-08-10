@@ -103,6 +103,16 @@ class CreateServices(View):
 
         return render(request, self.template_name, {'form': form})
 
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+class UpdateServices(UpdateView):
+    model = Services
+    form_class = ServicesForm
+    fields = ['name','response_time','threshold_time','category']
+    template_name = 'services/edit.html'
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super(ServicesForm, self).form_valid(form)
+
 class CreateUser(View):
 
     def get(self, request, *args, **kwargs):
