@@ -1,48 +1,59 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.views import generic
 from django.views.generic.edit import CreateView
 from django.views import View
-from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm
-from django.http import HttpResponseRedirect
-import datetime
-from django.contrib.auth.models import User
-from masters.models import *
-from django.shortcuts import render, redirect
 
-class Locations(View):
+
+from masters import models
+from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm
+
+
+class Locations(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
     form_class = LocationsForm
     initial = {'location_name': ''}
     template_name = 'locations/index.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        locations = Location.objects.all()
+        locations = models.Location.objects.all()
         return render(request, self.template_name, {'locations':locations,'form':form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-			# <process form cleaned data>
-			time_now = datetime.datetime.utcnow()
-			location = Location.objects.create(
-			        name=form.cleaned_data['location_name'],
-			        created_by = request.user.id,
-			        updated_date = time_now
-			)
-			return HttpResponseRedirect('/masters/locations/')
-
+            # <process form cleaned data>
+            time_now = datetime.datetime.utcnow()
+            location = models.Location.objects.create(
+                    name=form.cleaned_data['location_name'],
+                    created_by=request.user.id,
+                    updated_date=time_now
+            )
+            return HttpResponseRedirect('/masters/locations/')
         return render(request, self.template_name, {'form': form})
 
-class CategoriesLists(View):
+
+class CategoriesLists(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
     form_class = CategoriesForm
     initial = {'location_name': ''}
     template_name = 'categories/index.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        categories = Categories.objects.all()
+        categories = models.Categories.objects.all()
         return render(request, self.template_name, {'categories':categories,'form':form})
 
     def post(self, request, *args, **kwargs):
@@ -50,18 +61,20 @@ class CategoriesLists(View):
         if form.is_valid():
             # <process form cleaned data>
             time_now = datetime.datetime.utcnow()
-            location = Categories.objects.create(
+            location = models.Categories.objects.create(
                     name=form.cleaned_data['category_name'],
-                    created_by = request.user.id,
-                    updated_by = request.user.id
+                    created_by=request.user.id,
+                    updated_by=request.user.id
                     # updated_date = time_now
             )
             return HttpResponseRedirect('/masters/categories/')
-
         return render(request, self.template_name, {'form': form})
 
 
-class ServicesLists(View):
+class ServicesLists(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
     form_class = CategoriesForm
     initial = {'location_name': ''}
     template_name = 'services/index.html'
@@ -69,10 +82,14 @@ class ServicesLists(View):
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
         # services = Services.objects.select_related('category').filter(is_active=1).order_by('-pk')
-        services = Services.objects.select_related('category').all().order_by('-pk')
+        services = models.Services.objects.select_related('category').all().order_by('-pk')
         return render(request, self.template_name, {'services':services,'form':form})
 
-class CreateServices(View):
+
+class CreateServices(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
     form_class = ServicesForm
     initial = {'service_name': ''}
     template_name = 'services/add.html'
@@ -80,44 +97,53 @@ class CreateServices(View):
     def get(self, request, *args, **kwargs):
         data = {}
         if 'id' in kwargs and kwargs['id'] is not None:
-            services = Services.objects.get(id=kwargs['id'])
-            data = {'service_name':services.name,'response_time':services.response_time,'threshold_time':services.threshold_time,'category_name':services.category_id}
+            services = models.Services.objects.get(id=kwargs['id'])
+            data = {'service_name': services.name,
+                    'response_time': services.response_time,
+                    'threshold_time': services.threshold_time,
+                    'category_name': services.category_id}
         form = self.form_class(initial=data)
-        return render(request, self.template_name, {'form':form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             # <process form cleaned data>
             time_now = datetime.datetime.utcnow()
-            services = Services.objects.create(
+            services = models.Services.objects.create(
                     name=form.cleaned_data['service_name'],
                     category_id=int(form.cleaned_data['category_name'].id),
                     response_time=form.cleaned_data['response_time'],
                     threshold_time=form.cleaned_data['threshold_time'],
-                    created_by = request.user.id,
-                    updated_by = request.user.id,
-                    updated_date = time_now
+                    created_by=request.user.id,
+                    updated_by=request.user.id,
+                    updated_date=time_now
             )
             return HttpResponseRedirect('/masters/services/')
-
         return render(request, self.template_name, {'form': form})
 
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-class UpdateServices(UpdateView):
-    model = Services
-    # form_class = ServicesForm
+
+class UpdateServices(LoginRequiredMixin, UpdateView):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    model = models.Services
+    form_class = ServicesForm
     fields = ['name','response_time','threshold_time','category']
     template_name = 'services/edit.html'
+
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super(ServicesForm, self).form_valid(form)
 
-class CreateUser(View):
+
+class CreateUser(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
 
     def get(self, request, *args, **kwargs):
         form = CreateUserForm()
-        return render(request, 'allauth/templates/account/create.html', {'form':form})
+        return render(request, 'allauth/templates/account/create.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = CreateUserForm(request.POST)
@@ -134,11 +160,13 @@ class CreateUser(View):
                 user.save()
             return HttpResponseRedirect('/manageuser')
         else:
-            return render(request, 'allauth/templates/account/create.html', {'form':form})
+            return render(request, 'allauth/templates/account/create.html', {'form': form})
 
 
-class ManageUser(View):
+class ManageUser(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
 
     def get(self, request, *args, **kwargs):
         user = User.objects.all()
-        return render(request, 'allauth/templates/account/manageuser.html', {'users':user})
+        return render(request, 'allauth/templates/account/manageuser.html', {'users': user})
