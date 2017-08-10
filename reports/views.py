@@ -7,19 +7,16 @@ from django.template import loader
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.views import View
 
-
-@login_required(login_url='/accounts/login/')
-def index(request):
-    users = User.objects.all()
-    template = loader.get_template('reports/index.html')
-    context = {
-        'latest_question_list': users,
-    }
-    return HttpResponse(template.render(context, request))
 
 @login_required(login_url='/accounts/login/')
 def indexView(request):
     user = User.objects.all()
-    return render(request, 'reports/static.html', {'user':user})
+    return render(request, 'reports/static.html', {'user': user})
 
+
+class TicketView(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'reports/create_ticket.html')

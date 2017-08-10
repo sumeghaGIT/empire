@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="container" >
+    <section id="main-content">
+        <section class="wrapper">
+            <div class="row">
+                <div class="col-sm-6">
+                    <section class="panel">
+                        <div class="panel-body">
+                            <h3>Create Ticket</h3>
+                            <div class="form">
+                                <form class="cmxform form-horizontal " id="signupForm" method="POST" action=".">
+                                    {%csrf_token%}
+                                    <div class="form-group">
+                                      <label for="ticket_type">Select Ticket Type</label>
+                                          <select class="form-control" id="ticket_type">
+                                            <option value="request">Request</option>
+                                            <option value="query">Query</option>
+                                          </select>
+                                    </div>
+                                    <div class="form-group" id="query">
+                                      <label for="comment">Enter Your Query</label>
+                                      <textarea class="form-control" rows="5" id="comment"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <script>
+    $(document).ready(function(){
+        $('#query').hide();
+        console.log("hello");
+    });
+</script>
+        </section>
+    </section>
+</section>
+{% endblock content %}
