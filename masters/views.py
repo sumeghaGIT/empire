@@ -144,7 +144,8 @@ class UpdateServices(LoginRequiredMixin, View):
             data = {'service_name': services.name,
                     'response_time': services.response_time,
                     'threshold_time': services.threshold_time,
-                    'category_name': services.category_id}
+                    'category_name': services.category_id,
+                    'is_active': services.is_active}
         form = self.form_class(initial=data)
         return render(request, self.template_name, {'form': form})
 
@@ -158,6 +159,7 @@ class UpdateServices(LoginRequiredMixin, View):
                     'category_id': int(form.cleaned_data['category_name'].id),
                     'response_time': form.cleaned_data['response_time'],
                     'threshold_time': form.cleaned_data['threshold_time'],
+                    'is_active': form.cleaned_data['status'],
                     'updated_by': request.user.id,
                     'updated_date': time_now
             }

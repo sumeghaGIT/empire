@@ -21,11 +21,16 @@ class CategoriesForm(forms.Form):
         super(CategoriesForm, self).__init__(*args, **kwargs)
 
 class ServicesForm(forms.Form):
+    STATUS_CHOICES = (
+           (1, ("Active")),
+           (2, ("In Active")),
+    )
     service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'special'}),label='Services', max_length=100)
     response_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'response_time','class': 'special'}),label='Response Time', max_length=4)
     threshold_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'threshold_time','class': 'special'}),label='Threshold Time', max_length=4)
     # category_name = forms.ModelChoiceField(queryset = Categories.objects.filter(is_active=1), to_field_name="id", label="Category",empty_label="(Choose your options)")
     category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), to_field_name="id", label="Category",empty_label="(Choose your options)")
+    status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(), required=True)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
