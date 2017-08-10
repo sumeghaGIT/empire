@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^masters/categories/$', views.CategoriesLists.as_view(), name='categories'),
     url(r'^masters/services/$', views.ServicesLists.as_view(), name='services'),
     url(r'^masters/services/add/$', views.CreateServices.as_view(), name='create_services'),
+    url(r'^masters/services/edit/(?P<pk>[0-9]+)/$', views.UpdateServices.as_view(), name='update_services'),
     url(r'^createuser/$', views.CreateUser.as_view(), name="createuser"),
     url(r'^manageuser/$', views.ManageUser.as_view(), name="manageuser"),
 ]

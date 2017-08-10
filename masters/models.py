@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User as BaseUser
 
 
 class Location(models.Model):
@@ -167,9 +168,9 @@ class UserType(models.Model):
             return self.name
 
 
-class User(models.Model):
-    username = models.CharField(unique=True, max_length=64, blank=True, null=True)
-    is_active = models.CharField(max_length=1, blank=True, null=True)
+class User(BaseUser):
+    # username = models.CharField(unique=True, max_length=64, blank=True, null=True)
+    # is_active = models.CharField(max_length=1, blank=True, null=True)
     user_type = models.ForeignKey(UserType, on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.PositiveIntegerField(blank=True, null=True)
     create_date = models.DateTimeField(blank=True, null=True)

@@ -27,12 +27,12 @@
 											<tr>
 												<td>{{service.id}}</td>
 												<td>{{service.name}}</td>
-												<td>{{service.category_name}}</td>
+												<td>{{service.category.name}}</td>
 												<td>{{service.created_date}}</td>
 												<td class="center">
 													{% if service.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 												</td>
-												<td><a class="edit" href="javascript:;" title="Edit"><i class="fa fa-fw fa-pencil" title="Edit Machine"></i></a>
+												<td><a class="edit" href="edit/{{service.id}}" title="Edit"><i class="fa fa-fw fa-pencil" title="Edit"></i></a>
 												<a class="delete" href="javascript:;" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
 											</tr>
 										{% endfor %}

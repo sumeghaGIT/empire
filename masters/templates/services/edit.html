@@ -1,18 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
-	<section id="container" >
-		<section id="main-content">
-			<section class="wrapper">
-				<h1>Manage Locations</h1>
-				<div class="row">
-					<form action="/masters/locations/create/" method="post">
-						{% csrf_token %}
-						<label for="location">Location: </label>
-						<input id="location" type="text" name="location" value="{{ location }}">
-						<input type="submit" value="Add">
-					</form>
+	<section id="main-content">
+		<section class="wrapper">
+			<!-- page start-->
+			<div class="row">
+				<div class="col-sm-6">
+					<section class="panel">
+						<div class="panel-body">
+							<h3>Create User</h3>
+							<div class="form">
+								<form action="/masters/services/edit/" method="post">
+									{%csrf_token%}
+									{{form.as_p}}
+									<button class="btn btn-primary" type="submit">Save</button>
+									<button class="btn btn-default" type="button">Cancel</button>
+								</form>
+							</div>
+						</div>
+					</section>
 				</div>
-			</section>
+			</div>
 		</section>
 	</section>
 {% endblock content %}

@@ -68,23 +68,9 @@ class ServicesLists(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        services = Services.objects.all()
+        # services = Services.objects.select_related('category').filter(is_active=1).order_by('-pk')
+        services = Services.objects.select_related('category').all().order_by('-pk')
         return render(request, self.template_name, {'services':services,'form':form})
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            # <process form cleaned data>
-            time_now = datetime.datetime.utcnow()
-            location = Categories.objects.create(
-                    name=form.cleaned_data['category_name'],
-                    created_by = request.user.id,
-                    updated_by = request.user.id
-                    # updated_date = time_now
-            )
-            return HttpResponseRedirect('/masters/categories/')
-
-        return render(request, self.template_name, {'form': form})
 
 class CreateServices(View):
     form_class = ServicesForm
@@ -92,7 +78,11 @@ class CreateServices(View):
     template_name = 'services/add.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
+        data = {}
+        if 'id' in kwargs and kwargs['id'] is not None:
+            services = Services.objects.get(id=kwargs['id'])
+            data = {'service_name':services.name,'response_time':services.response_time,'threshold_time':services.threshold_time,'category_name':services.category_id}
+        form = self.form_class(initial=data)
         return render(request, self.template_name, {'form':form})
 
     def post(self, request, *args, **kwargs):
