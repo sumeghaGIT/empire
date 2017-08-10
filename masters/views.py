@@ -122,18 +122,16 @@ class CreateServices(LoginRequiredMixin, View):
             return HttpResponseRedirect('/masters/services/')
         return render(request, self.template_name, {'form': form})
 
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
 class UpdateServices(LoginRequiredMixin, UpdateView):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
     model = models.Services
-    form_class = ServicesForm
     fields = ['name','response_time','threshold_time','category']
-    # form_class = ServicesForm
     template_name = 'services/edit.html'
+    
     def form_valid(self, form):
+        form_class = ServicesForm
         form.instance.created_by = self.request.user
         return super(form_class, self).form_valid(form)
 
