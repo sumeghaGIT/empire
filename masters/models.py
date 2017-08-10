@@ -16,7 +16,6 @@ class Location(models.Model):
     class Meta:
         db_table = "ebc_location"
 
-
 class Categories(models.Model):
     name = models.CharField(max_length=200, null=True)
     is_active = models.CharField(max_length=1, default=1)
@@ -34,7 +33,7 @@ class Services(models.Model):
     name = models.CharField(max_length=200, null=True)
     response_time = models.PositiveIntegerField()
     threshold_time = models.PositiveIntegerField()
-    is_active = models.CharField(max_length=1, blank=True, null=True)
+    is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
     updated_date = models.DateTimeField(blank=True, null=True)

@@ -122,12 +122,58 @@ class CreateServices(LoginRequiredMixin, View):
             return HttpResponseRedirect('/masters/services/')
         return render(request, self.template_name, {'form': form})
 
-class UpdateServices(LoginRequiredMixin, UpdateView):
+class UpdateServices_main(LoginRequiredMixin, UpdateView):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
     model = models.Services
     fields = ['name','response_time','threshold_time','category']
     template_name = 'services/edit.html'
+
+class UpdateServices(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = ServicesForm
+    initial = {'service_name': ''}
+    template_name = 'services/edit.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            services = models.Services.objects.get(id=kwargs['pk'])
+            data = {'service_name': services.name,
+                    'response_time': services.response_time,
+                    'threshold_time': services.threshold_time,
+                    'category_name': services.category_id}
+        form = self.form_class(initial=data)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            time_now = datetime.datetime.utcnow()
+            data = {
+                    'name': form.cleaned_data['service_name'],
+                    'category_id': int(form.cleaned_data['category_name'].id),
+                    'response_time': form.cleaned_data['response_time'],
+                    'threshold_time': form.cleaned_data['threshold_time'],
+                    'updated_by': request.user.id,
+                    'updated_date': time_now
+            }
+
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                services = models.Services.objects.get(id=kwargs['pk'])
+                services.name = form.cleaned_data['service_name']
+                services.category_id=int(form.cleaned_data['category_name'].id)
+                services.response_time=form.cleaned_data['response_time']
+                services.threshold_time=form.cleaned_data['threshold_time']
+                services.updated_by=request.user.id
+                services.updated_date=time_now
+                services.save()
+
+            return HttpResponseRedirect('/masters/services/edit/'+kwargs['pk']+'/')
+        return render(request, self.template_name, {'form': form})
 
 class CreateUser(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
