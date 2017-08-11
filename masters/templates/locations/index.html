@@ -7,7 +7,7 @@
 					<div class="col-md-12">
 						<!--breadcrumbs start -->
 						<div class="breadcrumb">
-							<h3>Manage Categories</h3>
+							<h3>Manage Locations</h3>
 						</div>
 					</div>
 				</div>
@@ -51,28 +51,32 @@
 													<td class="center">
 														{% if location.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 													</td>
-													<td><a class="edit" href="javascript:;" title="Edit"><i class="fa fa-fw fa-pencil" title="Edit Machine"></i></a>
-													<a class="delete" href="javascript:;" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
-												</tr>
-											{% endfor %}
-										</tbody>
-									</table>
-								{% else %}
-									<p>No locations are available.</p>
-								{% endif %}
-							</div>
-						</section>
+													<td>
+														<a class="edit" href="javascript:;" title="Edit">
+															<i class="fa fa-fw fa-pencil" title="Edit Machine"></i>
+														</a>
+														<!-- <a class="delete" href="delete/{{location.id}}" title="Delete"><i class="fa  -->
+														<a class="delete" href="javascript:;" onclick="deleteRecord({{location.id}})" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									{% else %}
+										<p>No locations are available.</p>
+									{% endif %}
+								</div>
+							</section>
+						</div>
 					</div>
-				</div>
+				</section>
 			</section>
 		</section>
-	</section>
-{% endblock content %}
-{% block js %}
-	<script type="text/javascript">
-	$(document).ready(function() {
-		console.log(' create Locations');
-		EditableTable.init();
-	});
-	</script>
-{% endblock js %}
+	{% endblock content %}
+	{% block script %}
+		<script src="/static/js/masters.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			EditableTable.init();
+		});
+		</script>
+	{% endblock script %}
