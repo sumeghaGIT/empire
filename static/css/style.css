@@ -112,9 +112,9 @@ a,a:hover,a:focus {
 }
 .form-signin p {
     text-align:left;
-    color:#b6b6b6;
-    font-size:16px;
-    font-weight:300;
+    color:#000;
+    font-size:13px;
+    font-weight:300 !important;
 }
 .form-signin a,.form-signin a:hover {
     color:#1fb5ac;
@@ -5837,8 +5837,40 @@ div.tagsinput span.tag {
 }
 @media (min-width: 768px)
 
-.form-group label {
+.form-group label 
+{
     padding-top: 7px;
     margin-bottom: 0;
     text-align: left;
 }
+
+.form-group label 
+{
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+
+.user-login-info input[type=email], input[type=password]  
+{
+    display:block;
+width:91%;
+height:34px;
+font-size:12px;
+line-height:1.42857143;
+color:#555;
+background-color:#fff;
+background-image:none;
+border:1px solid #ccc;
+border-radius:4px;
+-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+-webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+padding:6px 12px;
+}
+.user-login-info lable {font-size:12px; font-weight: normal}
+
+ .btn-login {width: 100%}
