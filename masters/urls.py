@@ -3,14 +3,14 @@ from __future__ import unicode_literals
 
 from django.conf.urls import url
 from masters import views
+from django.contrib import admin
+from .views import Notifications
+
+
+admin.autodiscover()
+
 
 urlpatterns = [
-    url(r'^masters/locations/$', views.Locations.as_view(), name='locations'),
-    url(r'^masters/categories/$', views.CategoriesLists.as_view(), name='categories'),
-    url(r'^masters/services/$', views.ServicesLists.as_view(), name='services'),
-    url(r'^masters/services/add/$', views.CreateServices.as_view(), name='create_services'),
-    url(r'^masters/services/edit/(?P<pk>[0-9]+)/$', views.UpdateServices.as_view(), name='update_services'),
-    url(r'^createuser/$', views.CreateUser.as_view(), name="createuser"),
-    url(r'^manageuser/$', views.ManageUser.as_view(), name="manageuser"),
-    url(r'^updateuser/edit/(?P<id>[0-9]+)/$', views.UpdateUser.as_view(), name="updateuser")
+    url(r'^$', views.Notifications.as_view(), name='index'),
+
 ]

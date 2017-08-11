@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
 from django.contrib.auth.models import User as BaseUser
+from django.db.models import signals
+from swampdragon.models import SelfPublishModel
+from .serializers import NotificationSerializer
 
 
+class Notification(SelfPublishModel, models.Model):
+    serializer_class = NotificationSerializer
+    message = models.TextField()
+
+"""
 class Location(models.Model):
     name = models.CharField(max_length=200, null=True)
     is_active = models.CharField(max_length=1, default=1)
@@ -34,7 +41,7 @@ class Services(models.Model):
     name = models.CharField(max_length=200, null=True)
     response_time = models.PositiveIntegerField()
     threshold_time = models.PositiveIntegerField()
-    is_active = models.CharField(max_length=1, blank=True, null=True)
+    is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
     updated_date = models.DateTimeField(blank=True, null=True)
@@ -42,6 +49,17 @@ class Services(models.Model):
 
     class Meta:
         db_table = "ebc_services"
+
+    def get_absolute_url(self):
+        return u'/masters/services/edit/%d' % self.id
+
+    def publish(self):
+        self.published = True
+        self.timestamp = timezone.now()
+        self.save()
+
+        ping_hub('http://%s%s' % (get_current_site().domain,
+                                  reverse('feed_for_mymodel')))
 
 
 class TaskStatus(models.Model):
@@ -179,3 +197,4 @@ class User(BaseUser):
 
     class Meta:
         db_table = 'ebc_user'
+"""

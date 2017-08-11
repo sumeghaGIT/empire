@@ -36,6 +36,16 @@
         <script src="{% static 'js/jquery.scrollTo.min.js' %}"></script>
         <script src="{% static 'js/jquery.nicescroll.js' %}"></script>
         <script src="{% static 'js/scripts.js' %}"></script>
+
+         <!-- SwampDragon -->
+        <script type="text/javascript" src="{{ STATIC_URL }}swampdragon/js/vendor/sockjs-0.3.4.min.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}swampdragon/js/swampdragon.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}swampdragon/js/datamapper.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}swampdragon/js/swampdragon-vanilla.js"></script>
+        <script type="text/javascript" src="http://localhost:9999/settings.js"></script>
+
+        <!-- notifications -->
+        <script type="text/javascript" src="{% static 'js/notifications.js' %}"></script>
     {% endblock basejs %}
     {% block js%}
         

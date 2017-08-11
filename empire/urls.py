@@ -19,7 +19,8 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('allauth.urls')),
+   # url(r'^accounts/', include('allauth.urls')),
     url(r'', include('reports.urls')),
     url(r'', include('masters.urls')),
+    url(r'^webpush/', include('webpush.urls'))
 ]

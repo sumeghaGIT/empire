@@ -2,20 +2,19 @@
 from __future__ import unicode_literals
 
 import datetime
-from django.contrib.auth.mixins import LoginRequiredMixin
+#from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views import generic
-from django.views.generic.edit import CreateView
-from django.views import View
-
+#from django.views import View
+from django.views.generic import ListView
 
 from masters import models
-from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, UpdateUserForm
+#from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, UpdateUserForm
 
 
+"""
 class Locations(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
@@ -123,19 +122,62 @@ class CreateServices(LoginRequiredMixin, View):
         return render(request, self.template_name, {'form': form})
 
 
-class UpdateServices(LoginRequiredMixin, UpdateView):
+class UpdateServices_main(LoginRequiredMixin, UpdateView):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
-
     model = models.Services
     form_class = ServicesForm
     #fields = ['name','response_time', 'threshold_time', 'category']
     template_name = 'services/edit.html'
-    
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.save()
-        return HttpResponseRedirect('/masters/services/')
+
+
+class UpdateServices(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = ServicesForm
+    initial = {'service_name': ''}
+    template_name = 'services/edit.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            services = models.Services.objects.get(id=kwargs['pk'])
+            data = {'service_name': services.name,
+                    'response_time': services.response_time,
+                    'threshold_time': services.threshold_time,
+                    'category_name': services.category_id,
+                    'is_active': services.is_active}
+        form = self.form_class(initial=data)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # <process form cleaned data>
+            time_now = datetime.datetime.utcnow()
+            data = {
+                    'name': form.cleaned_data['service_name'],
+                    'category_id': int(form.cleaned_data['category_name'].id),
+                    'response_time': form.cleaned_data['response_time'],
+                    'threshold_time': form.cleaned_data['threshold_time'],
+                    'is_active': form.cleaned_data['status'],
+                    'updated_by': request.user.id,
+                    'updated_date': time_now
+            }
+
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                services = models.Services.objects.get(id=kwargs['pk'])
+                services.name = form.cleaned_data['service_name']
+                services.category_id=int(form.cleaned_data['category_name'].id)
+                services.response_time=form.cleaned_data['response_time']
+                services.threshold_time=form.cleaned_data['threshold_time']
+                services.updated_by=request.user.id
+                services.updated_date=time_now
+                services.save()
+
+            return HttpResponseRedirect('/masters/services/edit/'+kwargs['pk']+'/')
+        return render(request, self.template_name, {'form': form})
 
 
 class CreateUser(LoginRequiredMixin, View):
@@ -200,3 +242,13 @@ class UpdateUser(LoginRequiredMixin, View):
             print user.user_name
             user.save()
             return HttpResponseRedirect('/manageuser')
+
+"""
+
+
+class Notifications(ListView):
+    model = models.Notification
+    template_name = 'reports/static.html'
+
+    def get_queryset(self):
+        return self.model.objects.order_by('-pk')[:5]
