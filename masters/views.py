@@ -75,7 +75,7 @@ class ServicesLists(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = CategoriesForm
+    form_class = ServicesForm
     initial = {'location_name': ''}
     template_name = 'services/index.html'
 

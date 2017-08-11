@@ -2,19 +2,30 @@
 {% block content %}
 	<section id="main-content">
 		<section class="wrapper">
+			<div class="row">
+				<div class="col-md-12">
+					<!--breadcrumbs start -->
+					<div class="breadcrumb">
+						<h3>Edit  Service</h3>
+					</div>
+				</div>
+			</div>
 			<!-- page start-->
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<section class="panel">
 						<div class="panel-body">
-							<h3>Edit  Service</h3>
 							<div class="form">
-								<form action="" method="post">
-									{%csrf_token%}
-									{{form.as_p}}
-									<button class="btn btn-primary" type="submit">Update</button>
-									<button class="btn btn-default" type="button">Back</button>
-								</form>
+								<div class="form-group">
+									<div class="col-lg-9 cat">
+										<form action="" method="post">
+											{%csrf_token%}
+											{{form.as_p}}
+											<button class="btn btn-primary" type="submit">Update</button>
+											<button class="btn btn-default" type="button">Back</button>
+										</form>
+									</div>
+								</div>
 							</div>
 						</div>
 					</section>

@@ -31,8 +31,11 @@ class Categories(models.Model):
 class Services(models.Model):
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
-    response_time = models.PositiveIntegerField()
-    threshold_time = models.PositiveIntegerField()
+    response_time = models.PositiveIntegerField(blank=True, null=True)
+    threshold_time = models.PositiveIntegerField(blank=True, null=True)
+    price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    service_from = models.TimeField(auto_now_add=True, blank=True)
+    service_to = models.TimeField(auto_now_add=True, blank=True)
     is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
@@ -43,7 +46,7 @@ class Services(models.Model):
         db_table = "ebc_services"
 
     def get_absolute_url(self):
-        return u'/masters/services/edit/%d' % self.id 
+        return u'/masters/services/edit/%d' % self.id
 
 class TaskStatus(models.Model):
     status = models.CharField(max_length=200, null=True)
@@ -163,7 +166,7 @@ class UserType(models.Model):
     update_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-	managed = False
+        managed = False
         db_table = 'ebc_user_type'
 
         def __str__(self):
@@ -180,5 +183,5 @@ class User(BaseUser):
     update_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-	managed = False
+        managed = False
         db_table = 'ebc_user'
