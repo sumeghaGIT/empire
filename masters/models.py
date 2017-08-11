@@ -163,6 +163,7 @@ class UserType(models.Model):
     update_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
+	managed = False
         db_table = 'ebc_user_type'
 
         def __str__(self):
@@ -179,4 +180,5 @@ class User(BaseUser):
     update_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
+	managed = False
         db_table = 'ebc_user'
