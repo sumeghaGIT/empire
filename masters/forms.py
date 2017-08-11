@@ -9,13 +9,13 @@ class MyModelChoiceField(ModelChoiceField):
         return obj.name
 
 class LocationsForm(forms.Form):
-    location_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'location','class': 'special'}),label='Location', max_length=100)
+    location_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'location','class': 'form-control'}),label='Location', max_length=100)
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(LocationsForm, self).__init__(*args, **kwargs)
 
 class CategoriesForm(forms.Form):
-    category_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'category','class': 'special'}),label='Categories', max_length=100)
+    category_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'category','class': 'form-control col-lg-6'}),label='Categories', max_length=100)
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(CategoriesForm, self).__init__(*args, **kwargs)
@@ -25,12 +25,15 @@ class ServicesForm(forms.Form):
            (1, ("Active")),
            (2, ("In Active")),
     )
-    service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'special'}),label='Services', max_length=100)
-    response_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'response_time','class': 'special'}),label='Response Time', max_length=4)
-    threshold_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'threshold_time','class': 'special'}),label='Threshold Time', max_length=4)
+    service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'form-control'}),label='Services', max_length=100)
+    response_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'response_time','class': 'form-control'}),label='Response Time', max_length=4)
+    threshold_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'threshold_time','class': 'form-control'}),label='Threshold Time', max_length=4)
+    price = forms.CharField(widget=forms.TextInput(attrs={'id': 'price','class': 'form-control'}),label='Price', max_length=9)
+    time_from = forms.CharField(widget=forms.DateInput(attrs={'id': 'service_from','class': 'form-control'}),label='Service From')
+    time_to = forms.CharField(widget=forms.DateInput(attrs={'id': 'service_to','class': 'form-control'}),label='Service To')
     # category_name = forms.ModelChoiceField(queryset = Categories.objects.filter(is_active=1), to_field_name="id", label="Category",empty_label="(Choose your options)")
-    category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), to_field_name="id", label="Category",empty_label="(Choose your options)")
-    status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(), required=True)
+    category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control'}), to_field_name="id", label="Category",empty_label="Choose your options")
+    status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'threshold_time','class': 'form-control'}), required=True)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)

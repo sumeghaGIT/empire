@@ -3,7 +3,14 @@
 	<section id="container" >
 		<section id="main-content">
 			<section class="wrapper">
-				<h1>Manage Locations</h1>
+				<div class="row">
+					<div class="col-md-12">
+						<!--breadcrumbs start -->
+						<div class="breadcrumb">
+							<h3>Manage Categories</h3>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-12">
 						<section class="panel">
@@ -12,13 +19,9 @@
 									<form action="/masters/locations/" method="post" class="cmxform form-horizontal">
 										{% csrf_token %}
 										<div class="form-group">
-											<div class="col-lg-3">
-												{{form}}
+											<div class="col-lg-9 cat">
+												{{form.as_p}}
 											</div>
-											<!-- <label for="firstname" class="control-label col-lg-2">Category Name :</label>
-											<div class="col-lg-6">
-															<input class=" form-control" id="firstname" name="firstname" type="text" />
-											</div> -->
 											<div class="col-lg-3">
 												<button class="btn btn-primary" type="submit">Save</button>
 												<button class="btn btn-default" type="button">Cancel</button>
