@@ -13,15 +13,16 @@
                                     {%csrf_token%}
                                     <div class="form-group">
                                       <label for="ticket_type">Select Ticket Type</label>
-                                          <select class="form-control" id="ticket_type">
+                                          <select name="ticket_type" class="form-control" id="ticket_type">
                                             <option value="request">Request</option>
                                             <option value="query">Query</option>
                                           </select>
                                     </div>
                                     <div class="form-group" id="query">
                                       <label for="comment">Enter Your Query</label>
-                                      <textarea class="form-control" rows="5" id="comment"></textarea>
+                                      <textarea name="comment" class="form-control" rows="5" id="comment"></textarea>
                                     </div>
+                                    <button class="btn btn-lg btn-login btn-block" type="submit">Submit</button>
                                 </form>
                             </div>
                         </div>
@@ -29,13 +30,9 @@
                 </div>
             </div>
 
-            <script>
-    $(document).ready(function(){
-        $('#query').hide();
-        console.log("hello");
-    });
-</script>
         </section>
     </section>
 </section>
 {% endblock content %}
+
+

@@ -46,6 +46,29 @@
         <script src="{% static 'js/DT_bootstrap.js' %}"></script>
         <script src="{% static 'js/table-editable.js' %}"></script>
         <script src="{% static 'js/sweetalert.js' %}"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $('#query').hide();
+            $('select').on('change', function() {
+               ticket_type = this.value;
+               if(ticket_type==='query'){
+                    $('#query').show();
+                }
+               else{
+                    $('#query').hide();
+               }
+            })
+        });
+
+// Note that the path doesn't matter right now; any WebSocket
+// connection gets bumped over to WebSocket consumers
+socket = new WebSocket("ws://" + window.location.host + "/chat/");
+socket.onmessage = function(e) {
+    alert(e.data);
+}
+        </script>
+
+
     {% endblock basejs %}
     {% block script %}
         

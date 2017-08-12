@@ -2,16 +2,19 @@
 from __future__ import unicode_literals
 
 import datetime
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
-from django.views import generic
 from django.views import View
-
-
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from channels import Group
 from masters import models
+
+
 from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, TaskStatusForm
 
 
@@ -31,7 +34,6 @@ class Locations(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # <process form cleaned data>
             time_now = datetime.datetime.utcnow()
             location = models.Location.objects.create(
                     name=form.cleaned_data['location_name'],
@@ -337,3 +339,30 @@ class ManageUser(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = User.objects.all()
         return render(request, 'allauth/templates/account/manageuser.html', {'users': user})
+
+
+class ticketView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'notifications/create_ticket.html')
+
+
+    def post(self, request, *args, **kwargs):
+        ticket_type = request.POST.get('ticket_type', '')
+        if ticket_type == 'query':
+            comment = request.POST.get('comment')
+            notification = models.Notifications.objects.create(notification=comment, created_by=request.user.id,updated_by=request.user.id)
+            notification.save()
+            post_save.connect(ticket_created, sender=models.Notifications)
+            return HttpResponse("ticket created successfully")
+
+
+@receiver(post_save, sender=models.Notifications)
+def ticket_created(sender, instance, **kwargs):
+    if kwargs.get('created', False):
+        Group("notification").send({
+            "text": json.dumps({
+                "id": instance.id,
+                "content": instance.notification
+            })
+        })

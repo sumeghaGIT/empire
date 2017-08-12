@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^masters/inquiry/$', views.InquiryStatus.as_view(), name='inquiry_status'),
     url(r'^masters/inquiry/sources/$', views.InquirySources.as_view(), name='inquiry_sources'),
     url(r'^masters/departments/$', views.Departments.as_view(), name='departments'),
+    url(r'^createticket/$', views.ticketView.as_view(), name="create_ticket"),
 ]

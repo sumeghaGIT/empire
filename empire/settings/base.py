@@ -25,7 +25,7 @@ SECRET_KEY = '3z0v(arlerawg!bzx3xzh#aa)8^z=d*en@y0&cy&sg1#fsjiq2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.28','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 # Application definition
 
@@ -40,6 +40,8 @@ CORE_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    'channels',
 ]
 
 PROJECT_APPS= [
@@ -51,7 +53,7 @@ SITE_ID = 1
 
 INSTALLED_APPS = CORE_APPS + PROJECT_APPS
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -95,10 +97,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': '',
-        'PORT' : '',
-        'HOST' : '',
-        'USER' : '',
-        'PASSWORD' : ''
+        'PORT': '',
+        'HOST': '',
+        'USER': '',
+        'PASSWORD': ''
     }
 }
 
@@ -139,3 +141,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+#channel settings
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "masters.routing.channel_routing",
+    },
+}
