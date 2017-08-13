@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'empire.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
+        'NAME': 'empire',
         'PORT': '',
         'HOST': '',
         'USER': '',
