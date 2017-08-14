@@ -10,22 +10,29 @@ class Location(models.Model):
     is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField
 
     class Meta:
         db_table = "ebc_location"
+
+    def __unicode__(self):
+        return self.name
+
 
 class Categories(models.Model):
     name = models.CharField(max_length=200, null=True)
     is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_categories"
+
+    def __unicode__(self):
+        return self.name
 
 
 class Services(models.Model):
@@ -39,25 +46,32 @@ class Services(models.Model):
     is_active = models.CharField(max_length=1, default=1)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_services"
 
+    def __unicode__(self):
+        return self.name
+
     def get_absolute_url(self):
         return u'/masters/services/edit/%d' % self.id
+
 
 class TaskStatus(models.Model):
     status = models.CharField(max_length=200, null=True)
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_task_status"
+
+    def __unicode__(self):
+        return self.status
 
 
 class Notifications(models.Model):
@@ -66,11 +80,14 @@ class Notifications(models.Model):
     imagePath = models.URLField(max_length=500, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_notifications"
+
+    def __unicode__(self):
+        return self.notification
 
 
 class NotificationReadLog(models.Model):
@@ -83,17 +100,23 @@ class NotificationReadLog(models.Model):
     class Meta:
         db_table = "ebc_notification_read_log"
 
+    def __unicode__(self):
+        return self.notification
+
 
 class InquiryStatus(models.Model):
     status = models.CharField(max_length=200, null=True)
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_inquiry_status"
+
+    def __unicode__(self):
+        return self.status
 
 
 class InquirySources(models.Model):
@@ -101,11 +124,14 @@ class InquirySources(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_inquiry_services"
+
+    def __unicode__(self):
+        return self.sources
 
 
 class EmployeeStatus(models.Model):
@@ -113,11 +139,14 @@ class EmployeeStatus(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_employee_status"
+
+    def __unicode__(self):
+        return self.status
 
 
 class EmployeeType(models.Model):
@@ -125,11 +154,14 @@ class EmployeeType(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_employee_table"
+
+    def __unicode__(self):
+        return self.employee_type
 
 
 class Department(models.Model):
@@ -137,11 +169,14 @@ class Department(models.Model):
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_department"
+
+    def __unicode__(self):
+        return self.name
 
 
 class InquiryActivity(models.Model):
@@ -149,11 +184,14 @@ class InquiryActivity(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     is_active = models.CharField(max_length=1, blank=True, null=True)
     created_by = models.PositiveIntegerField()
-    updated_date = models.DateTimeField(blank=True, null=True)
+    updated_date = models.DateTimeField(auto_now=True, blank=True, null=True)
     updated_by = models.PositiveIntegerField()
 
     class Meta:
         db_table = "ebc_inquiry_activity"
+
+    def __unicode__(self):
+        return self.activity_name
 
 
 class UserType(models.Model):
@@ -163,14 +201,14 @@ class UserType(models.Model):
     created_by = models.PositiveIntegerField()
     create_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField()
-    update_date = models.DateTimeField(blank=True, null=True)
+    update_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'ebc_user_type'
 
-        def __str__(self):
-            return self.name
+    def __unicode__(self):
+        return self.user_type
 
 
 class User(BaseUser):

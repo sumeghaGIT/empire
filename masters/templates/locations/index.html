@@ -52,11 +52,11 @@
 														{% if location.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 													</td>
 													<td>
-														<a class="edit" href="javascript:;" title="Edit">
+														<a class="edit" href="{% url 'update_locations' location.id%}" title="Edit">
 															<i class="fa fa-fw fa-pencil" title="Edit Machine"></i>
 														</a>
 														<!-- <a class="delete" href="delete/{{location.id}}" title="Delete"><i class="fa  -->
-														<a class="delete" href="javascript:;" onclick="deleteRecord({{location.id}})" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
+														<a class="delete" href="{% url 'delete_locations' location.id %}" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
 													</tr>
 												{% endfor %}
 											</tbody>

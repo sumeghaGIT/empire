@@ -5,7 +5,6 @@ import datetime
 import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -42,31 +41,52 @@ class Locations(LoginRequiredMixin, View):
                     updated_date=time_now
             )
             return HttpResponseRedirect('/masters/locations/')
+        locations = models.Location.objects.all()
+        return render(request, self.template_name, {'form': form, 'locations':locations})
+
+
+class UpdateLocations(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = LocationsForm
+    initial = {'location_name': ''}
+    template_name = 'locations/edit.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            location = models.Location.objects.get(id=kwargs['pk'])
+            data = {'location_name': location.name,
+                    'is_active': location.is_active,
+                    'created_date': location.created_date,
+                    'updated_by': location.updated_by,
+                    }
+        form = LocationsForm(initial=data)
         return render(request, self.template_name, {'form': form})
 
-class DeleteLocations(LoginRequiredMixin, View):
-
     def post(self, request, *args, **kwargs):
-        # if 'pk' in kwargs and kwargs['pk'] is not None:
-        # print "ddddddddddddddddddddddddddddddddddddddd",kwargs['id']
-        b = models.Location.objects.get(id=2)
-        b.delete()
-        return 'True'
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                location = models.Location.objects.get(id=kwargs['pk'])
+                location.name = form.cleaned_data['location_name']
+                location.is_active = form.cleaned_data['status']
+                location.updated_by = request.user.id
+                location.save()
+            return HttpResponseRedirect('/masters/locations/')
+        return render(request, self.template_name, {'form': form})
 
-class RequestDeleteView(LoginRequiredMixin, DeleteView):
-    """
-    Sub-class the DeleteView to restrict a User from deleting other 
-    user's data.
-    """
-    template_name = 'locations/index.html'
-    success_message = "Deleted Successfully"
-    model = models.Location
-    success_url = "masters/locations/"
 
-    def get_queryset(self, **kwargs):
-        qs = super(RequestDeleteView, self).get_queryset()
-        # return qs.filter(id=self.request.user)
-        return qs.filter(id=2)
+def location_delete(request, pk):
+
+    try:
+        location = models.Location.objects.filter(id=pk)
+    except:
+        location = None
+    if location is not None:
+        location.delete()
+        return HttpResponseRedirect('/masters/locations/')
 
 
 class CategoriesLists(LoginRequiredMixin, View):
@@ -74,19 +94,17 @@ class CategoriesLists(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     form_class = CategoriesForm
-    initial = {'location_name': ''}
+    initial = {'category_name': ''}
     template_name = 'categories/index.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
         categories = models.Categories.objects.all()
-        return render(request, self.template_name, {'categories':categories,'form':form})
+        return render(request, self.template_name, {'categories':categories, 'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # <process form cleaned data>
-            time_now = datetime.datetime.utcnow()
             location = models.Categories.objects.create(
                     name=form.cleaned_data['category_name'],
                     created_by=request.user.id,
@@ -94,22 +112,52 @@ class CategoriesLists(LoginRequiredMixin, View):
                     is_active= form.cleaned_data['status']
             )
             return HttpResponseRedirect('/masters/categories/')
-        return render(request, self.template_name, {'form': form})
+        categories = models.Categories.objects.all()
+        return render(request, self.template_name, {'categories':categories, 'form': form})
 
 
-class ServicesLists(LoginRequiredMixin, View):
+class UpdateCategory(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = ServicesForm
-    initial = {'location_name': ''}
-    template_name = 'services/index.html'
+    form_class = CategoriesForm
+    initial = {'category_name': ''}
+    template_name = 'categories/edit.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
-        # services = Services.objects.select_related('category').filter(is_active=1).order_by('-pk')
-        services = models.Services.objects.select_related('category').all().order_by('-pk')
-        return render(request, self.template_name, {'services':services,'form':form})
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            category = models.Categories.objects.get(id=kwargs['pk'])
+            data = {'category_name': category.name,
+                    'is_active': category.is_active,
+                    'created_date': category.created_date,
+                    'updated_by': category.updated_by,
+                    }
+        form = self.form_class(initial=data)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                category = models.Categories.objects.get(id=kwargs['pk'])
+                category.name = form.cleaned_data['category_name']
+                category.is_active = form.cleaned_data['status']
+                category.updated_by = request.user.id
+                category.save()
+            return HttpResponseRedirect('/masters/categories/')
+        return render(request, self.template_name, {'form': form})
+
+
+def category_delete(request, pk):
+
+    try:
+        category = models.Categories.objects.filter(id=pk)
+    except:
+        category = None
+    if category is not None:
+        category.delete()
+        return HttpResponseRedirect('/masters/categories/')
 
 
 class CreateServices(LoginRequiredMixin, View):
@@ -118,17 +166,17 @@ class CreateServices(LoginRequiredMixin, View):
 
     form_class = ServicesForm
     initial = {'service_name': ''}
-    template_name = 'services/add.html'
+    template_name = 'services/index.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
+        form = self.form_class(initial=self.initial)
+        services = models.Services.objects.all()
+        return render(request, self.template_name, {'services': services, 'form': form})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # <process form cleaned data>
-            time_now = datetime.datetime.utcnow()
             services = models.Services.objects.create(
                     name=form.cleaned_data['service_name'],
                     category_id=int(form.cleaned_data['category_name'].id),
@@ -140,17 +188,11 @@ class CreateServices(LoginRequiredMixin, View):
                     is_active=form.cleaned_data['status'],
                     created_by=request.user.id,
                     updated_by=request.user.id,
-                    updated_date=time_now
             )
             return HttpResponseRedirect('/masters/services/')
-        return render(request, self.template_name, {'form': form})
+        services = models.Services.objects.all()
+        return render(request, self.template_name, {'services': services, 'form': form})
 
-class UpdateServices_main(LoginRequiredMixin, UpdateView):
-    login_url = '/accounts/login/'
-    redirect_field_name = 'next'
-    model = models.Services
-    fields = ['name','response_time','threshold_time','category']
-    template_name = 'services/edit.html'
 
 class UpdateServices(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -179,12 +221,10 @@ class UpdateServices(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # <process form cleaned data>
-            time_now = datetime.datetime.utcnow()
             if 'pk' in kwargs and kwargs['pk'] is not None:
                 services = models.Services.objects.get(id=kwargs['pk'])
                 services.name = form.cleaned_data['service_name']
-                services.category_id=int(form.cleaned_data['category_name'].id)
+                services.category_id=form.cleaned_data['category_name']
                 services.response_time=form.cleaned_data['response_time']
                 services.threshold_time=form.cleaned_data['threshold_time']
                 services.price=form.cleaned_data['price']
@@ -192,11 +232,21 @@ class UpdateServices(LoginRequiredMixin, View):
                 services.service_to=form.cleaned_data['service_to']
                 services.is_active=form.cleaned_data['status']
                 services.updated_by=request.user.id
-                services.updated_date=time_now
                 services.save()
-
-            return HttpResponseRedirect('/masters/services/edit/'+kwargs['pk']+'/')
+            return HttpResponseRedirect('/masters/services/edit/')
         return render(request, self.template_name, {'form': form})
+
+
+def service_delete(request, pk):
+
+    try:
+        service = models.Services.objects.filter(id=pk)
+    except:
+        service = None
+    if service is not None:
+        service.delete()
+        return HttpResponseRedirect('/masters/services/')
+
 
 class TaskStatus(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -214,8 +264,6 @@ class TaskStatus(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # <process form cleaned data>
-            time_now = datetime.datetime.utcnow()
             location = models.TaskStatus.objects.create(
                     status=form.cleaned_data['name'],
                     created_by=request.user.id,
@@ -223,7 +271,53 @@ class TaskStatus(LoginRequiredMixin, View):
                     is_active= form.cleaned_data['status'],
             )
             return HttpResponseRedirect('/masters/tasks/')
+        tasks = models.TaskStatus.objects.all()
+        return render(request, self.template_name, {'results':tasks,'form':form})
+
+
+class UpdateTaskStatus(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = TaskStatusForm
+    initial = {'name': ''}
+    template_name = 'status/edit_task_status.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            task_status = models.TaskStatus.objects.get(id=kwargs['pk'])
+            data = {'name': task_status.status,
+                    'is_active': task_status.is_active,
+                    'created_date': task_status.created_date,
+                    'updated_by': task_status.updated_by,
+                    }
+        form = self.form_class(initial=data)
         return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                task_status = models.TaskStatus.objects.get(id=kwargs['pk'])
+                task_status.status = form.cleaned_data['name']
+                task_status.is_active = form.cleaned_data['status']
+                task_status.updated_by = request.user.id
+                task_status.save()
+            return HttpResponseRedirect('/masters/tasks/')
+        return render(request, self.template_name, {'form': form})
+
+
+def task_status_delete(request, pk):
+
+    try:
+        task_status = models.TaskStatus.objects.filter(id=pk)
+    except:
+        task_status = None
+    if task_status is not None:
+        task_status.delete()
+        return HttpResponseRedirect('/masters/tasks/')
+
 
 class InquiryStatus(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -241,8 +335,6 @@ class InquiryStatus(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # <process form cleaned data>
-            time_now = datetime.datetime.utcnow()
             location = models.InquiryStatus.objects.create(
                     status=form.cleaned_data['name'],
                     created_by=request.user.id,
@@ -250,7 +342,53 @@ class InquiryStatus(LoginRequiredMixin, View):
                     is_active= form.cleaned_data['status'],
             )
             return HttpResponseRedirect('/masters/inquiry/')
+        inquiries = models.InquiryStatus.objects.all()
+        return render(request, self.template_name, {'results':inquiries,'form':form})
+
+
+class UpdateInquiryStatus(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = TaskStatusForm
+    initial = {'name': ''}
+    template_name = 'status/edit_inquiry_status.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            inquiry_status = models.InquiryStatus.objects.get(id=kwargs['pk'])
+            data = {'name': inquiry_status.status,
+                    'is_active': inquiry_status.is_active,
+                    'created_date': inquiry_status.created_date,
+                    'updated_by': inquiry_status.updated_by,
+                    }
+        form = self.form_class(initial=data)
         return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                inquiry_status = models.InquiryStatus.objects.get(id=kwargs['pk'])
+                inquiry_status.status = form.cleaned_data['name']
+                inquiry_status.is_active = form.cleaned_data['status']
+                inquiry_status.updated_by = request.user.id
+                inquiry_status.save()
+            return HttpResponseRedirect('/masters/inquiry/')
+        return render(request, self.template_name, {'form': form})
+
+
+def inquiry_status_delete(request, pk):
+
+    try:
+        task_status = models.InquiryStatus.objects.filter(id=pk)
+    except:
+        task_status = None
+    if task_status is not None:
+        task_status.delete()
+        return HttpResponseRedirect('/masters/inquiry/')
+
 
 class InquirySources(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -277,7 +415,53 @@ class InquirySources(LoginRequiredMixin, View):
                     is_active= form.cleaned_data['status'],
             )
             return HttpResponseRedirect('/masters/inquiry/sources/')
+        sources = models.InquirySources.objects.all()
+        return render(request, self.template_name, {'results':sources,'form':form})
+
+
+class UpdateInquirySources(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = TaskStatusForm
+    initial = {'name': ''}
+    template_name = 'status/edit_inquiry_sources.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            inquiry_sources = models.InquirySources.objects.get(id=kwargs['pk'])
+            data = {'name': inquiry_sources.sources,
+                    'is_active': inquiry_sources.is_active,
+                    'created_date': inquiry_sources.created_date,
+                    'updated_by': inquiry_sources.updated_by,
+                    }
+        form = self.form_class(initial=data)
         return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                inquiry_sources = models.InquirySources.objects.get(id=kwargs['pk'])
+                inquiry_sources.sources = form.cleaned_data['name']
+                inquiry_sources.is_active = form.cleaned_data['status']
+                inquiry_sources.updated_by = request.user.id
+                inquiry_sources.save()
+            return HttpResponseRedirect('/masters/inquiry/sources/')
+        return render(request, self.template_name, {'form': form})
+
+
+def inquiry_sources_delete(request, pk):
+
+    try:
+        inquiry_sources = models.InquirySources.objects.filter(id=pk)
+    except:
+        inquiry_sources = None
+    if inquiry_sources is not None:
+        inquiry_sources.delete()
+        return HttpResponseRedirect('/masters/inquiry/sources/')
+
 
 class Departments(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -295,8 +479,6 @@ class Departments(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # <process form cleaned data>
-            time_now = datetime.datetime.utcnow()
             location = models.Department.objects.create(
                     name=form.cleaned_data['name'],
                     created_by=request.user.id,
@@ -304,7 +486,53 @@ class Departments(LoginRequiredMixin, View):
                     is_active= form.cleaned_data['status'],
             )
             return HttpResponseRedirect('/masters/departments/')
+        department = models.Department.objects.all()
+        return render(request, self.template_name, {'results':department,'form':form})
+
+
+class UpdateDepartment(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = TaskStatusForm
+    initial = {'name': ''}
+    template_name = 'status/edit_department.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            department = models.Department.objects.get(id=kwargs['pk'])
+            data = {'name': department.name,
+                    'is_active': department.is_active,
+                    'created_date': department.created_date,
+                    'updated_by': department.updated_by,
+                    }
+        form = self.form_class(initial=data)
         return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                department = models.Department.objects.get(id=kwargs['pk'])
+                department.name = form.cleaned_data['name']
+                department.is_active = form.cleaned_data['status']
+                department.updated_by = request.user.id
+                department.save()
+            return HttpResponseRedirect('/masters/departments/')
+        return render(request, self.template_name, {'form': form})
+
+
+def department_delete(request, pk):
+
+    try:
+        department = models.Department.objects.filter(id=pk)
+    except:
+        department = None
+    if department is not None:
+        department.delete()
+        return HttpResponseRedirect('/masters/departments/')
+
 
 class CreateUser(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -345,7 +573,6 @@ class ticketView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'notifications/create_ticket.html')
-
 
     def post(self, request, *args, **kwargs):
         ticket_type = request.POST.get('ticket_type', '')

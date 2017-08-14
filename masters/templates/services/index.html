@@ -25,7 +25,7 @@
 														<div class="form-group">
 															<div class="col-lg-12 cat" >
 																<div class="form">
-																	<form action="/masters/services/add/" method="post">
+																	<form action="." method="post">
 																		{%csrf_token%}
 																		{{form.as_p}}
 																		<button class="btn btn-primary" type="submit">Save</button>
@@ -72,7 +72,7 @@
 														{% if service.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 													</td>
 													<td><a class="edit" href="edit/{{service.id}}" title="Edit"><i class="fa fa-fw fa-pencil" title="Edit"></i></a>
-													<a class="delete" href="javascript:;" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
+													<a class="delete" href="{% url 'delete_service' service.id %}" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
 												</tr>
 											{% endfor %}
 										</tbody>

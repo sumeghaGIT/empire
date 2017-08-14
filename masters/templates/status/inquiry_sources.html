@@ -55,10 +55,10 @@
 														{% if result.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 													</td>
 													<td>
-														<a class="edit" href="javascript:;" title="Edit">
+														<a class="edit" href="{% url 'update_inquiry_sources' result.id %}" title="Edit">
 															<i class="fa fa-fw fa-pencil" title="Edit Machine"></i>
 														</a>
-														<a class="delete" href="javascript:;" title="Delete">
+														<a class="delete" href="{% url 'delete_inquiry_sources' result.id %}" title="Delete">
 															<i class="fa fa-fw fa-trash-o"></i>
 														</a>
 													</td>
