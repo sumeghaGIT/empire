@@ -119,7 +119,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_LOGOUT_ON_GET = True
 #AUTH_USER_EMAIL_UNIQUE = True
-
+AUTH_USER_MODEL = 'masters.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

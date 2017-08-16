@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User as BaseUser
+from django.contrib.auth.models import AbstractUser
 
 
 class Location(models.Model):
@@ -194,32 +194,12 @@ class InquiryActivity(models.Model):
         return self.activity_name
 
 
-class UserType(models.Model):
+class User(AbstractUser):
     user_type = models.CharField(unique=True, max_length=2, blank=True, null=True)
-    name = models.CharField(max_length=64, blank=True, null=True)
-    is_active = models.CharField(max_length=1, blank=True, null=True)
-    created_by = models.PositiveIntegerField()
-    create_date = models.DateTimeField(blank=True, null=True)
-    updated_by = models.PositiveIntegerField()
-    update_date = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'ebc_user_type'
-
-    def __unicode__(self):
-        return self.user_type
-
-
-class User(BaseUser):
-    # username = models.CharField(unique=True, max_length=64, blank=True, null=True)
-    # is_active = models.CharField(max_length=1, blank=True, null=True)
-    user_type = models.ForeignKey(UserType, on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.PositiveIntegerField(blank=True, null=True)
     create_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField(blank=True, null=True)
     update_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
         db_table = 'ebc_user'

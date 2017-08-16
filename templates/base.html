@@ -65,6 +65,10 @@
 socket = new WebSocket("ws://" + window.location.host + "/chat/");
 socket.onmessage = function(e) {
     alert(e.data);
+    $('#header_notification_bar').text(e.data.count);
+
+    console.log(e);
+
 }
         </script>
 

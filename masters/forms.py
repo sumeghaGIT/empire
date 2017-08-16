@@ -111,3 +111,18 @@ class CreateUserForm(forms.ModelForm):
         if password1 != password2:
             raise forms.ValidationError("Your passwords do not match")
         return password2
+
+
+class UpdateUserForm(forms.ModelForm):
+    status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'status','class': 'form-control'}), required=True)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'status', 'email']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        username = self.cleaned_data.get('username')
+        if email and User.objects.filter(email=email).exclude(username=username).exists():
+            raise forms.ValidationError(u'Email address already exists')
+        return email
