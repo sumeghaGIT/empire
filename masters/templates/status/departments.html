@@ -3,7 +3,14 @@
 	<section id="container" >
 		<section id="main-content">
 			<section class="wrapper">
-				<h1>Manage Departments</h1>
+				<div class="row">
+					<div class="col-md-12">
+						<!--breadcrumbs start -->
+						<div class="breadcrumb">
+							<h3>Manage Departments</h3>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-12">
 						<section class="panel">
@@ -58,16 +65,19 @@
 														<a class="edit" href="{% url 'update_department' result.id %}" title="Edit">
 															<i class="fa fa-fw fa-pencil" title="Edit Machine"></i>
 														</a>
-														<a class="delete" href="{% url 'delete_department' result.id %}" title="Delete">
+														<!-- <a class="delete" href="{% url 'delete_department' result.id %}" title="Delete">
 															<i class="fa fa-fw fa-trash-o"></i>
-														</a>
+														</a> -->
+														<a class="delete" href="javascript:;" onclick="deleteRecord('{% url 'delete_department' result.id %}')" title="Delete">
+															<i class="fa fa-fw fa-trash-o"></i>
+														</a>														
 													</td>
 												</tr>
 											{% endfor %}
 										</tbody>
 									</table>
 								{% else %}
-									<p>No results are available.</p>
+									<p class="leftpad">No results are available.</p>
 								{% endif %}
 							</div>
 						</section>
@@ -78,6 +88,7 @@
 	</section>
 {% endblock content %}
 {% block script %}
+	<script src="/static/js/masters.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
 		console.log(' create categorys');

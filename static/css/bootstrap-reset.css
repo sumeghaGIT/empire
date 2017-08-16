@@ -161,7 +161,7 @@ ul {
 .btn-primary {
     background-color: #1fb5ad;
     border-color: #1fb5ad;
-    color: #FFFFFF;
+    color: #FFFFFF; margin-left: 10px;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
