@@ -3,21 +3,31 @@
 <section id="container" >
     <section id="main-content">
         <section class="wrapper">
+          <div class="row">
+        <div class="col-md-12">
+          <!--breadcrumbs start -->
+          <div class="breadcrumb">
+            <h3>Create Ticket</h3>
+          </div>
+        </div>
+      </div>
             <div class="row">
                 <div class="col-sm-6">
                     <section class="panel">
                         <div class="panel-body">
-                            <h3>Create Ticket</h3>
+                            
+                             <div class="form-group">
+                              <div class="col-lg-12 cat">
                             <div class="form">
                                 <form class="cmxform form-horizontal " id="signupForm" method="POST" action=".">
                                     {%csrf_token%}
-                                    <div class="form-group">
+                                   
                                       <label for="ticket_type">Select Ticket Type</label>
                                           <select name="ticket_type" class="form-control" id="ticket_type">
                                             <option value="request">Request</option>
                                             <option value="query">Query</option>
                                           </select>
-                                    </div>
+                                   
                                     <div class="form-group" id="query">
                                       <label for="comment">Enter Your Query</label>
                                       <textarea name="comment" class="form-control" rows="5" id="comment"></textarea>
@@ -29,9 +39,12 @@
                                             <option value="ola">Ola</option>
                                           </select>
                                     </div-->
+                                     <div class="toppad" >
                                     <button class="btn btn-lg btn-login btn-block" type="submit">Submit</button>
-
+</div>
                                 </form>
+                                 </div>
+</div>
                             </div>
                         </div>
                     </section>
