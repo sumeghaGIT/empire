@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 import datetime
 import json
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -12,9 +11,11 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from channels import Group
 from masters import models
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
-from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, TaskStatusForm
+from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, TaskStatusForm, UpdateUserForm
 
 
 class Locations(LoginRequiredMixin, View):
@@ -86,7 +87,8 @@ def location_delete(request, pk):
         location = None
     if location is not None:
         location.delete()
-        return HttpResponseRedirect('/masters/locations/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/locations/')
 
 
 class CategoriesLists(LoginRequiredMixin, View):
@@ -157,7 +159,8 @@ def category_delete(request, pk):
         category = None
     if category is not None:
         category.delete()
-        return HttpResponseRedirect('/masters/categories/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/categories/')
 
 
 class CreateServices(LoginRequiredMixin, View):
@@ -169,7 +172,6 @@ class CreateServices(LoginRequiredMixin, View):
     template_name = 'services/index.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
         form = self.form_class(initial=self.initial)
         services = models.Services.objects.all()
         return render(request, self.template_name, {'services': services, 'form': form})
@@ -245,7 +247,8 @@ def service_delete(request, pk):
         service = None
     if service is not None:
         service.delete()
-        return HttpResponseRedirect('/masters/services/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/services/')
 
 
 class TaskStatus(LoginRequiredMixin, View):
@@ -316,7 +319,8 @@ def task_status_delete(request, pk):
         task_status = None
     if task_status is not None:
         task_status.delete()
-        return HttpResponseRedirect('/masters/tasks/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/tasks/')
 
 
 class InquiryStatus(LoginRequiredMixin, View):
@@ -387,7 +391,7 @@ def inquiry_status_delete(request, pk):
         task_status = None
     if task_status is not None:
         task_status.delete()
-        return HttpResponseRedirect('/masters/inquiry/')
+        return HttpResponse("success")
 
 
 class InquirySources(LoginRequiredMixin, View):
@@ -460,7 +464,8 @@ def inquiry_sources_delete(request, pk):
         inquiry_sources = None
     if inquiry_sources is not None:
         inquiry_sources.delete()
-        return HttpResponseRedirect('/masters/inquiry/sources/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/inquiry/sources/')
 
 
 class Departments(LoginRequiredMixin, View):
@@ -531,7 +536,44 @@ def department_delete(request, pk):
         department = None
     if department is not None:
         department.delete()
-        return HttpResponseRedirect('/masters/departments/')
+        return HttpResponse('success')
+
+
+class UpdateUser(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = UpdateUserForm
+    initial = {'username': ''}
+    template_name = 'allauth/templates/account/edit_user.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            user = User.objects.get(id=kwargs['pk'])
+            data = {'username': user.username,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'email': user.email,
+                    'is_active': user.is_active,
+                    'created_by': request.user.id,
+                    }
+        form = self.form_class(initial=data)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                user = User.objects.get(id=kwargs['pk'])
+                user.username = form.cleaned_data['username']
+                user.first_name = form.cleaned_data['first_name']
+                user.last_name = form.cleaned_data['last_name']
+                user.is_active = form.cleaned_data['status']
+                user.updated_by = request.user.id
+                user.save()
+            return HttpResponseRedirect('/manageuser')
+        return render(request, self.template_name, {'form': form})
 
 
 class CreateUser(LoginRequiredMixin, View):
@@ -569,6 +611,17 @@ class ManageUser(LoginRequiredMixin, View):
         return render(request, 'allauth/templates/account/manageuser.html', {'users': user})
 
 
+def user_delete(request, pk):
+
+    try:
+        user = User.objects.filter(id=pk)
+    except:
+        user = None
+    if user is not None:
+        user.delete()
+        return HttpResponseRedirect('/manageuser')
+
+
 class ticketView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
@@ -586,10 +639,13 @@ class ticketView(LoginRequiredMixin, View):
 
 @receiver(post_save, sender=models.Notifications)
 def ticket_created(sender, instance, **kwargs):
+    notification_count = 0
+    if instance.is_active is True:
+        notification_count +=1
     if kwargs.get('created', False):
         Group("notification").send({
             "text": json.dumps({
-                "id": instance.id,
+                "count": notification_count,
                 "content": instance.notification
             })
         })

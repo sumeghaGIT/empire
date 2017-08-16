@@ -25,7 +25,7 @@ SECRET_KEY = '3z0v(arlerawg!bzx3xzh#aa)8^z=d*en@y0&cy&sg1#fsjiq2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.64', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.28', 'localhost']
 
 # Application definition
 
@@ -119,7 +119,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_LOGOUT_ON_GET = True
 #AUTH_USER_EMAIL_UNIQUE = True
-
+AUTH_USER_MODEL = 'masters.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

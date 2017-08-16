@@ -65,7 +65,10 @@
 														<a class="edit" href="{% url 'update_inquiry' result.id %}" title="Edit">
 															<i class="fa fa-fw fa-pencil" title="Edit Machine"></i>
 														</a>
-														<a class="delete" href="{% url 'delete_inquiry' result.id %}" title="Delete">
+														<!-- <a class="delete" href="{% url 'delete_inquiry' result.id %}" title="Delete">
+															<i class="fa fa-fw fa-trash-o"></i>
+														</a> -->
+														<a class="delete" href="javascript:;" onclick="deleteRecord('{% url 'delete_inquiry' result.id %}')" title="Delete">
 															<i class="fa fa-fw fa-trash-o"></i>
 														</a>
 													</td>
@@ -84,11 +87,12 @@
 		</section>
 	</section>
 {% endblock content %}
-{% block js %}
+{% block script %}
+	<script src="/static/js/masters.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
 		console.log(' create categorys');
 		EditableTable.init();
 	});
 	</script>
-{% endblock js %}
+{% endblock script %}

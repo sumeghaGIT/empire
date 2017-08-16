@@ -61,28 +61,32 @@
 														<a class="edit" href="{% url 'update_locations' location.id%}" title="Edit">
 															<i class="fa fa-fw fa-pencil" title="Edit Machine"></i>
 														</a>
-														<!-- <a class="delete" href="delete/{{location.id}}" title="Delete"><i class="fa  -->
-														<a class="delete" href="{% url 'delete_locations' location.id %}" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
-													</tr>
-												{% endfor %}
-											</tbody>
-										</table>
-									{% else %}
-										<p class="leftpad">No locations are available.</p>
-									{% endif %}
-								</div>
-							</section>
-						</div>
+														<a class="delete" href="javascript:;" onclick="deleteRecord('{% url 'delete_locations' location.id %}')" title="Delete">
+															<i class="fa fa-fw fa-trash-o"></i>
+														</a>
+														<!-- <a class="delete" href="{% url 'delete_locations' location.id %}" title="Delete"><i class="fa fa-fw fa-trash-o"></i>
+														</a> -->
+													</td>
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								{% else %}
+									<p>No locations are available.</p>
+								{% endif %}
+							</div>
+						</section>
 					</div>
-				</section>
+				</div>
 			</section>
 		</section>
-	{% endblock content %}
-	{% block script %}
-		<script src="/static/js/masters.js"></script>
-		<script type="text/javascript">
-		$(document).ready(function() {
-			EditableTable.init();
-		});
-		</script>
-	{% endblock script %}
+	</section>
+{% endblock content %}
+{% block script %}
+	<script src="/static/js/masters.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		EditableTable.init();
+	});
+	</script>
+{% endblock script %}

@@ -57,8 +57,17 @@
 													<td class="center">
 														{% if category.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 													</td>
-													<td><a class="edit" href="{% url 'update_category' category.id %}" title="Edit"><i class="fa fa-fw fa-pencil" title="Edit Machine"></i></a>
-													<a class="delete" href="{% url 'delete_view' category.id %}" title="Delete"><i class="fa fa-fw fa-trash-o"></i></a></td>
+													<td>
+														<a class="edit" href="{% url 'update_category' category.id %}" title="Edit">
+															<i class="fa fa-fw fa-pencil" title="Edit Machine"></i>
+														</a>
+														<!-- <a class="delete" href="{% url 'delete_view' category.id %}" title="Delete">
+															<i class="fa fa-fw fa-trash-o"></i>
+														</a> -->
+														<a class="delete" href="javascript:;" onclick="deleteRecord('{% url 'delete_view' category.id %}')" title="Delete">
+															<i class="fa fa-fw fa-trash-o"></i>
+														</a>
+													</td>
 												</tr>
 											{% endfor %}
 										</tbody>
@@ -75,6 +84,7 @@
 	</section>
 {% endblock content %}
 {% block script %}
+	<script src="/static/js/masters.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
 		console.log(' create categorys');
