@@ -5446,7 +5446,7 @@ div.tagsinput span.tag {
     content:" ";
     height:0;
     width:0;
-    position:absolute;
+    position:absolute !important;
     pointer-events:none;
 }
 .top-menu .dropdown-menu:after {
@@ -5874,8 +5874,9 @@ padding:6px 12px;
 .user-login-info lable {font-size:12px; font-weight: normal}
 
  .btn-login {width: 100%}
- .form .form-group {width: 90% !important; margin: 0 auto}
+ .form-group .form  {width: 60% !important; margin: 0 auto}
  .form-group lable {width: 15%}
   .form-group input {width: 50%}
    .form-group button {float:right; margin-bottom: 20px;}
    .leftpad {padding-left: 32px;}
+   .form-group .col-lg-3 {width: 78.5%}
