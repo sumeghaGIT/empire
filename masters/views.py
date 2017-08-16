@@ -86,7 +86,8 @@ def location_delete(request, pk):
         location = None
     if location is not None:
         location.delete()
-        return HttpResponseRedirect('/masters/locations/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/locations/')
 
 
 class CategoriesLists(LoginRequiredMixin, View):
@@ -157,7 +158,8 @@ def category_delete(request, pk):
         category = None
     if category is not None:
         category.delete()
-        return HttpResponseRedirect('/masters/categories/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/categories/')
 
 
 class CreateServices(LoginRequiredMixin, View):
@@ -169,7 +171,6 @@ class CreateServices(LoginRequiredMixin, View):
     template_name = 'services/index.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
         form = self.form_class(initial=self.initial)
         services = models.Services.objects.all()
         return render(request, self.template_name, {'services': services, 'form': form})
@@ -245,7 +246,8 @@ def service_delete(request, pk):
         service = None
     if service is not None:
         service.delete()
-        return HttpResponseRedirect('/masters/services/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/services/')
 
 
 class TaskStatus(LoginRequiredMixin, View):
@@ -316,7 +318,8 @@ def task_status_delete(request, pk):
         task_status = None
     if task_status is not None:
         task_status.delete()
-        return HttpResponseRedirect('/masters/tasks/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/tasks/')
 
 
 class InquiryStatus(LoginRequiredMixin, View):
@@ -387,7 +390,7 @@ def inquiry_status_delete(request, pk):
         task_status = None
     if task_status is not None:
         task_status.delete()
-        return HttpResponseRedirect('/masters/inquiry/')
+        return HttpResponse("success")
 
 
 class InquirySources(LoginRequiredMixin, View):
@@ -460,7 +463,8 @@ def inquiry_sources_delete(request, pk):
         inquiry_sources = None
     if inquiry_sources is not None:
         inquiry_sources.delete()
-        return HttpResponseRedirect('/masters/inquiry/sources/')
+        return HttpResponse("success")
+        # return HttpResponseRedirect('/masters/inquiry/sources/')
 
 
 class Departments(LoginRequiredMixin, View):
@@ -531,7 +535,7 @@ def department_delete(request, pk):
         department = None
     if department is not None:
         department.delete()
-        return HttpResponseRedirect('/masters/departments/')
+        return HttpResponse('success')
 
 
 class CreateUser(LoginRequiredMixin, View):

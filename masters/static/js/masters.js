@@ -1,4 +1,4 @@
-var deleteRecord = function(locations){
+var deleteRecord_POST = function(locations){
     swal({
             title: "",
             text: "Are you sure you want to delete record?",
@@ -28,6 +28,41 @@ var deleteRecord = function(locations){
                     success : function(data) {
                         console.log("success");
                         swal('Success!',"Record successfully deleted.",'success');
+                    },
+                    // handle a non-successful response
+                    error : function(xhr,errmsg,err) {
+                        console.log(" failed deleteRecord function isConfirmed");
+                    }
+                });                
+            }
+        });    
+};
+
+var deleteRecord = function(deleteurl){
+    swal({
+            title: "",
+            text: "Are you sure you want to delete record?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            cancelButtonText: "Cancel",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+        function(isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url : deleteurl,
+                    beforeSend : function(xhr, settings){
+                        console.log(" before deleteRecord function isConfirmed");
+                    },
+                    // handle a successful response
+                    success : function(response) {
+                        if(response == 'success'){
+                            // swal('Success!',"Record successfully deleted.",'success');
+                            location.reload();
+                        }
                     },
                     // handle a non-successful response
                     error : function(xhr,errmsg,err) {
