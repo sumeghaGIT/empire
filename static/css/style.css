@@ -345,7 +345,7 @@ ul.sidebar-menu li a.active i {
     display:inline-block;
     margin-top:80px;
     padding:15px;
-    width:100%;
+    width:97%;
 
 }
 .brand {
@@ -5833,7 +5833,7 @@ div.tagsinput span.tag {
 }
 .form-group .cat select{
     font-weight: 300;
-    font-size: 14px; width: 80%;
+    font-size: 14px; width: 83.6%;
 }
 @media (min-width: 768px)
 
@@ -5854,7 +5854,7 @@ div.tagsinput span.tag {
 
 .user-login-info input[type=email], input[type=password]  
 {
-    display:block;
+display:block;
 width:91%;
 height:34px;
 font-size:12px;
@@ -5874,3 +5874,8 @@ padding:6px 12px;
 .user-login-info lable {font-size:12px; font-weight: normal}
 
  .btn-login {width: 100%}
+ .form .form-group {width: 90% !important; margin: 0 auto}
+ .form-group lable {width: 15%}
+  .form-group input {width: 50%}
+   .form-group button {float:right; margin-bottom: 20px;}
+   .leftpad {padding-left: 32px;}

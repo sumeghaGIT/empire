@@ -15,19 +15,25 @@
 					<div class="col-sm-12">
 						<section class="panel">
 							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-12">
+								<div class="form-group">
+											<div class="col-lg-12 cat" >
 								<div class="form">
 									<form action="/masters/categories/" method="post" class="cmxform form-horizontal">
 										{% csrf_token %}
-										<div class="form-group">
-											<div class="col-lg-9 cat" >
+										
 												{{form.as_p}}
 											</div>
 											<div class="col-lg-3">
 												<button class="btn btn-primary" type="submit">Save</button>
 												<button class="btn btn-default" type="button">Cancel</button>
-											</div>
-										</div>
+											
 									</form>
+									</div>
+										</div>
+										</div>
+										</div>
 								</div>
 							</div>
 							<div class="panel-body">
@@ -67,7 +73,7 @@
 										</tbody>
 									</table>
 								{% else %}
-									<p>No categories are available.</p>
+									<p class="leftpad">No categories are available.</p>
 								{% endif %}
 							</div>
 						</section>
