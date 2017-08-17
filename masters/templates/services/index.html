@@ -55,7 +55,7 @@
 												<th>Price(Rs)</th>
 												<th>Created Date</th>
 												<th>Status</th>
-												<th>Actions</th>
+												<th class="center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -72,7 +72,7 @@
 													<td class="center">
 														{% if service.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 													</td>
-													<td>
+													<td class="center">
 														<a class="edit" href="edit/{{service.id}}" title="Edit">
 															<i class="fa fa-fw fa-pencil" title="Edit"></i>
 														</a>
