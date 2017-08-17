@@ -47,7 +47,7 @@
 										<tbody>
 											{% for location in locations %}
 												<tr>
-													<td>{{location.id}}</td>
+													<td>{{forloop.counter}}</td>
 													<td>{{location.name}}</td>
 													<td>{{location.created_date}}</td>
 													<td class="center">

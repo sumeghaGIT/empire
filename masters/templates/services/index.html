@@ -69,7 +69,7 @@
 										<tbody>
 											{% for service in services %}
 												<tr>
-													<td>{{service.id}}</td>
+													<td>{{forloop.counter}}</td>
 													<td>{{service.name}}</td>
 													<td>{{service.category.name}}</td>
 													<td>{{service.response_time}}</td>
@@ -111,7 +111,7 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 		console.log(' create categorys');
-		EditableTable.init();
+		$('table').DataTable();
 	});
 	</script>
 {% endblock script %}
