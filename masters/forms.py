@@ -50,9 +50,12 @@ class CategoriesForm(forms.Form):
 
 class ServicesForm(forms.Form):
     service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'form-control'}),label='Services', max_length=100)
-    response_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'response_time','class': 'form-control'}),label='Response Time', max_length=4)
-    threshold_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'threshold_time','class': 'form-control'}),label='Threshold Time', max_length=4)
-    price = forms.CharField(widget=forms.TextInput(attrs={'id': 'price','class': 'form-control'}),label='Price', max_length=9)
+    # response_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'response_time','class': 'form-control'}),label='Response Time', max_length=4)
+    # threshold_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'threshold_time','class': 'form-control'}),label='Threshold Time', max_length=4)
+    # price = forms.CharField(widget=forms.TextInput(attrs={'id': 'price','class': 'form-control'}),label='Price', max_length=9)
+    response_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'response_time','class': 'form-control', 'step': "1"}),label='Response Time')
+    threshold_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'threshold_time','class': 'form-control', 'step': "1"}),label='Threshold Time')
+    price = forms.FloatField(min_value=0.01, widget=forms.NumberInput(attrs={'id': 'price','class': 'form-control', 'step': "0.01"}))
     service_from = forms.CharField(widget=forms.DateInput(attrs={'id': 'service_from','class': 'form-control'}),label='Service From')
     service_to = forms.CharField(widget=forms.DateInput(attrs={'id': 'service_to','class': 'form-control'}),label='Service To')
     category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control'}), to_field_name="id", label="Category",empty_label="Choose your options")
