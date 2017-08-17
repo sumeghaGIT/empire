@@ -323,7 +323,7 @@ ul.sidebar-menu li a.active i {
     bottom:0px;
     /*position: absolute;*/
     float: right; margin-left: 240px;
-    width: 83%; background: #fff; color: #000;
+    width: 100%; background: #fff; color: #000;
 }
 .header {
     left:0;
@@ -2769,7 +2769,7 @@ ul.amounts li {
     padding:15px; display:none;
 }
 .dataTables_info {
-    padding:0 15px;
+    padding:0px; color:#000;
 }
 .dataTables_filter {
     float:right;
@@ -5933,4 +5933,4 @@ padding:6px 12px;
 
     .helptext {padding-left: 16%}
 
-    .center {text-align: center}
+    .center {text-align: center !important}
