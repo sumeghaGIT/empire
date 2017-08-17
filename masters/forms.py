@@ -1,10 +1,8 @@
 from django import forms
-from masters.models import Categories, TaskStatus
+from masters.models import Categories, TaskStatus, Services
 from django.forms import ModelChoiceField
 from django.forms import ModelForm
 from models import User
-
-from masters import models
 
 
 STATUS_CHOICES = (
@@ -126,3 +124,25 @@ class UpdateUserForm(forms.ModelForm):
         if email and User.objects.filter(email=email).exclude(username=username).exists():
             raise forms.ValidationError(u'Email address already exists')
         return email
+
+TICKET_CHOICES = (
+       (1, ("Request")),
+       (2, ("Query")),
+       (3, ("Sales Inquiry")),
+)
+
+class CreateTicketForm(forms.Form):
+    ticket_type = forms.ChoiceField(choices = TICKET_CHOICES, label="Ticket Types", initial='', widget=forms.Select(attrs={'id': 'ticket_type','class': 'form-control'}), required=True)
+    category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control', 'onchange':'get_services(this.value);'}), to_field_name="id", label="Category" ,empty_label="Choose your options")
+    service_name = MyModelChoiceField(queryset = Services.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'services','class': 'form-control'}), to_field_name="id", label="Services",empty_label="Choose your options")
+    comment = forms.CharField(widget=forms.Textarea(attrs={'id': 'comment','class': 'form-control','cols':100, 'rows':50}))
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(CreateTicketForm, self).__init__(*args, **kwargs)
+
+    def clean_service_name(self):
+        service_name = self.cleaned_data.get('service_name')
+        if models.Services.objects.filter(name=service_name):
+            raise forms.ValidationError(u'Service already exists')
+        return service_name

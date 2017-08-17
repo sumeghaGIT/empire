@@ -73,6 +73,30 @@ var deleteRecord = function(deleteurl){
         });    
 };
 
+var get_services = function (id){
+    console.log('ID >>>>>>> ',id);
+    $.ajax({
+        url : '/category/services/'+id+"/",
+        // type : 'POST',
+        // data :{'id':id},
+        beforeSend : function(xhr, settings) {
+            console.log(" before deleteRecord function isConfirmed");
+        },
+        // handle a successful response
+        success : function(response) {
+            console.log('response >>>>>>>>>>>',response);
+            if(response == 'success'){
+                // swal('Success!',"Record successfully deleted.",'success');
+                location.reload();
+            }
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log(" failed deleteRecord function isConfirmed");
+        }
+    });
+}
+
 // CSRF code
 function getCookie(name) {
     var cookieValue = null;

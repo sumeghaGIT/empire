@@ -33,5 +33,6 @@ urlpatterns = [
     url(r'^masters/departments/$', views.Departments.as_view(), name='departments'),
     url(r'^masters/department/edit/(?P<pk>[0-9]+)/$', views.UpdateDepartment.as_view(), name='update_department'),
     url(r'^masters/department/delete/(?P<pk>[0-9]+)/$', views.department_delete, name="delete_department"),
-    url(r'^createticket/$', views.ticketView.as_view(), name="create_ticket"),
+    url(r'^createticket/$', views.CreateTickets.as_view(), name="create_ticket"),
+    url(r'^category/services/(?P<id>[0-9]+)/$', views.ServicesByCategory.as_view(), name="category_services"),
 ]

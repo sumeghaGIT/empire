@@ -15,7 +15,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, TaskStatusForm, UpdateUserForm
+from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, TaskStatusForm, UpdateUserForm, CreateTicketForm
 
 
 class Locations(LoginRequiredMixin, View):
@@ -250,7 +250,15 @@ def service_delete(request, pk):
         return HttpResponse("success")
         # return HttpResponseRedirect('/masters/services/')
 
+class ServicesByCategory(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
 
+    def get(self, request, *args, **kwargs):
+        category_id = kwargs['id']
+        services = models.Services.objects.filter(category_id = category_id, is_active = 1)
+        return HttpResponse(services)
+        
 class TaskStatus(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
@@ -622,10 +630,21 @@ def user_delete(request, pk):
         return HttpResponseRedirect('/manageuser')
 
 
-class ticketView(LoginRequiredMixin, View):
+class CreateTickets(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = CreateTicketForm
+    initial = {'service_name': ''}
+    template_name = 'notifications/raise_ticket.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'notifications/create_ticket.html')
+        form = self.form_class(initial=self.initial)
+        department = models.Department.objects.all()
+        return render(request, self.template_name, {'form':form})
+
+    # def get(self, request, *args, **kwargs):
+    #     return render(request, 'notifications/create_ticket.html')
 
     def post(self, request, *args, **kwargs):
         ticket_type = request.POST.get('ticket_type', '')
