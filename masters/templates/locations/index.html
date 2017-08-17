@@ -45,7 +45,7 @@
 												<th>Location</th>
 												<th>Created Date</th>
 												<th>Status</th>
-												<th>Actions</th>
+												<th class="center">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -57,7 +57,7 @@
 													<td class="center">
 														{% if location.is_active == '1' %}Active{% else %}Inacvtive{% endif %}
 													</td>
-													<td>
+													<td class="center">
 														<a class="edit" href="{% url 'update_locations' location.id%}" title="Edit">
 															<i class="fa fa-fw fa-pencil" title="Edit Machine"></i>
 														</a>
