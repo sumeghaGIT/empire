@@ -6,6 +6,7 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
+from django.core import serializers
 from django.views import View
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -250,6 +251,7 @@ def service_delete(request, pk):
         return HttpResponse("success")
         # return HttpResponseRedirect('/masters/services/')
 
+
 class ServicesByCategory(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
@@ -257,7 +259,8 @@ class ServicesByCategory(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         category_id = kwargs['id']
         services = models.Services.objects.filter(category_id = category_id, is_active = 1)
-        return HttpResponse(services)
+        result_list = list(services.values('id', 'name'))
+        return HttpResponse(json.dumps(result_list) , content_type="application/json")
         
 class TaskStatus(LoginRequiredMixin, View):
     login_url = '/accounts/login/'

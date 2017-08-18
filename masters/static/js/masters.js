@@ -74,21 +74,18 @@ var deleteRecord = function(deleteurl){
 };
 
 var get_services = function (id){
-    console.log('ID >>>>>>> ',id);
+    var html = '<option value="">Choose your options</option>';
     $.ajax({
         url : '/category/services/'+id+"/",
-        // type : 'POST',
-        // data :{'id':id},
         beforeSend : function(xhr, settings) {
-            console.log(" before deleteRecord function isConfirmed");
+            console.log("do something before get");
         },
         // handle a successful response
         success : function(response) {
-            console.log('response >>>>>>>>>>>',response);
-            if(response == 'success'){
-                // swal('Success!',"Record successfully deleted.",'success');
-                location.reload();
-            }
+            $.each(response, function(key, val){
+                html += '<option value="'+ val.id +'">'+val.name+'</option>';
+            });
+            $('#services').html(html);
         },
         // handle a non-successful response
         error : function(xhr,errmsg,err) {
