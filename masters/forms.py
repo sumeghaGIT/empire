@@ -46,6 +46,15 @@ class LocationsForm(forms.Form):
         return location_name
 
 
+class UpdateLocationsForm(forms.Form):
+    location_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'location','class': 'form-control'}),label='Location', max_length=100)
+    status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'status','class': 'form-control'}), required=True)
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(UpdateLocationsForm, self).__init__(*args, **kwargs)
+
+
 class CategoriesForm(forms.Form):
     category_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'category','class': 'form-control col-lg-6'}),label='Categories', max_length=100)
     status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'status','class': 'form-control'}), required=True)
@@ -61,13 +70,22 @@ class CategoriesForm(forms.Form):
         return category_name
 
 
+class UpdateCategoriesForm(forms.Form):
+    category_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'category','class': 'form-control col-lg-6'}),label='Categories', max_length=100)
+    status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'status','class': 'form-control'}), required=True)
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(UpdateCategoriesForm, self).__init__(*args, **kwargs)
+
+
 class ServicesForm(forms.Form):
     service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'form-control'}),label='Services', max_length=100)
     response_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'response_time','class': 'form-control', 'step': "1"}),label='Response Time')
     threshold_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'threshold_time','class': 'form-control', 'step': "1"}),label='Threshold Time')
     price = forms.FloatField(min_value=0.01, widget=forms.NumberInput(attrs={'id': 'price','class': 'form-control', 'step': "0.01"}))
-    service_from = forms.CharField(widget=forms.DateInput(attrs={'id': 'service_from','class': 'form-control'}),label='Service From')
-    service_to = forms.CharField(widget=forms.DateInput(attrs={'id': 'service_to','class': 'form-control'}),label='Service To')
+    service_from = forms.CharField(widget=forms.DateInput(attrs={'class':'timepicker input-12-hour-icon-button'}))
+    service_to = forms.CharField(widget=forms.DateInput(attrs={'class':'timepicker input-12-hour-icon-button'}))
     category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control'}), to_field_name="id", label="Category",empty_label="Choose your options")
     status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'threshold_time','class': 'form-control'}), required=True)
 
@@ -80,6 +98,21 @@ class ServicesForm(forms.Form):
         if models.Services.objects.filter(name=service_name):
             raise forms.ValidationError(u'Service already exists')
         return service_name
+
+
+class UpdateServicesForm(forms.Form):
+    service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'form-control'}),label='Services', max_length=100)
+    response_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'response_time','class': 'form-control', 'step': "1"}),label='Response Time')
+    threshold_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'threshold_time','class': 'form-control', 'step': "1"}),label='Threshold Time')
+    price = forms.FloatField(min_value=0.01, widget=forms.NumberInput(attrs={'id': 'price','class': 'form-control', 'step': "0.01"}))
+    service_from = forms.CharField(widget=forms.DateInput(attrs={'class':'timepicker input-12-hour-icon-button'}))
+    service_to = forms.CharField(widget=forms.DateInput(attrs={'class':'timepicker input-12-hour-icon-button'}))
+    category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control'}), to_field_name="id", label="Category",empty_label="Choose your options")
+    status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'threshold_time','class': 'form-control'}), required=True)
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(UpdateServicesForm, self).__init__(*args, **kwargs)
 
 
 class TaskStatusForm(forms.Form):
@@ -98,6 +131,11 @@ class TaskStatusForm(forms.Form):
             if models.Department.objects.filter(name=name) :
                 raise forms.ValidationError(u'This Department name already exists')
         return name
+
+
+class UpdateTaskStatusForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs={'id': 'task_status','class': 'form-control col-lg-6'}),label='Name', max_length=100)
+    status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'status','class': 'form-control'}), required=True)
 
 
 class CreateUserForm(forms.ModelForm):
@@ -136,9 +174,9 @@ class UpdateUserForm(forms.ModelForm):
 
 
 class CreateTicketForm(forms.Form):
-    ticket_type = forms.ChoiceField(choices = TICKET_CHOICES, label="Ticket Types", initial='', widget=forms.Select(attrs={'id': 'ticket_type','class': 'form-control'}), required=True)
-    category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control', 'onchange':'get_services(this.value);'}), to_field_name="id", label="Category" ,empty_label="Choose your options")
-    service_name = MyModelChoiceField(queryset = Services.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'services','class': 'form-control'}), to_field_name="id", label="Services",empty_label="Choose your options")
+    ticket_type = forms.ChoiceField(choices=TICKET_CHOICES, label="Ticket Types", initial='', widget=forms.Select(attrs={'id': 'ticket_type','class': 'form-control'}), required=True)
+    category_name = MyModelChoiceField(queryset=Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control', 'onchange':'get_services(this.value);'}), to_field_name="id", label="Category" ,empty_label="Choose your options")
+    service_name = MyModelChoiceField(queryset=Services.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'services','class': 'form-control'}), to_field_name="id", label="Services",empty_label="Choose your options")
     comment = forms.CharField(widget=forms.Textarea(attrs={'id': 'comment','class': 'form-control','cols':100, 'rows':50}))
 
     def __init__(self, *args, **kwargs):

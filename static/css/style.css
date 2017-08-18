@@ -5934,3 +5934,6 @@ padding:6px 12px;
     .helptext {padding-left: 16%}
 
     .center {text-align: center !important}
+	.input-12-hour-icon-button {
+			font-size: 200%;
+		}

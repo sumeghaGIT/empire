@@ -16,7 +16,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, TaskStatusForm, UpdateUserForm, CreateTicketForm
+from masters.forms import *
 
 
 class Locations(LoginRequiredMixin, View):
@@ -51,7 +51,7 @@ class UpdateLocations(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = LocationsForm
+    form_class = UpdateLocationsForm
     initial = {'location_name': ''}
     template_name = 'locations/edit.html'
 
@@ -123,7 +123,7 @@ class UpdateCategory(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = CategoriesForm
+    form_class = UpdateCategoriesForm
     initial = {'category_name': ''}
     template_name = 'categories/edit.html'
 
@@ -179,6 +179,7 @@ class CreateServices(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        print form
         if form.is_valid():
             services = models.Services.objects.create(
                     name=form.cleaned_data['service_name'],
@@ -201,7 +202,7 @@ class UpdateServices(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = ServicesForm
+    form_class = UpdateServicesForm
     initial = {'service_name': ''}
     template_name = 'services/edit.html'
 
@@ -236,7 +237,7 @@ class UpdateServices(LoginRequiredMixin, View):
                 services.is_active=form.cleaned_data['status']
                 services.updated_by=request.user.id
                 services.save()
-            return HttpResponseRedirect('/masters/services/edit/')
+            return HttpResponseRedirect('/masters/services/')
         return render(request, self.template_name, {'form': form})
 
 
@@ -294,7 +295,7 @@ class UpdateTaskStatus(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = TaskStatusForm
+    form_class = UpdateTaskStatusForm
     initial = {'name': ''}
     template_name = 'status/edit_task_status.html'
 
@@ -366,7 +367,7 @@ class UpdateInquiryStatus(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = TaskStatusForm
+    form_class = UpdateTaskStatusForm
     initial = {'name': ''}
     template_name = 'status/edit_inquiry_status.html'
 
@@ -439,7 +440,7 @@ class UpdateInquirySources(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = TaskStatusForm
+    form_class = UpdateTaskStatusForm
     initial = {'name': ''}
     template_name = 'status/edit_inquiry_sources.html'
 
@@ -511,7 +512,7 @@ class UpdateDepartment(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
 
-    form_class = TaskStatusForm
+    form_class = UpdateTaskStatusForm
     initial = {'name': ''}
     template_name = 'status/edit_department.html'
 
