@@ -11,6 +11,7 @@
                         </div>
                     </div>
                 </div>
+                <h6><a href="/createuser/">Create User</a></h6>
                 <div class="row">
                     <div class="col-sm-12">
                         <section class="panel">
@@ -37,7 +38,7 @@
                                                     <td>{{user.first_name}}</td>
                                                     <td>{{user.last_name}}</td>
                                                     <td>{{user.is_active}}</td>
-                                                    <td>{{user.user_type}}</td>
+                                                    <td>{% if user.user_type == '1' %}SalesMan{% else %}Admin{% endif %}</td>
                                                     <td>{{user.created_by}}</td>
                                                     <td>
                                                         <a class="edit" href="{% url 'update_user' user.id %}" title="Edit">
