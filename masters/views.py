@@ -250,6 +250,7 @@ def service_delete(request, pk):
         return HttpResponse("success")
         # return HttpResponseRedirect('/masters/services/')
 
+
 class ServicesByCategory(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
@@ -259,6 +260,7 @@ class ServicesByCategory(LoginRequiredMixin, View):
         services = models.Services.objects.filter(category_id = category_id, is_active = 1)
         return HttpResponse(services)
         
+
 class TaskStatus(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
     redirect_field_name = 'next'
@@ -601,6 +603,7 @@ class CreateUser(LoginRequiredMixin, View):
                 last_name=form.cleaned_data['last_name'],
                 email=form.cleaned_data['email'],
                 is_active=True,
+                user_type=form.cleaned_data['user_type'],
             )
             if user:
                 user.set_password(form.cleaned_data['password1'])

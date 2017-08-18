@@ -2,16 +2,31 @@ from django import forms
 from masters.models import Categories, TaskStatus, Services
 from django.forms import ModelChoiceField
 from django.forms import ModelForm
-from models import User
+from django.contrib.auth import get_user_model
 
+from masters import models
+
+User = get_user_model()
 
 STATUS_CHOICES = (
        (1, ("Active")),
        (2, ("In Active")),
 )
 
+EMPLOYEE_CHOICES = (
+    ("1", ("SalesMan")),
+    ("2", ("Admin")),
+)
+
+TICKET_CHOICES = (
+       (1, ("Request")),
+       (2, ("Query")),
+       (3, ("Sales Inquiry")),
+)
+
 
 class MyModelChoiceField(ModelChoiceField):
+
     def label_from_instance(self, obj):
         return obj.name
 
@@ -88,10 +103,11 @@ class TaskStatusForm(forms.Form):
 class CreateUserForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput(), label='password')
     password2 = forms.CharField(widget=forms.PasswordInput(), label='confirm_password')
+    user_type = forms.ChoiceField(choices=EMPLOYEE_CHOICES, label="Employee Type", initial='', required=True)
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email']
+        fields = ['username', 'first_name', 'last_name', 'user_type', 'password1', 'password2', 'email']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -116,20 +132,8 @@ class UpdateUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'status', 'email']
+        fields = ['first_name', 'last_name', 'status', 'email']
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        username = self.cleaned_data.get('username')
-        if email and User.objects.filter(email=email).exclude(username=username).exists():
-            raise forms.ValidationError(u'Email address already exists')
-        return email
-
-TICKET_CHOICES = (
-       (1, ("Request")),
-       (2, ("Query")),
-       (3, ("Sales Inquiry")),
-)
 
 class CreateTicketForm(forms.Form):
     ticket_type = forms.ChoiceField(choices = TICKET_CHOICES, label="Ticket Types", initial='', widget=forms.Select(attrs={'id': 'ticket_type','class': 'form-control'}), required=True)
