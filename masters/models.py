@@ -203,3 +203,15 @@ class User(AbstractUser):
 
     class Meta:
         db_table = 'ebc_user'
+
+
+class Ticket(models.Model):
+    customer_type = models.CharField(max_length=200, blank=True, null=True)
+    user = models.CharField(max_length=200, blank=True, null=True)
+    ticket_type = models.CharField(max_length=200, blank=True, null=True)
+    category = models.CharField(max_length=200, blank=True, null=True)
+    service = models.CharField(max_length=200, blank=True, null=True)
+    comment = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'ebc_ticket'

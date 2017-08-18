@@ -31,6 +31,11 @@ class MyModelChoiceField(ModelChoiceField):
         return obj.name
 
 
+class InternalUserChoiceField(ModelChoiceField):
+
+    def label_from_instance(self, obj):
+        return obj.username
+
 class LocationsForm(forms.Form):
     location_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'location','class': 'form-control'}),label='Location', max_length=100)
     status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'status','class': 'form-control'}), required=True)
@@ -172,19 +177,18 @@ class UpdateUserForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'status', 'email']
 
+CUSTOMER_TYPE = ((1, "internal"),
+                 (2, "customer"),)
+
 
 class CreateTicketForm(forms.Form):
-    ticket_type = forms.ChoiceField(choices=TICKET_CHOICES, label="Ticket Types", initial='', widget=forms.Select(attrs={'id': 'ticket_type','class': 'form-control'}), required=True)
+    customer_type = forms.ChoiceField(choices=CUSTOMER_TYPE, label="Customer type", initial='', widget=forms.Select(attrs={'id': 'customer_type','class': 'form-control'}))
+    internal_customer = InternalUserChoiceField(queryset=User.objects.all(), widget=forms.Select(attrs={'id': 'users', 'class': 'form-control'}), to_field_name="id", label="Internal customers",empty_label="Choose your options")
+    ticket_type = forms.ChoiceField(choices=TICKET_CHOICES, label="Ticket Types", initial='', widget=forms.Select(attrs={'id': 'ticket_type','class': 'form-control'}))
     category_name = MyModelChoiceField(queryset=Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control', 'onchange':'get_services(this.value);'}), to_field_name="id", label="Category" ,empty_label="Choose your options")
-    service_name = MyModelChoiceField(queryset=Services.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'services','class': 'form-control'}), to_field_name="id", label="Services",empty_label="Choose your options")
+    service_name = MyModelChoiceField(queryset=Services.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'services','class': 'form-control services'}), to_field_name="id", label="Services",empty_label="Choose your options")
     comment = forms.CharField(widget=forms.Textarea(attrs={'id': 'comment','class': 'form-control','cols':100, 'rows':50}))
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super(CreateTicketForm, self).__init__(*args, **kwargs)
-
-    def clean_service_name(self):
-        service_name = self.cleaned_data.get('service_name')
-        if models.Services.objects.filter(name=service_name):
-            raise forms.ValidationError(u'Service already exists')
-        return service_name

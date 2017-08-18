@@ -646,20 +646,22 @@ class CreateTickets(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
-        department = models.Department.objects.all()
+        ticket = models.Ticket.objects.all()
         return render(request, self.template_name, {'form':form})
 
-    # def get(self, request, *args, **kwargs):
-    #     return render(request, 'notifications/create_ticket.html')
-
     def post(self, request, *args, **kwargs):
-        ticket_type = request.POST.get('ticket_type', '')
-        if ticket_type == 'query':
-            comment = request.POST.get('comment')
-            notification = models.Notifications.objects.create(notification=comment, created_by=request.user.id,updated_by=request.user.id)
-            notification.save()
+        form = CreateTicketForm(request.POST)
+        print "this api is getting called"
+        if form.is_valid():
+            print "form is valid"
+            ticket = models.Ticket.objects.create(ticket_type=form.cleaned_data['ticket_type'],
+                                                  category=form.cleaned_data['category_name'],
+                                                  service=form.cleaned_data['service_name'],
+                                                  comment=form.cleaned_data['comment'])
             post_save.connect(ticket_created, sender=models.Notifications)
             return HttpResponse("ticket created successfully")
+        ticket = models.Ticket.objects.all()
+        return render(request, self.template_name, {'form': form, 'ticket':ticket})
 
 
 @receiver(post_save, sender=models.Notifications)

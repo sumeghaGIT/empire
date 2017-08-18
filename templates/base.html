@@ -54,11 +54,20 @@
             $('#query').hide();
             $('select').on('change', function() {
                ticket_type = this.value;
-               if(ticket_type==='query'){
-                    $('#query').show();
+               customer_type = this.value;
+               console.log(customer_type);
+               if(ticket_type==='2'){
+                    $('#services').hide();
                 }
                else{
-                    $('#query').hide();
+                    $('#services').show();
+               }
+
+               if(customer_type ===1){
+                    $('#users').show();
+               }
+               else{
+                    $('#users').hide();
                }
             })
         });
