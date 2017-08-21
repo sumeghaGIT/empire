@@ -6,7 +6,7 @@
 				<div class="col-md-12">
 					<!--breadcrumbs start -->
 					<div class="breadcrumb">
-						<h3>Edit Task Status</h3>
+						<h3>Edit  Customers</h3>
 					</div>
 				</div>
 			</div>
@@ -15,15 +15,15 @@
 				<div class="col-sm-12">
 					<section class="panel">
 						<div class="panel-body">
-							
 								<div class="form-group">
 									<div class="col-lg-9 cat">
-										<div class="form">
-										<form action="" method="post">
+
+							<div class="form">
+										<form action="." method="post">
 											{%csrf_token%}
 											{{form.as_p}}
 											<button class="btn btn-primary" type="submit">Update</button>
-											<a href="{% url 'task_status' %}"><button class="btn btn-default" type="button">Back</button></a>
+											<a href="{% url 'create_customers' %}"><button class="btn btn-default" type="button">Back</button></a>
 										</form>
 									</div>
 								</div>
@@ -35,10 +35,3 @@
 		</section>
 	</section>
 {% endblock content %}
-{% block js %}
-	<script type="text/javascript">
-	$(document).ready(function() {
-	console.log(' create Locations');
-	});
-	</script>
-{% endblock js %}

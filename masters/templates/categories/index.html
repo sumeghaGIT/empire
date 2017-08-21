@@ -23,10 +23,12 @@
 													<form action="/masters/categories/" method="post" class="cmxform form-horizontal">
 														{% csrf_token %}
 														{{form.as_p}}
-													</div>
+
+
 													<div class="col-lg-3">
 														<button class="btn btn-primary" type="submit">Save</button>
-														<button class="btn btn-default" type="button">Cancel</button>
+														<button class="btn btn-default" type="reset" id="reset">Cancel</button>
+													</div>
 													</form>
 												</div>
 											</div>

@@ -23,7 +23,7 @@
 											{%csrf_token%}
 											{{form.as_p}}
 											<button class="btn btn-primary" type="submit">Update</button>
-											<button class="btn btn-default" type="button">Back</button>
+											<a href="{% url 'manageuser' %}"><button class="btn btn-default" type="button">Back</button></a>
 										</form>
 									</div>
 								</div>

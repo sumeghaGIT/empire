@@ -29,7 +29,7 @@
 																		{%csrf_token%}
 																		{{form.as_p}}
 																		<button class="btn btn-primary" type="submit">Save</button>
-																		<button class="btn btn-default" type="button">Cancel</button>
+																		<button class="btn btn-default" type="reset" id="reset">Cancel</button>
 																	</form>
 																</div>
 															</div>
@@ -65,8 +65,8 @@
 													<td>{{forloop.counter}}</td>
 													<td>{{service.name}}</td>
 													<td>{{service.category.name}}</td>
-													<td>{{service.response_time}}</td>
-													<td>{{service.threshold_time}}</td>
+													<td>{{service.response_time}} Minutes</td>
+													<td>{{service.threshold_time}} Minutes</td>
 													<td>{{service.service_from}} -- {{service.service_to}} </td>
 													<td>{{service.price}}</td>
 													<td>{{service.created_date}}</td>

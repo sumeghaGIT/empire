@@ -52,23 +52,32 @@
 
         $(document).ready(function(){
             $('#query').hide();
+            $('#user').hide();
+            $('#inquiries').hide();
             $('select').on('change', function() {
                ticket_type = this.value;
                customer_type = this.value;
-               console.log(customer_type);
-               if(ticket_type==='2'){
-                    $('#services').hide();
+               console.log(ticket_type, customer_type);
+               if(ticket_type==='query'){
+                    $('#service').hide();
+                    $('#inquiries').hide();
                 }
                else{
-                    $('#services').show();
+                    $('#service').show();
+                    $('#inquiries').show();
+               }
+               if(ticket_type==='inquiry'){
+                    $('#inquiries').show();
+                    $('#service').hide();
+                }
+               else{
+                    $('#inquiries').hide();
+                    $('#service').show();
+               }
+               if(customer_type ==='internal'){
+                    $('#user').show();
                }
 
-               if(customer_type ===1){
-                    $('#users').show();
-               }
-               else{
-                    $('#users').hide();
-               }
             })
         });
 
@@ -88,6 +97,13 @@
             console.log(e);
 
         }
+
+
+        $('#reset').click(function(){
+            $('input:text').val('');
+            $('input:password').val('');
+
+        });
         </script>
 
 
