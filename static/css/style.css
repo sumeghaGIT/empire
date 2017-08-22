@@ -5826,7 +5826,7 @@ div.tagsinput span.tag {
 
 .form-group .cat label {
     font-weight: 300;
-    font-size: 14px; width: 16%; float: left;
+    font-size: 14px; /*width: 16%; */float: left;
 }
 .form-group .cat input {
     font-weight: 300;
@@ -5943,4 +5943,7 @@ padding:6px 12px;
 	.input-12-hour-icon-button {
 			font-size: 200%;
 		}
+
+.clear {clear: both}
+
 

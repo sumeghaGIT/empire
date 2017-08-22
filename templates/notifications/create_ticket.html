@@ -7,66 +7,203 @@
         <div class="col-md-12">
           <!--breadcrumbs start -->
           <div class="breadcrumb">
-            <h3>Create Ticket</h3>
+            <h3></h3>
           </div>
         </div>
       </div>
             <div class="row">
-                <div class="col-sm-6">
+                  <div class="col-sm-8 col-lg-push-2">
                     <section class="panel">
                         <div class="panel-body">
                             
                              <div class="form-group">
                               <div class="col-lg-12 cat">
+                                <div class="breadcrumb">
+                          <h3>Create Ticket</h3>
+                        </div>
                             <div class="form">
                                 <form class="cmxform form-horizontal " id="signupForm" method="POST" action=".">
                                     {%csrf_token%}
-                                      <label for="customer_type">Select Customer Type</label>
+                                      <div class="form-group ">
+                                      <label for="customer_type" class="control-label col-lg-3">Select Customer Type</label>
+                                      <div class="col-lg-8">
                                           <select name="customer_type" class="form-control" id="customer_type">
                                             <option value="customer">Customer</option>
                                             <option value="internal">Internal</option>
                                           </select>
-                                    <div class="users" id="user">
-                                    <label for="users">Select Users</label>
+                                        </div>
+                                           <div class="col-lg-1 right">
+                                          <a href="#myModal2"  data-toggle="modal"><i class="fa fa-tasks"></i></a>
+                                        </div>
+                                      </div>
+                                    <div class="users" id="user"></div>
+                                       <div class="form-group ">
+                                    <label for="users" class="control-label col-lg-3 clear">Select Users</label>
+                                    <div class="col-lg-9">
                                           <select name="users" class="form-control" id="users">
                                               {% for item in user %}
                                             <option value="{{user.username}}">{{item}}</option>
                                               {% endfor %}
                                           </select>
-                                    </div>
-                                      <label for="ticket_type">Select Ticket Type</label>
+                                        </div>
+                                        </div>
+                                    
+                                    <div class="form-group ">
+                                      <label for="ticket_type" class="control-label col-lg-3 clear">Select Ticket Type</label>
+                                      <div class="col-lg-9">
                                           <select name="ticket_type" class="form-control" id="ticket_type">
                                             <option value="request">Request</option>
                                             <option value="query">Query</option>
                                               <option value="inquiry">Sales Inquiry</option>
                                           </select>
+                                        </div>
+                                        </div>
+                                        <div class="form-group ">
 
-                                    <label for="category_name">Select Category</label>
+                                    <label for="category_name" class="control-label col-lg-3 clear">Select Category</label>
+                                    <div class="col-lg-9">
                                           <select name="category_name" class="form-control" id="category_name">
                                               {% for item in category %}
                                             <option value="item.name">{{item.name}}</option>
                                               {% endfor %}
                                           </select>
+                                        </div>
+                                        </div>
                                     <div class="services" id="service">
-                                     <label for="service_name">Select Service</label>
+                                      <div class="form-group ">
+                                     <label for="service_name" class="control-label col-lg-3 clear">Select Service</label>
+                                     <div class="col-lg-9">
                                           <select name="service_name" class="form-control" id="service_name">
                                               {% for item in service %}
                                             <option value="item.name">{{item.name}}</option>
                                               {% endfor %}
                                           </select>
                                         </div>
+                                      </div>
+                                        </div>
                                     <div class="inquiry" id="inquiries">
                                     <label for="inquiry">Inquiry Area</label>
                                     <input type="text" name="area_name" id="inquiry"/>
                                          </div>
                                     <div class="form-group" id="comment">
-                                      <label for="comment">Enter Your Query</label>
-                                      <textarea name="comment" class="form-control" rows="5" id="comment_text" required></textarea>
+                                      <label for="comment" class="control-label col-lg-3 clear">Enter Your Query</label>
+                                      <div class="col-lg-9">
+                                      <textarea name="comment" class="form-control" rows="5" id="comment_text"></textarea>
+
+                                    </div>
                                     </div>
 
-                                     <div class="toppad" >
+                                    <!--div class="form-group" id="service">
+                                      <label for="service_type">Select Ticket Type</label>
+                                          <select name="ticket_type" class="form-control" id="service_type">
+                                            <option value="uber">Uber</option>
+                                            <option value="ola">Ola</option>
+                                          </select>
+                                    </div-->
+                                     <div class="toppad clear right" >
                                     <button class="btn btn-lg btn-login btn-block" type="submit">Submit</button>
 </div>
+ 
+                        
+                        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title">Datepicker in Modal</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="#" class="form-horizontal ">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4"> Date time picker</label>
+                                            <div class="col-md-6">
+                                                <input size="16" type="text" value="2012-06-15 14:45" readonly class="form_datetime form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Default Datepicker</label>
+                                            <div class="col-md-6 col-xs-11">
+                                                <input class="form-control form-control-inline input-medium default-date-picker"  size="16" type="text" value="" />
+                                                <span class="help-block">Select date</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Start with years viewMode</label>
+                                            <div class="col-md-6 col-xs-11">
+
+                                                <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="12-02-2012"  class="input-append date dpYears">
+                                                    <input type="text" readonly="" value="12-02-2012" size="16" class="form-control">
+                                                          <span class="input-group-btn add-on">
+                                                            <button class="btn btn-success" type="button"><i class="fa fa-calendar"></i></button>
+                                                          </span>
+                                                </div>
+                                                <span class="help-block">Select date</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Months Only</label>
+                                            <div class="col-md-6 col-xs-11">
+                                                <div data-date-minviewmode="months" data-date-viewmode="years" data-date-format="mm/yyyy" data-date="102/2012"  class="input-append date dpMonths">
+                                                    <input type="text" readonly="" value="02/2012" size="16" class="form-control">
+                                                          <span class="input-group-btn add-on">
+                                                            <button class="btn btn-success" type="button"><i class="fa fa-calendar"></i></button>
+                                                          </span>
+                                                </div>
+
+
+                                                <span class="help-block">Select month only</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Date Range</label>
+                                            <div class="col-md-6">
+                                                <div class="input-group input-large" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
+                                                    <input type="text" class="form-control dpd1" name="from">
+                                                    <span class="input-group-addon">To</span>
+                                                    <input type="text" class="form-control dpd2" name="to">
+                                                </div>
+                                                <span class="help-block">Select date range</span>
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </div>
+
+
+                                    <form class="form-horizontal  " action="#">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">Default Timepicker</label>
+                                            <div class="col-md-6">
+                                                <div class="input-group bootstrap-timepicker">
+                                                    <input type="text" class="form-control timepicker-default">
+                                                <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button"><i class="fa fa-clock-o"></i></button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4">24hr Timepicker</label>
+                                            <div class="col-md-6">
+                                                <div class="input-group bootstrap-timepicker">
+                                                    <input type="text" class="form-control timepicker-24">
+                                                <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button"><i class="fa fa-clock-o"></i></button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+
+
+                                    <div class="modal-footer">
+                                        <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                                 </form>
                                  </div>
 </div>
@@ -83,3 +220,18 @@
 {% endblock content %}
 
 
+
+<script type="text/javascript">
+$('.modal-content').resizable({
+      //alsoResize: ".modal-dialog",
+      minHeight: 300,
+      minWidth: 300
+    });
+    $('.modal-dialog').draggable();
+
+    $('#myModal').on('show.bs.modal', function() {
+      $(this).find('.modal-body').css({
+        'max-height': '100%'
+      });
+    });
+</script>
