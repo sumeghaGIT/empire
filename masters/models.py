@@ -225,6 +225,7 @@ class Ticket(models.Model):
     category = models.CharField(max_length=200, blank=True, null=True)
     service = models.CharField(max_length=200, blank=True, null=True)
     comment = models.TextField(blank=True, null=True)
+    is_active = models.CharField(max_length=1, blank=True, null=True)
 
     class Meta:
         db_table = 'ebc_ticket'
