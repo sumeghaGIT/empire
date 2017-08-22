@@ -87,7 +87,7 @@
             donetext: 'Done'
             });
 
-        
+
         socket = new WebSocket("ws://" + window.location.host + "/chat/");
         socket.onmessage = function(e) {
             console.log(e);
