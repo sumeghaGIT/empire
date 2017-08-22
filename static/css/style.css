@@ -346,7 +346,7 @@ ul.sidebar-menu li a.active i {
     display:inline-block;
     margin-top:80px;
     padding:15px;
-    width:97%;
+    width:100%;
 
 }
 .brand {
@@ -5832,10 +5832,10 @@ div.tagsinput span.tag {
     font-weight: 300;
     font-size: 14px; width: 79%;
 }
-.form-group .cat select{
+/*.form-group .cat select{
     font-weight: 300;
     font-size: 14px; width: 83.6%;
-}
+}*/
 @media (min-width: 768px)
 
 .form-group label 
@@ -5850,6 +5850,7 @@ div.tagsinput span.tag {
     padding-top: 7px;
     margin-bottom: 0;
     text-align: left;
+    font-weight: normal;
 }
 
 
@@ -5875,13 +5876,13 @@ padding:6px 12px;
 .user-login-info lable {font-size:12px; font-weight: normal}
 
  .btn-login {width: 100%}
- .form-group .form  {width: 60% !important; margin: 0 auto}
+ /*.form-group .form  {width: 60% !important; margin: 0 auto}
  .form-group lable {width: 15%}
-  /*.form-group input {width: 50%}*/
+  .form-group input {width: 50%}
   .form-group textarea {width: 80%; margin-top: 15px;}
-   .form-group button {float:right; margin-bottom: 20px;}
+   .form-group button {float:right; margin-bottom: 20px;}*/
    .leftpad {padding: 12px; width: 96%; background: #fff; margin-top: 30px; position: absolute; text-align: center;}
-   .form-group .col-lg-3 {width: 78.5%}
+  /* .form-group .col-lg-3 {width: 78.5%}*/
    .table td i {text-align: center;}
    .toppad  {padding-top: 20px;}
    .errorlist {list-style: none; color: red; font-weight: bold}
@@ -5934,3 +5935,6 @@ padding:6px 12px;
     .helptext {padding-left: 16%}
 
     .center {text-align: center !important}
+    .right {text-align: right !important; }
+
+    .form .breadcrumb {background: #1aa4d2; color: #fff}
