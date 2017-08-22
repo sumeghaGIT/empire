@@ -28,7 +28,7 @@
 																		{%csrf_token%}
 																		{{form.as_p}}
 																		<button class="btn btn-primary" type="submit">Save</button>
-																		<button class="btn btn-default" type="button">Cancel</button>
+																		<button class="btn btn-default" type="button" id="reset">Cancel</button>
 																	</form>
 																</div>
 															</div>
@@ -55,7 +55,7 @@
 										<tbody>
 											{% for result in results %}
 												<tr>
-													<td>{{result.id}}</td>
+													<td>{{forloop.counter}}</td>
 													<td>{{result.status}}</td>
 													<td>{{result.created_date}}</td>
 													<td class="center">

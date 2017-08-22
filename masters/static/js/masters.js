@@ -73,6 +73,27 @@ var deleteRecord = function(deleteurl){
         });    
 };
 
+var get_services = function (id){
+    var html = '<option value="">Choose your options</option>';
+    $.ajax({
+        url : '/category/services/'+id+"/",
+        beforeSend : function(xhr, settings) {
+            console.log("do something before get");
+        },
+        // handle a successful response
+        success : function(response) {
+            $.each(response, function(key, val){
+                html += '<option value="'+ val.id +'">'+val.name+'</option>';
+            });
+            $('#services').html(html);
+        },
+        // handle a non-successful response
+        error : function(xhr,errmsg,err) {
+            console.log(" failed deleteRecord function isConfirmed");
+        }
+    });
+}
+
 // CSRF code
 function getCookie(name) {
     var cookieValue = null;

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+  <section id="container" >
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-md-12">
+            <!--breadcrumbs start -->
+            <div class="breadcrumb">
+              <h3>Create Ticket</h3>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <section class="panel">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="panel">
+                      <div class="panel-body">
+                        <div class="form-group">
+                          <div class="col-lg-12 cat" >
+                            <div class="form">
+                              <form action="." method="post" novalidate>
+                                {%csrf_token%}
+                               {{form.as_p}}
+                                <button class="btn btn-primary" type="submit">Save</button>
+                                <button class="btn btn-default" type="button">Cancel</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </section>
+  </section>
+{% endblock content %}
+{% block script %}
+  <script src="/static/js/masters.js"></script>
+{% endblock script %}

@@ -5935,6 +5935,12 @@ padding:6px 12px;
     .helptext {padding-left: 16%}
 
     .center {text-align: center !important}
+
     .right {text-align: right !important; }
 
     .form .breadcrumb {background: #1aa4d2; color: #fff}
+
+	.input-12-hour-icon-button {
+			font-size: 200%;
+		}
+

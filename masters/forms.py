@@ -1,21 +1,40 @@
 from django import forms
-from masters.models import Categories, TaskStatus
+from masters.models import Categories, TaskStatus, Services
 from django.forms import ModelChoiceField
 from django.forms import ModelForm
-from models import User
+from django.contrib.auth import get_user_model
 
 from masters import models
 
+User = get_user_model()
 
 STATUS_CHOICES = (
        (1, ("Active")),
        (2, ("In Active")),
 )
 
+EMPLOYEE_CHOICES = (
+    ("1", ("SalesMan")),
+    ("2", ("Admin")),
+)
+
+TICKET_CHOICES = (
+       (1, ("Request")),
+       (2, ("Query")),
+       (3, ("Sales Inquiry")),
+)
+
 
 class MyModelChoiceField(ModelChoiceField):
+
     def label_from_instance(self, obj):
         return obj.name
+
+
+class InternalUserChoiceField(ModelChoiceField):
+
+    def label_from_instance(self, obj):
+        return obj.username
 
 
 class LocationsForm(forms.Form):
@@ -50,14 +69,11 @@ class CategoriesForm(forms.Form):
 
 class ServicesForm(forms.Form):
     service_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'services','class': 'form-control'}),label='Services', max_length=100)
-    # response_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'response_time','class': 'form-control'}),label='Response Time', max_length=4)
-    # threshold_time = forms.CharField(widget=forms.TextInput(attrs={'id': 'threshold_time','class': 'form-control'}),label='Threshold Time', max_length=4)
-    # price = forms.CharField(widget=forms.TextInput(attrs={'id': 'price','class': 'form-control'}),label='Price', max_length=9)
     response_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'response_time','class': 'form-control', 'step': "1"}),label='Response Time')
     threshold_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'threshold_time','class': 'form-control', 'step': "1"}),label='Threshold Time')
     price = forms.FloatField(min_value=0.01, widget=forms.NumberInput(attrs={'id': 'price','class': 'form-control', 'step': "0.01"}))
-    service_from = forms.CharField(widget=forms.DateInput(attrs={'id': 'service_from','class': 'form-control'}),label='Service From')
-    service_to = forms.CharField(widget=forms.DateInput(attrs={'id': 'service_to','class': 'form-control'}),label='Service To')
+    service_from = forms.CharField(widget=forms.DateInput(attrs={'class':'timepicker input-12-hour-icon-button'}))
+    service_to = forms.CharField(widget=forms.DateInput(attrs={'class':'timepicker input-12-hour-icon-button'}))
     category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control'}), to_field_name="id", label="Category",empty_label="Choose your options")
     status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'threshold_time','class': 'form-control'}), required=True)
 
@@ -91,12 +107,13 @@ class TaskStatusForm(forms.Form):
 
 
 class CreateUserForm(forms.ModelForm):
-    password1 = forms.CharField(widget=forms.PasswordInput(), label='password')
-    password2 = forms.CharField(widget=forms.PasswordInput(), label='confirm_password')
+    password1 = forms.CharField(widget=forms.PasswordInput(), label='Password')
+    password2 = forms.CharField(widget=forms.PasswordInput(), label='Confirm Password')
+    user_type = forms.ChoiceField(choices=EMPLOYEE_CHOICES, label="Employee Type", initial='', required=True)
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2', 'email']
+        fields = ['username', 'first_name', 'last_name', 'user_type', 'password1', 'password2', 'email']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -121,7 +138,32 @@ class UpdateUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'status', 'email']
+        fields = ['first_name', 'last_name', 'status', 'email']
+
+CUSTOMER_TYPE = ((1, "internal"),
+                 (2, "customer"),)
+
+
+class CreateTicketForm(forms.Form):
+    customer_type = forms.ChoiceField(choices=CUSTOMER_TYPE, label="Customer type", initial='', widget=forms.Select(attrs={'id': 'customer_type','class': 'form-control'}))
+    internal_customer = InternalUserChoiceField(queryset=User.objects.all(), widget=forms.Select(attrs={'id': 'users', 'class': 'form-control'}), to_field_name="id", label="Internal customers",empty_label="Choose your options")
+    ticket_type = forms.ChoiceField(choices=TICKET_CHOICES, label="Ticket Types", initial='', widget=forms.Select(attrs={'id': 'ticket_type','class': 'form-control'}))
+    category_name = MyModelChoiceField(queryset=Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control', 'onchange':'get_services(this.value);'}), to_field_name="id", label="Category" ,empty_label="Choose your options")
+    service_name = MyModelChoiceField(queryset=Services.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'services','class': 'form-control services'}), to_field_name="id", label="Services",empty_label="Choose your options")
+    comment = forms.CharField(widget=forms.Textarea(attrs={'id': 'comment','class': 'form-control','cols':100, 'rows':50}))
+    activity_name = forms.CharField(widget=forms.Textarea(attrs={'id': 'activity','class': 'form-control activity','cols':100, 'rows':50}))
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(CreateTicketForm, self).__init__(*args, **kwargs)
+
+
+class CustomerCreateForm(forms.Form):
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    email = forms.CharField(label='Email')
+    password1 = forms.CharField(widget=forms.PasswordInput(), label='Password')
+    password2 = forms.CharField(widget=forms.PasswordInput(), label='Confirm Password')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -129,3 +171,20 @@ class UpdateUserForm(forms.ModelForm):
         if email and User.objects.filter(email=email).exclude(username=username).exists():
             raise forms.ValidationError(u'Email address already exists')
         return email
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if not password2:
+            raise forms.ValidationError("You must confirm your password")
+        if password1 != password2:
+            raise forms.ValidationError("Your passwords do not match")
+        return password2
+
+
+class UpdateCreateForm(forms.Form):
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    status = forms.ChoiceField(choices=STATUS_CHOICES, label="Status", initial='',
+                           widget=forms.Select(attrs={'id': 'status', 'class': 'form-control'}), required=True)

@@ -6,6 +6,7 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
+from django.core import serializers
 from django.views import View
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -15,7 +16,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from masters.forms import LocationsForm, CategoriesForm, ServicesForm, CreateUserForm, TaskStatusForm, UpdateUserForm
+from masters.forms import *
 
 
 class Locations(LoginRequiredMixin, View):
@@ -178,6 +179,7 @@ class CreateServices(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        print form
         if form.is_valid():
             services = models.Services.objects.create(
                     name=form.cleaned_data['service_name'],
@@ -235,7 +237,7 @@ class UpdateServices(LoginRequiredMixin, View):
                 services.is_active=form.cleaned_data['status']
                 services.updated_by=request.user.id
                 services.save()
-            return HttpResponseRedirect('/masters/services/edit/')
+            return HttpResponseRedirect('/masters/services/')
         return render(request, self.template_name, {'form': form})
 
 
@@ -250,6 +252,17 @@ def service_delete(request, pk):
         return HttpResponse("success")
         # return HttpResponseRedirect('/masters/services/')
 
+
+class ServicesByCategory(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    def get(self, request, *args, **kwargs):
+        category_id = kwargs['id']
+        services = models.Services.objects.filter(category_id = category_id, is_active = 1)
+        result_list = list(services.values('id', 'name'))
+        return HttpResponse(json.dumps(result_list) , content_type="application/json")
+        
 
 class TaskStatus(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -593,6 +606,7 @@ class CreateUser(LoginRequiredMixin, View):
                 last_name=form.cleaned_data['last_name'],
                 email=form.cleaned_data['email'],
                 is_active=True,
+                user_type=form.cleaned_data['user_type'],
             )
             if user:
                 user.set_password(form.cleaned_data['password1'])
@@ -622,19 +636,106 @@ def user_delete(request, pk):
         return HttpResponseRedirect('/manageuser')
 
 
-class ticketView(LoginRequiredMixin, View):
+class Customers(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = CustomerCreateForm
+    initial = {'first_name': ''}
+    template_name = 'customers/create.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, 'notifications/create_ticket.html')
+        form = self.form_class(initial=self.initial)
+        customer = models.Customer.objects.all()
+        return render(request, self.template_name, {'customers': customer, 'form': form})
 
     def post(self, request, *args, **kwargs):
-        ticket_type = request.POST.get('ticket_type', '')
-        if ticket_type == 'query':
-            comment = request.POST.get('comment')
-            notification = models.Notifications.objects.create(notification=comment, created_by=request.user.id,updated_by=request.user.id)
-            notification.save()
-            post_save.connect(ticket_created, sender=models.Notifications)
-            return HttpResponse("ticket created successfully")
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            customer = models.Customer.objects.create(
+                    first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'],
+                    email=form.cleaned_data['email'],
+                    password=form.cleaned_data['password1'],
+                    is_active='Y',
+                    created_by=request.user.id,
+                    updated_by=request.user.id
+            )
+            return HttpResponseRedirect('/masters/customers/')
+        customer = models.Customer.objects.all()
+        return render(request, self.template_name, {'form': form, 'customers': customer})
+
+
+class UpdateCustomers(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = UpdateCreateForm
+    initial = {'first_name': ''}
+    template_name = 'customers/edit.html'
+
+    def get(self, request, *args, **kwargs):
+        data = {}
+        if 'pk' in kwargs and kwargs['pk'] is not None:
+            customer = models.Customer.objects.get(id=kwargs['pk'])
+            data = {'first_name': customer.first_name,
+                    'last_name': customer.last_name,
+                    'created_date': customer.create_date,
+                    'updated_by': customer.updated_by,
+                    }
+        form = UpdateCreateForm(initial=data)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            if 'pk' in kwargs and kwargs['pk'] is not None:
+                customer = models.Customer.objects.get(id=kwargs['pk'])
+                customer.first_name = form.cleaned_data['first_name']
+                customer.last_name = form.cleaned_data['last_name']
+                customer.is_active = form.cleaned_data['status']
+                customer.updated_by = request.user.id
+                customer.save()
+            return HttpResponseRedirect('/masters/customers/')
+        return render(request, self.template_name, {'form': form})
+
+
+def customer_delete(request, pk):
+
+    try:
+        customer = models.Customer.objects.filter(id=pk)
+    except:
+        customer = None
+    if customer is not None:
+        customer.delete()
+        return HttpResponse("success")
+
+
+class CreateTickets(LoginRequiredMixin, View):
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
+
+    form_class = CreateTicketForm
+    initial = {'service_name': ''}
+    template_name = 'notifications/create_ticket.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        ticket = models.Ticket.objects.all()
+        user = User.objects.all()
+        category = Categories.objects.all()
+        service = Services.objects.all()
+        return render(request, self.template_name, {'form': form, 'user': user, 'category':category, 'service':service})
+
+    def post(self, request, *args, **kwargs):
+        form = CreateTicketForm(request.POST)
+
+        ticket = models.Ticket.objects.create(ticket_type=request.POST.get('ticket_type'),
+                                              category=request.POST.get('category_name'),
+                                              service=request.POST.get('service_name'),
+                                              comment=request.POST.get('comment'))
+        post_save.connect(ticket_created, sender=models.Notifications)
+        return HttpResponse("ticket created successfully")
 
 
 @receiver(post_save, sender=models.Notifications)

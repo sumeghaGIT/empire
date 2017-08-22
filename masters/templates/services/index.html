@@ -29,6 +29,7 @@
 														<label class="control-label col-lg-4" for="{{ field.name }}">{{ field.label }} :</label>
 															<div class="col-lg-8 clear">
 																{{ field }}
+
 															</div>
 													</div>
 														{% endfor %}
@@ -54,6 +55,7 @@
 													<th>Created Date</th>
 													<th>Status</th>
 													<th class="center">Actions</th>
+
 												</tr>
 											</thead>
 											<tbody>
@@ -95,6 +97,7 @@
 				</section>
 			</section>
 		</section>
+<<<<<<< HEAD
 		{% endblock content %}
 		{% block script %}
 		<script src="/static/js/masters.js"></script>
@@ -105,3 +108,16 @@
 		});
 		</script>
 		{% endblock script %}
+=======
+	</section>
+{% endblock content %}
+{% block script %}
+	<script src="/static/js/masters.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		console.log(' create categorys');
+		$('table').DataTable();
+	});
+	</script>
+{% endblock script %}
+>>>>>>> 768b2924b70fed3546c5708a3c7688f397e6e59d

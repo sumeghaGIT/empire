@@ -5,3 +5,4 @@ django-allauth-0.32.0
 pip install -U channels
 pip install asgi_redis
 sudo apt-get install redis-server
+pip install django-datetime-widget

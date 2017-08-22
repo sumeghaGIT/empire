@@ -15,6 +15,7 @@
         {% endblock title %}
         {% block basecss %}
             <link type="text/css" rel="stylesheet" media="screen,projection" href="{% static 'css/base.css' %}">
+            <link type="text/css" rel="stylesheet" media="screen,projection" href="{% static 'css/clockpicker.css' %}">
         {% endblock basecss %}
         
         {% block css %}
@@ -46,30 +47,63 @@
         <script src="{% static 'js/DT_bootstrap.js' %}"></script>
         <script src="{% static 'js/table-editable.js' %}"></script>
         <script src="{% static 'js/sweetalert.js' %}"></script>
+        <script src="{% static 'js/clockpicker.js' %}"></script>
         <script type="text/javascript">
+
         $(document).ready(function(){
             $('#query').hide();
+            $('#user').hide();
+            $('#inquiries').hide();
             $('select').on('change', function() {
                ticket_type = this.value;
+               customer_type = this.value;
+               console.log(ticket_type, customer_type);
                if(ticket_type==='query'){
-                    $('#query').show();
+                    $('#service').hide();
+                    $('#inquiries').hide();
                 }
                else{
-                    $('#query').hide();
+                    $('#service').show();
+                    $('#inquiries').show();
                }
+               if(ticket_type==='inquiry'){
+                    $('#inquiries').show();
+                    $('#service').hide();
+                }
+               else{
+                    $('#inquiries').hide();
+                    $('#service').show();
+               }
+               if(customer_type ==='internal'){
+                    $('#user').show();
+               }
+
             })
         });
 
-// Note that the path doesn't matter right now; any WebSocket
-// connection gets bumped over to WebSocket consumers
-socket = new WebSocket("ws://" + window.location.host + "/chat/");
-socket.onmessage = function(e) {
-    alert(e.data);
-    $('#header_notification_bar').text(e.data.count);
 
-    console.log(e);
+        $('.timepicker').clockpicker({
+            twelvehour: true,
+            donetext: 'Done'
+            });
 
-}
+        // Note that the path doesn't matter right now; any WebSocket
+        // connection gets bumped over to WebSocket consumers
+        socket = new WebSocket("ws://" + window.location.host + "/chat/");
+        socket.onmessage = function(e) {
+            alert(e.data);
+            $('#header_notification_bar').text(e.data.count);
+
+            console.log(e);
+
+        }
+
+
+        $('#reset').click(function(){
+            $('input:text').val('');
+            $('input:password').val('');
+
+        });
         </script>
 
 

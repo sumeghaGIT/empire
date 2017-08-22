@@ -21,17 +21,49 @@
                             <div class="form">
                                 <form class="cmxform form-horizontal " id="signupForm" method="POST" action=".">
                                     {%csrf_token%}
-                                   
+                                      <label for="customer_type">Select Customer Type</label>
+                                          <select name="customer_type" class="form-control" id="customer_type">
+                                            <option value="customer">Customer</option>
+                                            <option value="internal">Internal</option>
+                                          </select>
+                                    <div class="users" id="user">
+                                    <label for="users">Select Users</label>
+                                          <select name="users" class="form-control" id="users">
+                                              {% for item in user %}
+                                            <option value="{{user.username}}">{{item}}</option>
+                                              {% endfor %}
+                                          </select>
+                                    </div>
                                       <label for="ticket_type">Select Ticket Type</label>
                                           <select name="ticket_type" class="form-control" id="ticket_type">
                                             <option value="request">Request</option>
                                             <option value="query">Query</option>
+                                              <option value="inquiry">Sales Inquiry</option>
                                           </select>
-                                   
-                                    <div class="form-group" id="query">
+
+                                    <label for="category_name">Select Category</label>
+                                          <select name="category_name" class="form-control" id="category_name">
+                                              {% for item in category %}
+                                            <option value="item.name">{{item.name}}</option>
+                                              {% endfor %}
+                                          </select>
+                                    <div class="services" id="service">
+                                     <label for="service_name">Select Service</label>
+                                          <select name="service_name" class="form-control" id="service_name">
+                                              {% for item in service %}
+                                            <option value="item.name">{{item.name}}</option>
+                                              {% endfor %}
+                                          </select>
+                                        </div>
+                                    <div class="inquiry" id="inquiries">
+                                    <label for="inquiry">Inquiry Area</label>
+                                    <input type="text" name="area_name" id="inquiry"/>
+                                         </div>
+                                    <div class="form-group" id="comment">
                                       <label for="comment">Enter Your Query</label>
-                                      <textarea name="comment" class="form-control" rows="5" id="comment"></textarea>
+                                      <textarea name="comment" class="form-control" rows="5" id="comment_text"></textarea>
                                     </div>
+
                                     <!--div class="form-group" id="service">
                                       <label for="service_type">Select Ticket Type</label>
                                           <select name="ticket_type" class="form-control" id="service_type">

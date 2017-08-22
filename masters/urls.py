@@ -17,6 +17,9 @@ urlpatterns = [
     url(r'^masters/location/delete/(?P<pk>[0-9]+)/$', views.location_delete, name="delete_locations"),
     url(r'^masters/category/edit/(?P<pk>[0-9]+)/$', views.UpdateCategory.as_view(), name="update_category"),
     url(r'^masters/category/delete/(?P<pk>[0-9]+)/$', views.category_delete, name="delete_view"),
+    url(r'^masters/customers/$', views.Customers.as_view(), name="create_customers"),
+    url(r'^masters/customer/edit/(?P<pk>[0-9]+)/$', views.UpdateCustomers.as_view(), name="update_customer"),
+    url(r'^masters/customer/delete/(?P<pk>[0-9]+)/$', views.customer_delete, name="delete_customer"),
     url(r'^createuser/$', views.CreateUser.as_view(), name="createuser"),
     url(r'^manageuser/$', views.ManageUser.as_view(), name="manageuser"),
     url(r'^updateuser/(?P<pk>[0-9]+)/$', views.UpdateUser.as_view(), name='update_user'),
@@ -33,5 +36,6 @@ urlpatterns = [
     url(r'^masters/departments/$', views.Departments.as_view(), name='departments'),
     url(r'^masters/department/edit/(?P<pk>[0-9]+)/$', views.UpdateDepartment.as_view(), name='update_department'),
     url(r'^masters/department/delete/(?P<pk>[0-9]+)/$', views.department_delete, name="delete_department"),
-    url(r'^createticket/$', views.ticketView.as_view(), name="create_ticket"),
+    url(r'^createticket/$', views.CreateTickets.as_view(), name="create_ticket"),
+    url(r'^category/services/(?P<id>[0-9]+)/$', views.ServicesByCategory.as_view(), name="category_services"),
 ]
