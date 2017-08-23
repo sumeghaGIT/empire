@@ -2142,7 +2142,7 @@ ul.inbox-pagination li {
 }
 .btn-send:hover {
     background:#009da7;
-}
+}/*
 .modal-header h4.modal-title {
     font-weight:300;
     font-family:'Open Sans',sans-serif;
@@ -2151,7 +2151,7 @@ ul.inbox-pagination li {
     font-weight:400;
     font-family: 'Open Sans',sans-serif;
 }
-
+*/
 .compose-mail {
     width: 100%;
     display: inline-block;
