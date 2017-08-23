@@ -1,78 +1,80 @@
 {% extends 'base.html' %}
 {% block content %}
-  <section id="container" >
-    <section id="main-content">
-      <section class="wrapper">
-        <div class="row">
-          <div class="col-md-12">
-            <!--breadcrumbs start -->
-            <div class="breadcrumb">
-              <h3>Create Ticket</h3>
-            </div>
+<section id="container" >
+  <section id="main-content">
+    <section class="wrapper">
+      <div class="row">
+        <div class="col-md-12">
+          <!--breadcrumbs start -->
+          <div class="breadcrumb">
+            <h3>Create Ticket</h3>
           </div>
         </div>
-        <div class="row">
-          <div class="col-sm-8 col-lg-push-2">
-            <section class="panel">
-              <div class="panel-body">
-                
-                <div class="form-group">
-                  <div class="col-lg-12 cat">
-                    
-                    <div class="form">
-                      <form class="cmxform form-horizontal " id="signupForm" method="POST" action=".">
-                        {%csrf_token%}
-                        <div class="form-group ">
-                          <label for="customer_type" class="control-label col-lg-3">Select Customer Type</label>
-                          <div class="col-lg-8">
-                            <select name="customer_type" class="form-control" id="customer_type">
-                              <option value="customer">Customer</option>
-                              <option value="internal">Internal</option>
-                            </select>
-                          </div>
-                          <div class="col-lg-1 right">
-                            <a href="#myModal2"  data-toggle="modal"><i class="fa fa-tasks"></i></a>
-                          </div>
-                        </div>
-                        <div class="users" id="user"></div>
-                        <div class="form-group ">
-                          <label for="users" class="control-label col-lg-3 clear">Select Users</label>
-                          <div class="col-lg-9">
-                            <select name="users" class="form-control" id="users">
-                              {% for item in user %}
-                                <option value="{{user.username}}">{{item}}</option>
-                              {% endfor %}
-                            </select>
-                          </div>
-                        </div>
+      </div>
 
-                        <div class="form-group ">
-                          <label for="ticket_type" class="control-label col-lg-3 clear">Select Ticket Type</label>
-                          <div class="col-lg-9">
-                            <select name="ticket_type" class="form-control" id="ticket_type">
-                              <option value="request">Request</option>
-                              <option value="query">Query</option>
-                              <option value="inquiry">Sales Inquiry</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="form-group ">
-                          <label for="category_name" class="control-label col-lg-3 clear">Select Category</label>
-                          <div class="col-lg-9">
-                            <select name="category_name" class="form-control" id="category_name">
-                              {% for item in category %}
-                                <option value="item.name">{{item.name}}</option>
-                              {% endfor %}
-                            </select>
-                          </div>
-                        </div>
-                        <div class="services" id="service">
+      <div class="row">
+        <div class="col-sm-12">
+          <section class="panel">
+            <div class="panel-body">
+              <div class="row">
+                <div class="form-group">
+                  <div class="form-group">
+                    <div class="col-lg-12 cat">
+                      <div class="form">
+                        <form class="cmxform form-horizontal " id="signupForm" method="POST" action=".">
+                          {%csrf_token%}
                           <div class="form-group ">
-                            <label for="service_name" class="control-label col-lg-3 clear">Select Service</label>
+                            <label for="customer_type" class="control-label col-lg-3">Select Customer Type</label>
+                            <div class="col-lg-8">
+                              <select name="customer_type" class="form-control" id="customer_type">
+                                <option value="customer">Customer</option>
+                                <option value="internal">Internal</option>
+                              </select>
+                            </div>
+                            <div class="col-lg-1 right">
+                              <a href="#myModal2"  data-toggle="modal"><i class="fa fa-tasks"></i></a>
+                            </div>
+                          </div>
+                          <div class="users" id="user"></div>
+                          <div class="form-group ">
+                            <label for="users" class="control-label col-lg-3 clear">Select Users</label>
                             <div class="col-lg-9">
+                              <select name="users" class="form-control" id="users">
+                                {% for item in user %}
+                                <option value="{{user.username}}">{{item}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="form-group ">
+                            <label for="ticket_type" class="control-label col-lg-3 clear">Select Ticket Type</label>
+                            <div class="col-lg-9">
+                              <select name="ticket_type" class="form-control" id="ticket_type">
+                                <option value="request">Request</option>
+                                <option value="query">Query</option>
+                                <option value="inquiry">Sales Inquiry</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="form-group ">
+
+                            <label for="category_name" class="control-label col-lg-3 clear">Select Category</label>
+                            <div class="col-lg-9">
+                              <select name="category_name" class="form-control" id="category_name">
+                                {% for item in category %}
+                                <option value="item.name">{{item.name}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                          <div class="services" id="service">
+                            <div class="form-group ">
+                             <label for="service_name" class="control-label col-lg-3 clear">Select Service</label>
+                             <div class="col-lg-9">
                               <select name="service_name" class="form-control" id="service_name">
                                 {% for item in service %}
-                                  <option value="item.name">{{item.name}}</option>
+                                <option value="item.name">{{item.name}}</option>
                                 {% endfor %}
                               </select>
                             </div>
@@ -85,94 +87,71 @@
                         <div class="form-group" id="comment">
                           <label for="comment" class="control-label col-lg-3 clear">Enter Your Query</label>
                           <div class="col-lg-9">
-                            <textarea name="comment" class="form-control" rows="5" id="comment_text" required></textarea>
+                            <textarea name="comment" class="form-control" rows="5" id="comment_text"></textarea>
                           </div>
                         </div>
-                        <!--div class="form-group" id="service">
-                        <label for="service_type">Select Ticket Type</label>
-                        <select name="ticket_type" class="form-control" id="service_type">
-                          <option value="uber">Uber</option>
-                          <option value="ola">Ola</option>
-                        </select>
-                      </div-->
-                      <div class="toppad clear right" >
-                        <button class="btn btn-lg btn-login btn-block" type="submit">Submit</button>
+
+                                    <!--div class="form-group" id="service">
+                                      <label for="service_type">Select Ticket Type</label>
+                                          <select name="ticket_type" class="form-control" id="service_type">
+                                            <option value="uber">Uber</option>
+                                            <option value="ola">Ola</option>
+                                          </select>
+                                        </div-->
+                                        <div class="toppad clear right" >
+                                          <button class="btn btn-lg btn-login btn-block" type="submit">Submit</button>
+                                        </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
                       </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </section>
-  </section>
-</section>
-<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Create Customer</h4>
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal" action="#">
-          <div class="form-group">
-            <label class="control-label col-md-4">Username</label>
-            <div class="col-md-6">
-              <div class="input">
-                <input type="text" name="username" required>
-              </div>
-            </div>
-          </div>
-              <div class="form-group">
-            <label class="control-label col-md-4">First Name</label>
-            <div class="col-md-6">
-              <div class="input">
-                <input type="text" name="first_name" required>
-              </div>
-            </div>
-          </div>
-           <div class="form-group">
-            <label class="control-label col-md-4">Last Name</label>
-            <div class="col-md-6">
-              <div class="input">
-                <input type="text" name="last_name" required>
-              </div>
-            </div>
-          </div>
-              <div class="form-group">
-            <label class="control-label col-md-4">Email</label>
-            <div class="col-md-6">
-              <div class="input">
-                <input type="text" name="email" required>
-              </div>
-            </div>
-                  <div class="form-group">
-            <label class="control-label col-md-4">Password</label>
-            <div class="col-md-6">
-              <div class="input">
-                <input type="password" name="password1" required>
-              </div>
-            </div>
-          </div>
-                  <div class="form-group">
-            <label class="control-label col-md-4">Confirm Password</label>
-            <div class="col-md-6">
-              <div class="input">
-                <input type="text" name="password2" required>
-              </div>
-            </div>
-          </div>
-                  <button type="submit">Submit</button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-{% endblock content %}
+                    </div>
+
+
+                    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Datepicker in Modal</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form class="form-horizontal  " action="#">
+                              <div class="form-group">
+                                <label class="control-label col-md-4">Default Timepicker</label>
+                                <div class="col-md-6">
+                                  <div class="input-group bootstrap-timepicker">
+                                    <input type="text" class="form-control timepicker-default">
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-default" type="button"><i class="fa fa-clock-o"></i></button>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="form-group">
+                                <label class="control-label col-md-4">24hr Timepicker</label>
+                                <div class="col-md-6">
+                                  <div class="input-group bootstrap-timepicker">
+                                    <input type="text" class="form-control timepicker-24">
+                                    <span class="input-group-btn">
+                                      <button class="btn btn-default" type="button"><i class="fa fa-clock-o"></i></button>
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {% endblock content %}
+
