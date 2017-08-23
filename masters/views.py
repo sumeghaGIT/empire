@@ -423,8 +423,6 @@ class InquirySources(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            # <process form cleaned data>
-            time_now = datetime.datetime.utcnow()
             location = models.InquirySources.objects.create(
                     sources=form.cleaned_data['name'],
                     created_by=request.user.id,

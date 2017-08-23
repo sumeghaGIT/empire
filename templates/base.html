@@ -32,6 +32,8 @@
         {% block content %}
             <div class="container"></div>
         {% endblock content %}
+        {% block popup %}
+        {% endblock popup%}
         {% block footer %}
             {% include 'footer.html' %}
         {% endblock footer %}
@@ -81,7 +83,6 @@
             })
         });
 
-
         $('.timepicker').clockpicker({
             twelvehour: true,
             donetext: 'Done'
@@ -90,22 +91,23 @@
 
         socket = new WebSocket("ws://" + window.location.host + "/chat/");
         socket.onmessage = function(e) {
-            console.log(e);
             data_obj = JSON.parse(e.data)
-            //alert(data_obj.count);
-            $('#header_notification_bar').text(data_obj.count);
+            $('.notification_count').text(data_obj.count);
 
 
         }
-
 
         $('#reset').click(function(){
             $('input:text').val('');
             $('input:password').val('');
 
         });
+        /* Ajax calls for notification count here*/
+        $.get("/notifications/", function(data, status){
+            $('.notification_count').text(data.notification_count);
+        });
 
-
+        var user = '{{request.user}}';
         </script>
 
 
