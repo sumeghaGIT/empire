@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div>Empire Business Center</div>
+	<section id="container" >
+		<section id="main-content">
+			<section class="wrapper">
+				<!-- page start-->
+				<div class="row">
+					{% if lists %}
+						{% for list in lists %}
+							<div class="col-sm-12"><a href="/user/{{ list.id }}/">{{ list.id}} {{list.username }}</a></div>
+						{% endfor %}
+					{% else %}
+						<p>No polls are available.</p>
+					{% endif %}
+				</div>
+				<!-- page end-->
+			</section>
+		</section>
+	</section>
+{% endblock content %}
+{% block js %}
+	<script type="text/javascript">
+	$(document).ready(function() {
+	console.log('View empire reports');
+	});
+	</script>
+{% endblock js %}
