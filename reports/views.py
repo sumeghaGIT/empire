@@ -7,14 +7,17 @@ from django.template import loader
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 
+
+from masters import models
+
 User = get_user_model()
 
 
 @login_required(login_url='/accounts/login/')
 def indexView(request):
     user = User.objects.all()
-
-    return render(request, 'reports/static.html', {'user': user})
+    notification_count = models.Ticket.objects.filter(is_active='Y').count()
+    return render(request, 'reports/static.html', {'user': user, "notification_count": notification_count})
 
 
 def ticketView(request):

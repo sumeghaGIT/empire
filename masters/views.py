@@ -733,20 +733,19 @@ class CreateTickets(LoginRequiredMixin, View):
         ticket = models.Ticket.objects.create(ticket_type=request.POST.get('ticket_type'),
                                               category=request.POST.get('category_name'),
                                               service=request.POST.get('service_name'),
-                                              comment=request.POST.get('comment'))
-        post_save.connect(ticket_created, sender=models.Notifications)
+                                              comment=request.POST.get('comment'),
+                                              is_active='Y')
+        post_save.connect(ticket_created, sender=models.Ticket)
         return HttpResponse("ticket created successfully")
 
 
 @receiver(post_save, sender=models.Notifications)
 def ticket_created(sender, instance, **kwargs):
-    notification_count = 0
-    if instance.is_active is True:
-        notification_count +=1
+    notification_count = models.Ticket.objects.filter(is_active='Y').count()
     if kwargs.get('created', False):
         Group("notification").send({
             "text": json.dumps({
                 "count": notification_count,
-                "content": instance.notification
+                "content": instance.comment
             })
         })

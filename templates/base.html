@@ -87,14 +87,14 @@
             donetext: 'Done'
             });
 
-        // Note that the path doesn't matter right now; any WebSocket
-        // connection gets bumped over to WebSocket consumers
+
         socket = new WebSocket("ws://" + window.location.host + "/chat/");
         socket.onmessage = function(e) {
-            alert(e.data);
-            $('#header_notification_bar').text(e.data.count);
-
             console.log(e);
+            data_obj = JSON.parse(e.data)
+            //alert(data_obj.count);
+            $('#header_notification_bar').text(data_obj.count);
+
 
         }
 
@@ -104,6 +104,8 @@
             $('input:password').val('');
 
         });
+
+
         </script>
 
 
