@@ -16,14 +16,14 @@
             <li id="header_notification_bar" class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                     <i class="fa fa-bell-o"></i>
-                    <span class="badge bg-warning">{{notification_count}}</span>
+                    <span class="badge bg-warning notification_count">{{notification_count}}</span>
                 </a>
                 <ul class="dropdown-menu extended notification">
                     <li>
                         <p>Notifications</p>
                     </li>
                     <li>
-                        <div class="alert alert-info clearfix">
+                        <div class="alert alert-info notification clearfix">
                             <span class="alert-icon"><i class="fa fa-bolt"></i></span>
                             <div class="noti-info">
                                 <a href="#"> Server #1 overloaded.</a>
@@ -31,7 +31,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class="alert alert-danger clearfix">
+                        <div class="alert alert-danger notification clearfix">
                             <span class="alert-icon"><i class="fa fa-bolt"></i></span>
                             <div class="noti-info">
                                 <a href="#"> Server #2 overloaded.</a>
@@ -39,7 +39,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class="alert alert-success clearfix">
+                        <div class="alert alert-success notification clearfix">
                             <span class="alert-icon"><i class="fa fa-bolt"></i></span>
                             <div class="noti-info">
                                 <a href="#"> Server #3 overloaded.</a>
@@ -74,8 +74,6 @@
                     {% endif %}
                 </ul>
             </li>
-            <!-- user login dropdown end -->
         </ul>
-        <!--search & user info end-->
     </div>
 </header>

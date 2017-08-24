@@ -6,6 +6,7 @@ from reports import views
 
 urlpatterns = [
     url(r'^$', views.indexView, name='index'),
+    url(r'^notifications/$', views.notification, name="notifications"),
 
 ]
 

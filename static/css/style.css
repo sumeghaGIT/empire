@@ -2142,7 +2142,7 @@ ul.inbox-pagination li {
 }
 .btn-send:hover {
     background:#009da7;
-}
+}/*
 .modal-header h4.modal-title {
     font-weight:300;
     font-family:'Open Sans',sans-serif;
@@ -2151,7 +2151,7 @@ ul.inbox-pagination li {
     font-weight:400;
     font-family: 'Open Sans',sans-serif;
 }
-
+*/
 .compose-mail {
     width: 100%;
     display: inline-block;
@@ -5881,7 +5881,7 @@ padding:6px 12px;
   .form-group input {width: 50%}
   .form-group textarea {width: 80%; margin-top: 15px;}
    .form-group button {float:right; margin-bottom: 20px;}*/
-   .leftpad {padding: 12px; width: 96%; background: #fff; margin-top: 30px; position: absolute; text-align: center;}
+   .leftpad { width: 100%; background: #fff;  text-align: center;}
   /* .form-group .col-lg-3 {width: 78.5%}*/
    .table td i {text-align: center;}
    .toppad  {padding-top: 20px; margin-bottom:25px; }

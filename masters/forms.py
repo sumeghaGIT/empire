@@ -72,8 +72,8 @@ class ServicesForm(forms.Form):
     response_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'response_time','class': 'form-control', 'step': "1"}),label='Response Time')
     threshold_time = forms.IntegerField(widget=forms.NumberInput(attrs={'id': 'threshold_time','class': 'form-control', 'step': "1"}),label='Threshold Time')
     price = forms.FloatField(min_value=0.01, widget=forms.NumberInput(attrs={'id': 'price','class': 'form-control', 'step': "0.01"}))
-    service_from = forms.CharField(widget=forms.DateInput(attrs={'class':'timepicker input-12-hour-icon-button'}))
-    service_to = forms.CharField(widget=forms.DateInput(attrs={'class':'timepicker input-12-hour-icon-button'}))
+    service_from = forms.CharField(widget=forms.DateInput(attrs={'class':'form-control timepicker input-12-hour-icon-button'}))
+    service_to = forms.CharField(widget=forms.DateInput(attrs={'class':'form-control timepicker input-12-hour-icon-button'}))
     category_name = MyModelChoiceField(queryset = Categories.objects.filter(is_active=1), widget=forms.Select(attrs={'id': 'category','class': 'form-control'}), to_field_name="id", label="Category",empty_label="Choose your options")
     status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'threshold_time','class': 'form-control'}), required=True)
 
