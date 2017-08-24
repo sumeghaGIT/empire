@@ -5953,3 +5953,5 @@ padding:6px 12px;
 
 
 .dashboard .notification-time {font-size: 15px; font-weight: bold;  font-style: normal;}
+
+.form-horizontal  input[type=password] {width: 100%}
