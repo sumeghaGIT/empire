@@ -250,3 +250,45 @@ class Customer(models.Model):
     class Meta:
         db_table = 'ebc_customers'
         ordering = ['-pk']
+
+class Dealsandoffers(models.Model):
+    title = models.CharField(max_length=500, blank=True, null=True)
+    description = models.CharField(max_length=1000, blank=True, null=True)
+    approved_by = models.CharField(max_length=4, blank=True, null=True)
+    remarks = models.CharField(max_length=2000, blank=True, null=True)
+    is_active = models.CharField(max_length=1, blank=True, null=True)
+    created_by = models.PositiveIntegerField(blank=True, null=True)
+    create_date = models.DateTimeField(blank=True, null=True)
+    updated_by = models.PositiveIntegerField(blank=True, null=True)
+    update_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'ebc_dealsandoffers'
+        ordering = ['-pk']
+
+class Orders(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    payment_transaction_id = models.CharField(max_length=200, blank=True, null=True)
+    payment_status = models.CharField(max_length=200, blank=True, null=True)
+    transaction_amount = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    is_active = models.CharField(max_length=1, blank=True, null=True)
+    created_by = models.PositiveIntegerField(blank=True, null=True)
+    create_date = models.DateTimeField(blank=True, null=True)
+    updated_by = models.PositiveIntegerField(blank=True, null=True)
+    update_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'ebc_orders'
+        ordering = ['-pk']
+
+class OrderDetails(models.Model):
+    # product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    other_charges = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    create_date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        db_table = 'ebc_orders_details'
+        ordering = ['-pk']
+
+

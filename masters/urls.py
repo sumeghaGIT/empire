@@ -38,4 +38,16 @@ urlpatterns = [
     url(r'^masters/department/delete/(?P<pk>[0-9]+)/$', views.department_delete, name="delete_department"),
     url(r'^createticket/$', views.CreateTickets.as_view(), name="create_ticket"),
     url(r'^category/services/(?P<id>[0-9]+)/$', views.ServicesByCategory.as_view(), name="category_services"),
+
+    url(r'^allcategories/$', views.AllCategories.as_view(), name="all_categories"),
+    url(r'^active/category/$', views.ActiveCategory.as_view(), name="active_category"),
+    url(r'^category/(?P<id>[0-9]+)/$', views.GetCategory.as_view(), name="category_by_id"),
+    url(r'^allservices/$', views.AllServices.as_view(), name="all_services"),
+    url(r'^active/services/$', views.ActiveServices.as_view(), name="active_services"),
+    url(r'^service/(?P<id>[0-9]+)/$', views.GetService.as_view(), name="service_by_id"),
+    url(r'^category/services/details/(?P<id>[0-9]+)/$', views.CategoryServicesDetails.as_view(), name="category_services_details"),
+    url(r'^all/users/$', views.AllUsers.as_view(), name="all_users"),
+    url(r'^offers/$', views.ListOffers.as_view(), name="List_offers"),
+
+
 ]
