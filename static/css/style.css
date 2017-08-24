@@ -2808,7 +2808,7 @@ ul.amounts li {
     display:inline-block;
 }
 .dataTables_paginate.paging_bootstrap.pagination li:hover a,.dataTables_paginate.paging_bootstrap.pagination li.active a {
-    color:#797979;
+    color:#000 !important;
     background:#eee;
     border-radius:3px;
     -webkit-border-radius:3px;
@@ -5953,3 +5953,5 @@ padding:6px 12px;
 
 
 .dashboard .notification-time {font-size: 15px; font-weight: bold;  font-style: normal;}
+
+.form-horizontal  input[type=password] {width: 100%}
