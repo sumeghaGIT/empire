@@ -2808,7 +2808,7 @@ ul.amounts li {
     display:inline-block;
 }
 .dataTables_paginate.paging_bootstrap.pagination li:hover a,.dataTables_paginate.paging_bootstrap.pagination li.active a {
-    color:#797979;
+    color:#000 !important;
     background:#eee;
     border-radius:3px;
     -webkit-border-radius:3px;
