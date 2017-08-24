@@ -17,7 +17,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from masters.forms import *
-from masters.models import Categories, Services, Dealsandoffers
+from masters.models import Categories, Services, Dealsandoffers, Customer
 
 class Locations(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -804,7 +804,7 @@ class CategoryServicesDetails(LoginRequiredMixin, View):
         return JsonResponse(category_service_details, safe=False)
 
 class AllUsers(LoginRequiredMixin, View):
-    """ List all the Services """
+    """ List all the Users """
 
     def get(self, request, *args, **kwargs):
         return JsonResponse(list(User.objects.values()), safe=False )
@@ -815,3 +815,24 @@ class ListOffers(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
         list_offers= list(Dealsandoffers.objects.values())
         return JsonResponse(list_offers, safe=False)
+
+class ActiveUsers(LoginRequiredMixin, View):
+    """ List active users """
+
+    def get(self, request, *args, **kwargs):
+        active_users = list(User.objects.filter(is_active=1).values())
+        return JsonResponse(active_users, safe=False)
+
+class AllOrders(LoginRequiredMixin, View):
+    """ List active users """
+
+    def get(self, request, *args, **kwargs):
+        user_orders = list(User.objects.all().values())
+        return JsonResponse(user_orders, safe=False)
+
+class AllCustomers(LoginRequiredMixin, View):
+    """ List all customers"""
+
+    def get(self, request, *args, **kwargs):
+        list_customer = list(Customer.objects.all().values())
+        return JsonResponse(list_customer, safe=False)
