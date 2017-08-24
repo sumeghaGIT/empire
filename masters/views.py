@@ -761,8 +761,6 @@ class ActiveCategory(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         category = Categories.objects.filter(is_active=1).values()
-        print category
-        print "---------"
         return JsonResponse(list(category), safe=False )
         # # category = list(category.values('id', 'name'))
         # return HttpResponse(json.dumps(category), content_type="application/json")
