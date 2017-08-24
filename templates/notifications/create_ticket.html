@@ -118,35 +118,68 @@
                         <div class="modal-content">
                           <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Datepicker in Modal</h4>
+                            <h4 class="modal-title">Create Customer</h4>
                           </div>
                           <div class="modal-body">
-                            <form class="form-horizontal  " action="#">
+                            <form class="form-horizontal" action="#">
                               <div class="form-group">
-                                <label class="control-label col-md-4">Default Timepicker</label>
-                                <div class="col-md-6">
-                                  <div class="input-group bootstrap-timepicker">
-                                    <input type="text" class="form-control timepicker-default">
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default" type="button"><i class="fa fa-clock-o"></i></button>
-                                    </span>
+                                <label class="control-label col-md-4">Username</label>
+                                <div class="col-md-8">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" name="username" required>
                                   </div>
                                 </div>
                               </div>
+
                               <div class="form-group">
-                                <label class="control-label col-md-4">24hr Timepicker</label>
-                                <div class="col-md-6">
-                                  <div class="input-group bootstrap-timepicker">
-                                    <input type="text" class="form-control timepicker-24">
-                                    <span class="input-group-btn">
-                                      <button class="btn btn-default" type="button"><i class="fa fa-clock-o"></i></button>
-                                    </span>
+                                <label class="control-label col-md-4">First Name</label>
+                                <div class="col-md-8">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" name="first_name" required>
                                   </div>
                                 </div>
                               </div>
+
+                              <div class="form-group">
+                                <label class="control-label col-md-4">Last Name</label>
+                                <div class="col-md-8">
+                                  <div class="input-group">
+                                    <input type="text" class="form-control" name="last_name" required>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label class="control-label col-md-4">Email</label>
+                                <div class="col-md-8">
+                                  <div class="input-group">
+                                    <input type="email" class="form-control" name="email" required>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label class="control-label col-md-4">Password</label>
+                                <div class="col-md-8">
+                                  <div class="input-group">
+                                    <input type="password" class="form-control" name="password1" required>
+                                  </div>
+                                </div>
+                              </div>
+
+                               <div class="form-group">
+                                <label class="control-label col-md-4">Confirm Password</label>
+                                <div class="col-md-8">
+                                  <div class="input-group">
+                                    <input type="password" class="form-control" name="password2" required>
+                                  </div>
+                                </div>
+                              </div>
+                              
                             </form>
                           </div>
                           <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                             <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
                           </div>
                         </div>

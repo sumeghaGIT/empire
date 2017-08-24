@@ -734,7 +734,8 @@ class CreateTickets(LoginRequiredMixin, View):
                                               comment=request.POST.get('comment'),
                                               is_active='Y')
         post_save.connect(ticket_created, sender=models.Ticket)
-        return HttpResponse("ticket created successfully")
+        notification_count = models.Ticket.objects.filter(is_active='Y').count()
+        return JsonResponse({'notification_count': notification_count})
 
 
 @receiver(post_save, sender=models.Notifications)

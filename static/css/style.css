@@ -347,6 +347,7 @@ ul.sidebar-menu li a.active i {
     margin-top:80px;
     padding:15px;
     width:100%;
+    margin-bottom: 50px;
 
 }
 .brand {
@@ -5947,3 +5948,8 @@ padding:6px 12px;
 .clear {clear: both}
 
 
+.dashboard .notification-info {    margin-left: 0px;
+    margin-top:0px; color:#000}
+
+
+.dashboard .notification-time {font-size: 15px; font-weight: bold;  font-style: normal;}
