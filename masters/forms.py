@@ -24,6 +24,8 @@ TICKET_CHOICES = (
        (3, ("Sales Inquiry")),
 )
 
+CUSTOMER_TYPE = ((1, "internal"),
+                 (2, "customer"),)
 
 class MyModelChoiceField(ModelChoiceField):
 
@@ -113,14 +115,15 @@ class CreateUserForm(forms.ModelForm):
     email = forms.CharField(widget=forms.EmailInput(attrs={'id': 'email','class': 'form-control'}),label='Email Address')
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Password')
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Confirm Password')
-    department = forms.ChoiceField(choices=EMPLOYEE_CHOICES, widget=forms.Select(attrs={'id': 'user_type','class': 'form-control'}), label="Department", initial='')
+    department = forms.ChoiceField(choices=EMPLOYEE_CHOICES, widget=forms.Select(attrs={'id': 'department','class': 'form-control'}), label="Department", initial='')
+    designation = forms.ChoiceField(choices=EMPLOYEE_CHOICES, widget=forms.Select(attrs={'id': 'designation','class': 'form-control'}), label="Designation", initial='')
     mobile = forms.CharField(widget=forms.TextInput(attrs={'id': 'mobile','class': 'form-control'}),label='Mobile', max_length=10)
     address1 = forms.CharField(widget=forms.TextInput(attrs={'id': 'address1','class': 'form-control'}),label='Address1', max_length=255)
     address2 = forms.CharField(widget=forms.TextInput(attrs={'id': 'address1','class': 'form-control'}),label='Address2', max_length=255)
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'department', 'password1', 'password2','mobile', 'address1','address2']
+        fields = ['username', 'first_name', 'last_name', 'email', 'department', 'designation', 'password1', 'password2','mobile', 'address1','address2']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -141,15 +144,19 @@ class CreateUserForm(forms.ModelForm):
 
 
 class UpdateUserForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'id': 'username','class': 'form-control'}),label='User Name')
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'first_name','class': 'form-control'}),label='First Name')
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'last_name','class': 'form-control'}),label='Last Name')
+    department = forms.ChoiceField(choices=EMPLOYEE_CHOICES, widget=forms.Select(attrs={'id': 'user_type','class': 'form-control'}), label="Department", initial='')
+    designation = forms.ChoiceField(choices=EMPLOYEE_CHOICES, widget=forms.Select(attrs={'id': 'designation','class': 'form-control'}), label="Designation", initial='')
+    mobile = forms.CharField(widget=forms.TextInput(attrs={'id': 'mobile','class': 'form-control'}),label='Mobile', max_length=10)
+    address1 = forms.CharField(widget=forms.TextInput(attrs={'id': 'address1','class': 'form-control'}),label='Address1', max_length=255)
+    address2 = forms.CharField(widget=forms.TextInput(attrs={'id': 'address1','class': 'form-control'}),label='Address2', max_length=255)
     status = forms.ChoiceField(choices = STATUS_CHOICES, label="Status", initial='', widget=forms.Select(attrs={'id': 'status','class': 'form-control'}), required=True)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'status', 'email']
-
-CUSTOMER_TYPE = ((1, "internal"),
-                 (2, "customer"),)
-
+        fields = ['username', 'first_name', 'last_name', 'department', 'designation','status','mobile', 'address1','address2']
 
 class CreateTicketForm(forms.Form):
     customer_type = forms.ChoiceField(choices=CUSTOMER_TYPE, label="Customer type", initial='', widget=forms.Select(attrs={'id': 'customer_type','class': 'form-control'}))
@@ -166,11 +173,11 @@ class CreateTicketForm(forms.Form):
 
 
 class CustomerCreateForm(forms.Form):
-    first_name = forms.CharField(label='First Name')
-    last_name = forms.CharField(label='Last Name')
-    email = forms.CharField(label='Email')
-    password1 = forms.CharField(widget=forms.PasswordInput(), label='Password')
-    password2 = forms.CharField(widget=forms.PasswordInput(), label='Confirm Password')
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'first_name','class': 'form-control'}),label='First Name')
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'last_name','class': 'form-control'}),label='Last Name')
+    email = forms.CharField(widget=forms.EmailInput(attrs={'id': 'email','class': 'form-control'}),label='Email Address')
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Password')
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Confirm Password')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
