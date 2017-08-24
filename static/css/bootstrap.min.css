@@ -3935,7 +3935,7 @@ tbody.collapse.in {
 .input-group {
     position:relative;
     display:table;
-    border-collapse:separate;
+    border-collapse:separate; width: 100%
 }
 .input-group[class*=col-] {
     float:none;
@@ -5158,10 +5158,10 @@ a.thumbnail:hover {
     padding:9px;
 }
 .alert {
-    margin-bottom:20px;
+    margin-bottom:10px;
     border:1px solid transparent;
     border-radius:4px;
-    padding:15px;
+    padding:10px;
     display: table;
     width: 100%
 }
