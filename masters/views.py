@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import datetime
 import json
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core import serializers
 from django.views import View
@@ -17,7 +17,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from masters.forms import *
-
+from masters.models import Categories
 
 class Locations(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -749,3 +749,71 @@ def ticket_created(sender, instance, **kwargs):
                 "content": instance.comment
             })
         })
+
+
+
+class AllCategories(LoginRequiredMixin, View):
+    """ List all the categories """
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse(list(Categories.objects.values()), safe=False )
+
+class ActiveCategory(LoginRequiredMixin, View):
+    """ List all the active categories """
+
+    def get(self, request, *args, **kwargs):
+        category = Categories.objects.filter(is_active=1).values()
+        print category
+        print "---------"
+        return JsonResponse(list(category), safe=False )
+        # # category = list(category.values('id', 'name'))
+        # return HttpResponse(json.dumps(category), content_type="application/json")
+
+class GetCategory(LoginRequiredMixin, View):
+    """ Get the category by id """
+
+    def get(self, request, *args, **kwargs):
+        category_id = kwargs['id']
+        data = list(Categories.objects.filter(id=category_id, is_active=1).values())
+        return JsonResponse(data, safe=False)
+
+class AllServices(LoginRequiredMixin, View):
+    """ List all the Services """
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse(list(Services.objects.values()), safe=False )
+
+class ActiveServices(LoginRequiredMixin, View):
+    """ List all the active Services """
+
+    def get(self, request, *args, **kwargs):
+        service_value = Services.objects.filter(is_active=1).values()
+        return JsonResponse(list(service_value), safe=False )
+
+class GetService(LoginRequiredMixin, View):
+    """ Get the Services by id """
+
+    def get(self, request, *args, **kwargs):
+        service_id = kwargs['id']
+        service_value = list(Services.objects.filter(id=service_id, is_active=1).values())
+        return JsonResponse(service_value, safe=False)
+
+class CategoryServicesDetails(LoginRequiredMixin, View):
+    """ Get list of services by category id """
+
+    def get(self, request, *args, **kwargs):
+        category_id = kwargs['id']
+        category_service_details = list(Services.objects.filter(category_id=category_id, is_active=1).values())
+        return JsonResponse(category_service_details, safe=False)
+
+class AllUsers(LoginRequiredMixin, View):
+    """ List all the Services """
+
+    def get(self, request, *args, **kwargs):
+        return JsonResponse(list(User.objects.values()), safe=False )
+
+# class ListOffers(LoginRequiredMixin,View):
+#     """ List all offers"""
+#
+#     def get(self, request, *args, **kwargs):
+#         return JsonResponse(list(Dealsandoffers.objects.values(), safe=False))
