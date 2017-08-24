@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import datetime
 import json
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core import serializers
 from django.views import View
@@ -734,7 +734,8 @@ class CreateTickets(LoginRequiredMixin, View):
                                               comment=request.POST.get('comment'),
                                               is_active='Y')
         post_save.connect(ticket_created, sender=models.Ticket)
-        return HttpResponse("ticket created successfully")
+        notification_count = models.Ticket.objects.filter(is_active='Y').count()
+        return JsonResponse({'notification_count': notification_count})
 
 
 @receiver(post_save, sender=models.Notifications)
