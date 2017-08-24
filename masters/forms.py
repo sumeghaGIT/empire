@@ -107,13 +107,20 @@ class TaskStatusForm(forms.Form):
 
 
 class CreateUserForm(forms.ModelForm):
-    password1 = forms.CharField(widget=forms.PasswordInput(), label='Password')
-    password2 = forms.CharField(widget=forms.PasswordInput(), label='Confirm Password')
-    user_type = forms.ChoiceField(choices=EMPLOYEE_CHOICES, label="Employee Type", initial='', required=True)
+    username = forms.CharField(widget=forms.TextInput(attrs={'id': 'username','class': 'form-control'}),label='User Name')
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'first_name','class': 'form-control'}),label='First Name')
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'id': 'last_name','class': 'form-control'}),label='Last Name')
+    email = forms.CharField(widget=forms.EmailInput(attrs={'id': 'email','class': 'form-control'}),label='Email Address')
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Password')
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label='Confirm Password')
+    department = forms.ChoiceField(choices=EMPLOYEE_CHOICES, widget=forms.Select(attrs={'id': 'user_type','class': 'form-control'}), label="Department", initial='')
+    mobile = forms.CharField(widget=forms.TextInput(attrs={'id': 'mobile','class': 'form-control'}),label='Mobile', max_length=10)
+    address1 = forms.CharField(widget=forms.TextInput(attrs={'id': 'address1','class': 'form-control'}),label='Address1', max_length=255)
+    address2 = forms.CharField(widget=forms.TextInput(attrs={'id': 'address1','class': 'form-control'}),label='Address2', max_length=255)
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'user_type', 'password1', 'password2', 'email']
+        fields = ['username', 'first_name', 'last_name', 'email', 'department', 'password1', 'password2','mobile', 'address1','address2']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')

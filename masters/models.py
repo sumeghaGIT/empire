@@ -207,7 +207,11 @@ class InquiryActivity(models.Model):
 
 
 class User(AbstractUser):
-    user_type = models.CharField(max_length=2, blank=True, null=True)
+    department = models.PositiveIntegerField(max_length=4, blank=True, null=True)
+    designation = models.PositiveIntegerField(max_length=4, blank=True, null=True)
+    mobile = models.PositiveIntegerField(max_length=10, blank=True, null=True)
+    address1 = models.CharField(max_length=255, blank=True, null=True)
+    address2 = models.CharField(max_length=255, blank=True, null=True)
     created_by = models.PositiveIntegerField(blank=True, null=True)
     create_date = models.DateTimeField(blank=True, null=True)
     updated_by = models.PositiveIntegerField(blank=True, null=True)
