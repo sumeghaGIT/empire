@@ -47,7 +47,7 @@ urlpatterns = [
     url(r'^service/(?P<id>[0-9]+)/$', views.GetService.as_view(), name="service_by_id"),
     url(r'^category/services/details/(?P<id>[0-9]+)/$', views.CategoryServicesDetails.as_view(), name="category_services_details"),
     url(r'^all/users/$', views.AllUsers.as_view(), name="all_users"),
-    # url(r'^offers/$', views.ListOffers.as_view(), name="List_offers"),
+    url(r'^offers/$', views.ListOffers.as_view(), name="List_offers"),
 
 
 ]

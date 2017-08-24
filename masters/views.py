@@ -17,7 +17,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 from masters.forms import *
-from masters.models import Categories
+from masters.models import Categories, Services, Dealsandoffers
 
 class Locations(LoginRequiredMixin, View):
     login_url = '/accounts/login/'
@@ -808,8 +808,9 @@ class AllUsers(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         return JsonResponse(list(User.objects.values()), safe=False )
 
-# class ListOffers(LoginRequiredMixin,View):
-#     """ List all offers"""
-#
-#     def get(self, request, *args, **kwargs):
-#         return JsonResponse(list(Dealsandoffers.objects.values(), safe=False))
+class ListOffers(LoginRequiredMixin,View):
+    """ List all offers """
+
+    def get(self, request, *args, **kwargs):
+        list_offers= list(Dealsandoffers.objects.values())
+        return JsonResponse(list_offers, safe=False)
